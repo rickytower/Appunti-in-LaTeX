@@ -1,0 +1,10 @@
+digraph{
+	node [shape=ellipse, style=filled, color="#ffffff", fillcolor="#a3c4f3", fontname="Helvetica", fontsize=12];
+    edge [color="#5a5a5a", penwidth=1.2];
+	"Obbiettivi\n della\n cybersecurity" -> {Availability Authenticity Confidentiality Accountability Integrity}
+	Authenticity -> "Data authenticity"
+	Confidentiality -> {"Data confidentiality", "Privacy"}
+	Integrity -> {"Data integrity", "System integrity"}
+	"Data integrity"->"Non ripudio"
+	"Data integrity" -> "Data authenticity"
+}

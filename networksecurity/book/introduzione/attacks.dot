@@ -1,0 +1,15 @@
+digraph{layout=sfdp;
+	node [shape=ellipse, style=filled, color="#ffffff", fillcolor="#ff3333", fontname="Helvetica", fontsize=12];
+    edge [color="#5a5a5a", penwidth=1.2];
+	
+    {"Attacchi\nalla\nsicurezza", "Meccanismo\ndi\nsicurezza","Servizio\ndi\nsicurezza"}node[fillcolor=lightgreen]
+    "Meccanismo\ndi\nsicurezza"-> "Attacchi\nalla\nsicurezza" [label="previene da"]
+    "Servizio\ndi\nsicurezza" -> "Attacchi\nalla\nsicurezza" [label="contrasta"]
+	"Servizio\ndi\nsicurezza" -> {"Autenticazione", "Controllo\ndegli\naccessi","Confidenzialità\ndei\ndati","Integrità\ndei\ndati","Non\nripudio","Servizio\ndi\navailability"}
+	"Meccanismo\ndi\nsicurezza" -> {"Algoritmi\ncrittografici","Integrità\ndei\ndati","Firma\ndigitale","Scambio\ndi\nautenticazione","Padding\ndel\ntraffico","Controllo\ndel\nrouting","Notarizzazione","Controllo\ndegli\naccessi"}
+	"Algoritmi\ncrittografici"->{"Keyless","A chiave\nsingola","A doppia\nchiave"}
+	"Keyless"->{"Funzioni crittografiche\ndi hash", "Generatori di numeri\npseudocasuali"}
+	"A chiave\nsingola"->{"Cifrari\na blocco","Cifrari\ndi flusso"}
+	{"Cifrari\na blocco","Cifrari\ndi flusso"}->"Cifratura\nsimmetrica"
+	"A doppia\nchiave" ->{"Cifratura\nasimmetrica","Firma\ndigitale","Scambio di\nchiavi", "Autenticazione\nutente"}
+}

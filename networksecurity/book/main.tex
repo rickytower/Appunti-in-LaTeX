@@ -1,0 +1,24 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[italian]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{cleveref}
+\usepackage{rotating}
+\usepackage{pdflscape}
+\usepackage{xspace}
+\usepackage{subcaption}
+\usepackage{array}
+\newcolumntype{x}[1]{>{\raggedleft\hspace{0pt}}p{#1}}
+\newcolumntype{y}[1]{>{\raggedright\hspace{0pt}}p{#1}}
+\newcolumntype{z}[1]{>{\centering\hspace{0pt}}p{#1}}
+\newtheorem{theorem}{Teorema}
+\newcommand{\bitem}[1]{\item\textbf{#1:}\xspace}
+\title{Appunti di network security}
+\author{Riccardo Torre}
+\begin{document}
+	\maketitle
+	\tableofcontents
+	\input{introduzione}
+	\input{sym-enc}
+\end{document}

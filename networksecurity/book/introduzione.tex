@@ -1,0 +1,148 @@
+\section{Introduzione}
+\graphicspath{{introduzione}}
+\paragraph{Cos'è la cybersecurity} La \textit{cybersecurity} o \textit{sicurezza informatica}, è l'insieme dei mezzi, delle tecnologie e delle procedure tesi alla protezione dei sistemi informatici in termini di \textit{confidenzialità}, \textbf{integrità} e \textit{disponibilità} dei beni o asset informatici.
+\paragraph{Information security} Preserva la confidenzialità, l'integrità e la disponibilità delle \textit{informazioni}. In aggiunta, altre proprietà come l'autenticità, il non ripudio e l'affidabilità possono essere incluse.
+\paragraph{Network security} Protegge le reti e i relativi servizi da modifiche non autorizzate, da distruzioni o divulgazioni non autorizzate e garantisce che la rete svolga correttamente le sue funzioni critiche e che non vi siano effetti collaterali dannosi.
+
+\subsection{Punti principali della cybersecurity}
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=\linewidth]{cyberschema.pdf}
+\end{figure}
+\paragraph{Availability (disponibilità)}Garantisce che i sistemi funzionino tempestivamente e che il servizio non venga negato agli utenti autorizzati.
+\paragraph{Confidenziality (condidenzialità)}Si suddivide in:
+\begin{itemize}
+	\item \textbf{data confidentiality:} assicura che le informazioni private e riservate non vengano rese disponibili o divulgate a soggetti non autorizzati;
+	\item \textbf{privacy:} garantisce che gli individui controllino o influenzino quali informazioni a loro relative possano essere raccolte e archiviate e da che e a chi tali informazioni possano essere divulgate.
+\end{itemize}
+\paragraph{Integrity} Si suddivide in:
+\begin{itemize}
+	\bitem{data integrity} garantisce che dati e programmi vengano modificati solo in modo specificato e autorizzato. Questo concetto comprende anche \textit{l'autenticità dei dati}, ovvero che un oggetto digitale è effettivamente ciò che dichiara di essere o ciò che viene dichiarato di essere, e il \textit{non ripudio}, ovvero la garanzia che al mittente delle informazioni venga fornita una prova di consegna e al destinatario una prova dell'identità del mittente, in modo che nessuno dei due possa successivamente negare di aver elaborato le informazioni;
+	\bitem{system integrity (integrità di sistema)} assicura che un sistema svolga la sua funzione prevista in modo inalterato, libero da manipolazioni non autorizzate, deliberate o involontarie.
+\end{itemize}
+\paragraph{Authentity (autentitcità)} La proprietà di essere autentico e di poter essere verificato e considerato attendibile; la fiducia nella validità di una trasmissione, di un messaggio o del mittente del messaggio. Ciò significa verificare che gli utenti siano chi dicono di essere e che ogni input che arriva al sistema provenga da una fonte attendibile. 
+
+\paragraph{Accountability (responsabilità)} È l'obbiettivo di sicurezza che genera il requisito che le azioni di un'entità siano riconducibili in modo univoco a tale entità. Ciò supporta il \textit{non ripudio}, la deterrenza, l'isolamento dei guasti, il rilevamento e la prevenzione delle intrusioni, il ripristino post-azione e le azioni legali. Poiché sistemi veramente sicuri non sono ancora un obbiettivo raggiungibile, dobbiamo essere in grado di ricondurre una violazione di sicurezza al responsabile. I sistemi devono conservare registrazioni delle loro attività per consentire successive analisi forensi volte a rintracciare le violazioni della sicurezza o a facilitare la risoluzione di controversie sulle transazioni.
+
+\begin{sidewaysfigure}[thbp]
+	\includegraphics[width=\linewidth]{attacks.pdf}
+\end{sidewaysfigure}
+
+\subsection{Architettura OSI di sicurezza}
+\begin{itemize}
+		\bitem{Security attack}è una qualsiasi azione che compromette la sicurezza delle informazioni possedute da un'organizzazione.
+	\bitem{Security mechanism}è un processo (o un dispositivo che incorpora tale processo) che è progettato per rilevare, prevenire, o ripristinare da un security attack.
+	\bitem{Security service}è un servizio di elaborazione o comunicazione che migliora la sicurezza dei sistemi di elaborazione dati e dei trasferimenti di informazione di un' organizzazione. È destinato  a contrastare gli attacchi alla sicurezza e utilizza uno  o più meccanismi di sicurezza per fornire il servizio.
+\end{itemize}
+\subsection{Minacce e attacchi} 
+\begin{itemize}
+	\bitem{Minaccia}un potenziale per la violazione della sicurezza, che esiste quando c'è una circostanza, capacità, azione o evento che potrebbe compromettere la sicurezza e causare danni. Cioè, una minaccia è un possibile pericolo che potrebbe sfruttare una vulnerabilità.
+	\bitem{Attacco}è un assalto alla sicurezza del sistema che deriva da una minaccia intelligente; cioè, un atto intelligente che è un tentativo deliberato (soprattutto nel senso di un metodo o tecnica) di eludere i servizi di sicurezza e violare la politica di sicurezza di un sistema.
+\end{itemize}
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{attacchi.png}
+\end{figure}
+	\paragraph{Attacchi passivi}Tentano di apprendere o utilizzare informazioni dal sistema ma non influenzano sulle risorse del sistema ascoltando o monitorando le trasmissioni; lo scopo dell'attaccante è di ottenere le informazioni che sono state trasmesse. vi sono due tipi di attacchi passivi:
+	\begin{itemize}
+		\bitem{rilascio dei contenuti dei messaggi} possono contenere informazioni confidenziali o sensibili); ad esempio una conversazione al telefono, una mail elettronica, un file trasferito; i messaggi nono sono mascherati;
+		\bitem{l'analisi del traffico} i messaggi sono mascherati con la crittografia; l'attaccante inferisce il contenuto dei messaggi in base a frequenza e lunghezza;
+	\end{itemize}
+	\paragraph{Attacchi attivi} Tentano di alterare le risorse del sistema o influenzare il loro funzionamento comportando una modifica del flusso di dato o la creazione di un flusso falso. Sono difficili da prevenire a causa della vasta gamma di potenziali vulnerabilità fisiche, software e di rete. I tipi di attacco possono essere:
+	\begin{itemize}
+		\bitem{masquerade} si verifica quando un'entità finge di essere un'altra entità e di solito include una delle altre forme id attacco attivo;
+		\bitem{replay}comporta la cattura passiva di un'unità di dati e la sua successiva ritrasmissione per produrre un effetto non autorizzato;
+		\bitem{data modification}alcune parti di un messaggio legittimo vengono alterate, oppure i messaggi vengono ritardati o riordinati per produrre une effetto non autorizzato;
+		\bitem{denial of service}preclude o inibisce l'uso normale o la gestione delle strutture di comunicazione.
+	\end{itemize}
+
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{servizi.png}
+\end{figure}
+\paragraph{Autenticazione}si occupa di garantiche che una comunicazione sia autentica:
+	\begin{itemize}
+		\item nel caso di un singolo messaggio, assicura che il messaggio provenga dalla fonte che afferma di essere;
+		\item nel caso di un'interazione continua, assicura che le due entità siano autentiche e che la connessione non sia interferita in modo tale che una terza parte possa mascherarsi come una delle due parti legittime;
+	\end{itemize}
+e si suddivide in:
+\begin{itemize}
+	\bitem{autenticazione delle entità peer}fornisce la conferma dell'identità di un'entità peer in un'associazione. Due entità sono considerate peer se implementano lo stesso protocollo in sistemi diversi. L'autenticazione delle entità peer è prevista per l'uso al momento dell'instaurazione, o in determinati momenti durante la fase di trasferimento dei dati di una connessione. Essa cerca di fornire fiducia che un'entità non stia eseguendo né masquerading, né una ripetizione non autorizzata di una connessione precedente.
+	\bitem{autenticazione all'origine dei dati}fornisce la conferma della fonte di un'unità dati. Non offre protezione contro la duplicazione o la modifica delle unità di dati. questo tipo di servizio supporta applicazioni come la posta elettronica, dove nono ci sono interazioni in corso tra le entità comunicanti.
+\end{itemize}
+\paragraph{Controllo degli accessi}La capacità di limitare e controllare l'accesso ai sistemi host e alle applicazioni tramite collegamenti di comunicazione. Per raggiungere questo obbiettivo, ogni entità che cerca di ottenere accesso deve prima essere identificata o autenticata, in modo che i diritti di accesso possano essere personalizzati per l'individuo.
+\paragraph{Riservatezza dei dati} Deve prevenire la riservatezza dei dati da attacchi passivi proteggendo il contenuto dei messaggi scambiati tra gli utenti, andando a proteggere l'intero messaggio o anche limitandosi a specifici campi al suo interno; da attacchi attivi onde evitare che un attaccante non possa inferire informazioni interessanti (sorgente, destinazione, frequenza, lunghezza\dots) facendo analisi del traffico. 
+\paragraph{Integrità dei dati}Può applicarsi a un flusso di messaggi, a un singolo messaggio o a campi selezionati all'interno di un messaggio. 
+\begin{itemize}
+	\bitem{servizio di integrità orientato alla connessione} si occupa di un flusso di messaggi, assicura vengano ricevuti così come sono stati inviati, senza duplicazioni, inserimenti, modifiche, riordini o ripetizioni;
+	\bitem{servizio di integrità senza connessione}si occupa di messaggi individuali senza considerare un contesto più ampio, fornisce generalmente protezione contro la modifica dei messaggi.
+\end{itemize}
+\paragraph{Non ripudio}Previene che il mittente o il destinatario possano negare un messaggio trasmesso. Quando un messaggio viene inviato, il destinatario può dimostrare che il presunto mittente ha effettivamente inviato il messaggio. Quando un servizio viene ricevuto, il mittente può dimostrare che il presunto destinatario ha effettivamente ricevuto il messaggio.
+\paragraph{Servizio di disponibilità} Protegge un sistema per garantire la sua disponibilità. Questo servizio affronta le preoccupazioni si sicurezza sollevate dagli attacchi di negazione del servizio e dipende dalla corretta gestione e controllo delle risorse di sistema, quindi dipende dal servizio di controllo degli accessi e da altri servizi di sicurezza. 
+\subsection{Meccanismi di sicurezza}
+\begin{figure}[thbp]
+	\centering\includegraphics[width=.7\linewidth]{meccanismi-sicurezza}
+\end{figure}
+\paragraph{Algoritmi crittografici}Si differenziano in meccanismi crittografici \textit{reversibili} e \textit{irreversibili}. Un meccanismo crittografico reversibile è un algoritmo di crittografia che consente di crittografare i dati e successivamente decrittografarli. I meccanismi crittografici irreversibili includono \textit{algoritmi di hash} e \textit{codici di autenticazione dei messaggi}, che sono utilizzati nelle applicazioni di firma digitale e autenticazione dei messaggi. 
+\paragraph{Integrità dei dati}Include meccanismi utilizzati per garantire l'integrità di un'unità dati o di un flusso di dati.
+\paragraph{Firma digitale}Consiste nell'aggiungere dati o effettuare una trasformazione crittografica ad un'unità di dati per provare la fonte e l'integrità dell'unita dati e proteggerla dalla falsificazione.
+\paragraph{Scambio di autenticazione}Meccanismo destinato a garantire l'identità di un'entità mediante uno scambio di informazioni.
+\paragraph{Padding del traffico}L'inserimento di bit in spazi vuoti in un flusso di  dati per scoraggiare tentativi di analisi del traffico.
+\paragraph{Controllo del routing}Consente la selezione di percorsi fisicamente o logicamente sicuri per determinati dati e permette modifiche al routing, specialmente quando si sospetta una violazione della sicurezza. 
+\paragraph{Notarizzazione} L'uso di una terza parte fidata per garantire determinate proprietà di uno scambio di dati.
+\paragraph{Controllo degli accessi}Una varietà di meccanismi che applicano i diritti di accesso alle risorse.
+
+\subsubsection{Algoritmi senza chiave}
+Tra gli algoritmi senza chiave vi sono:
+\begin{itemize}
+	\bitem{funzioni deterministiche}hanno determinate proprietà utili per la crittografia. Un tipo di algoritmo senza chiave è la \textit{funzione crittografica di hash} che trasforma una quantità variabile di testo in un valore di piccole dimensioni e di lunghezza fissa chiamato hash, codice hash, o \textit{digest}. Una funzione hash crittografica può essere parte di un altro algoritmo crittografico, come un codice di autenticazione dei messaggi o una firma digitale;
+	\bitem{generatore di numeri pseudocasuali}produce una sequenza deterministica di numeri o bit che ha l'apparenza di essere una sequenza veramente casuale.
+\end{itemize}
+\subsubsection{Algoritmi a chiave singola}
+\paragraph{Algoritmi a chiave simmetrica}Dipendono dall'uso di una chiave segreta e sono denominati solitamente \textit{algoritmi di crittografia simmetrica}. Un algoritmo di crittografia simmetrica prende come input alcuni dati da proteggere e una chiave segreta e produce una trasformazione illeggibile su quei dati. Un corrispondente algoritmo di decrittazione prende i dati trasformati e la stessa chiave segreta e recupera i dati originali.
+
+I crittosistemi a chiave singola possono essere classificati in:
+\begin{itemize}
+	\bitem{cifrario a blocchi} opera sui dati come una sequenza di blocchi. Nella maggior parte delle versioni del cifrario a blocchi, conosciute come modalità di operazione, la trasformazione dipende non solo dall'attuale blocco di dati e dalla chiave segreta, ma anche dal contenuto dei blocchi precedenti;
+	\bitem{cifrario a flusso}opera sui dati come una sequenza di bit; la trasformazione dipende da una chiave segreta.
+\end{itemize}
+
+\paragraph{Codice MAC}Algoritmo crittografico a chiave singola. Un MAC è un elemento di dati associato a un blocco dati o a un messaggio. Viene generato da una trasformazione crittografica che coinvolge l'uso di una chiave segreta e, tipicamente, una funzione hash crittografica del messaggio. Il MAC è progettato in modo che chiunque sia in possesso della chiave segreta possa verificare l'integrità del messaggio. Il destinatario del messaggio con il MAC può eseguire la stessa computazione sul messaggio; se il MAC calcolato corrisponde al MAC che accompagna il messaggio, ciò fornisce la certezza che il messaggio non sia stato alterato.
+
+\subsubsection{Algoritmi asimmetrici}Sono algoritmi di crittografia che usano una coppia di chiavi.
+\paragraph{Algoritmo di firma digitale}Calcola la \textit{firma digitale} e la associa ad un oggetto di dati in modo tale che qualsiasi destinatario dei dati possa utilizzare la firma per verificare l'origine e l'integrità dei dati.
+\paragraph{Scambio di chiavi}È il processo di distribuzione sicura di una chiave simmetrica a due o più parti.
+\paragraph{Autenticazione dell'utente}È il processo di autenticazione che verifica che un utente che tenta di accedere ad un'applicazione o  a un servizio sia genuino e, allo stesso modo, che l'applicazione o il servizio sia genuino. 
+
+\subsection{Elementi chiave della sicurezza delle reti}
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{elementi-chiave-sicurezza-reti}
+\end{figure}
+\paragraph{Sicurezza delle comunicazioni}Si occupa della protezione delle comunicazioni attraverso la rete comprese le misure per proteggere contro attacchi sia passivi che attivi. La sicurezza delle comunicazioni è principalmente implementata utilizzando protocolli di rete. Un \textit{protocollo di rete} consiste nel formato e nelle procedure che governano la trasmissione e la ricezione di dati tra punti in una rete. 
+Un \textit{protocollo} gestisce la struttura delle singole unità di dati e i comandi di controllo che gestiscono il trasferimento dei dati.
+
+Rispetto alla sicurezza di rete, un protocollo di sicurezza può essere un miglioramento che fa parte di un protocollo esistente o autonomo.
+
+\paragraph{Sicurezza dei device}Protegge i dispositivi di rete come router e switch, sistemi finali connessi alla rete, come client e server.
+
+Le principali preoccupazioni  di sicurezza sono gli intrusi che ottengono accesso al sistema per eseguire azioni non autorizzate, inserire software dannoso (malware) o sovraccaricare le risorse di sistema per ridurre la disponibilità.
+
+Tre tipi di sicurezza dei dispositivi sono:
+\begin{itemize}
+	\bitem{firewall} capacità hardware/software che limita l'accesso tra una rete e i dispositivi collegati alla rete, in conformità con una specifica politica di sicurezza. Il firewall agisce come un filtro che consente o nega il traffico dati, sia in entrata che in uscita, basandosi su un insieme di regole basate sul contenuto del traffico e/o sul modello di traffico;
+	\bitem{rilevamento delle intrusioni}prodotti hardware o software che raccolgono e analizzano informazioni da varie aree all'interno di un computer o di una rete al fine di trovare e fornire avvisi in tempo reale o quasi in tempo reale di tentativi di accesso alle risorse di sistema in modo non autorizzato;
+	\bitem{prevenzione delle intrusioni}prodotti hardware o software progettati per rilevare attività intrusive e tentare di fermare l'attività, idealmente prima che raggiunga il suo obbiettivo.
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+

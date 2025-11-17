@@ -1,0 +1,411 @@
+\graphicspath{{symmetric-encr}}
+\section{Crittografia simmetrica}
+I due requisiti fondamentali per un uso sicuro della crittografia simmetrica sono:
+\begin{itemize}
+	\item un algoritmo di crittografia forte;
+	\item il mittente e il destinatario devono aver ottenuto copie della chiave segreta in modo sicuro e devono mantenere la chiave al sicuro.
+\end{itemize}
+I sistemi crittografici sono generalmente classificati lungo tre dimensioni indipendenti:
+\begin{enumerate}
+	\bitem{sostituzione}ogni elemento nel testo in chiaro è mappato in un altro elemento;
+	\bitem{trasposizione}gli elementi nel testo in chiaro vengono riarrangiatati. Il requisito fondamentale è che non venga persa alcuna informazione.
+\end{enumerate}
+
+I \textbf{sistemi a prodotto} comportano più fasi di sostituzioni e trasposizioni.
+\subsection{Tecniche di attacco della crittoanalisi}
+\paragraph{Ciphertext only}Il crittoanalista ha accesso solo al testo cifrato. È il caso più frequente ed è quello che fornisce meno informazioni all'attaccante. 
+\paragraph{Known plaintext}L'attaccante ha un insieme di testi cifrati dei quali conosce i corrispondenti testi in chiaro. A primo avviso può sembrare una situazione improbabile, ma i casi in cui l'attaccante può conoscere sia il testo in chiaro che quello cifrato non sono rari: ad esempio, molti messaggi di e-mail iniziano con frasi ricorrenti o terminano con firme predefinite.
+\paragraph{Chrosen plaintext}In questo caso l'attaccante può scegliere \underline{arbitrariamente} i testi da cifrare. Anche questa situazione non è improbabile: nella crittografia asimmetrica, la chiave pubblica è nota a tutti e può essere utilizzata per cifrare quanti messaggi si desidera.
+\paragraph{Chosen ciphertext}L'attaccante può ottenere i testi in chiaro corrispondenti da un insieme \underline{arbitrario} di testi cifrati. L'informazione ignota è in questo caso la chiave crittografica.
+\paragraph{Chosen text}questo attacco combina gli approcci dei precedenti. Il crittoanalista può \underline{scegliere} sia un messaggio in chiaro che un testo cifrato e ottenere le rispettive versioni cifrate e decifrate. Questo fornisce una quantità significativa di informazioni, rendendo più facile per il crittoanalista analizzare e compromettere la crittografia.
+
+\subsection{Crittoanalisi} Uno schema di crittografia e considerato sicuro dal punto di vista computazionale se il testo cifrato generato dallo schema soddisfa uno o entrambi i seguenti criteri:
+\begin{itemize}
+	\item il costo per rompere il cifrario supera il valore delle informazioni cifrate;
+	\item il tempo necessario per rompere il cifrario supera la vita utile delle informazioni.
+\end{itemize}
+\paragraph{Attacco di forza bruta} Comporta il tentativo di ogni possibile chiave fino a ottenere una traduzione comprensibile del testo cifrato in testo in chiaro. In media, deve essere provata metà di tutte le chiavi possibili per raggiungere il successo. A meno che non venga fornito un testo in chiaro noto, l'analista deve essere in grado di riconoscere il testo in chiaro come tale. Per integrare l'approccio di forza bruta è necessaria una certa conoscenza sul testo in chiaro previsto e avere un mezzo per distinguere automaticamente il testo in chiaro dal testo confuso.
+
+\subsection{Claude Shannon e i cifrari a permutazione e sostituzione}Nel 1949, Calude Shannon introdusse l'idea delle reti di sostituzione-permutazione (S-P) , le quali formano la base dei cifrari a blocchi moderni. Le reti S-P si basavano sulle operazioni delle due operazioni crittografiche primitive di \textbf{sostituzione (S-box)} e \textbf{permutazione(P-box)} che forniscono confusione e diffusione del messaggio.
+
+\begin{figure}[thbp]
+	
+	\begin{minipage}{.2\linewidth}
+		\centering	
+		\includegraphics[width=\linewidth]{S-P.png}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[c]{.75\linewidth}
+		\centering
+		\begin{tabular}{|c|c|p{.45\linewidth}|}
+			\hline
+			\textbf{Operazione} & \textbf{Box} & \textbf{Effetto}\\
+			\hline
+			Sostituzione&S-box&Confusione: rende la relazione statistica tra il testo cifrato e la chiave il più complessa possibile\\
+			\hline
+			Permutazione&P-box&Diffusione: dissipa la struttura statistica del testo in chiaro su gran parte del testo cifrato\\
+			\hline
+		\end{tabular}
+		\end{minipage}
+\end{figure}
+
+\paragraph{Cifrari a prodotto} Combinano catene di sostituzioni e trasposizioni. Le S-box confondono i bit di input e le P-box diffondono i bit attraverso gli input delle S-box.
+Un pad monouso oscura completamente le proprietà statistiche del messaggio originale.
+\paragraph{Cifrario di Feistel} ideato da Horst Feistel, è basato sul concetto di cifrario di prodotto invertibile. Il crittosistema prende in input un blocco che viene diviso a metà, successivamente elabora attraverso più round eseguendo una sostituzione sulla metà sinistra, mentre sulla metà destra viene applicata la funzione di round a cui viene applicata la sottochiave. Quindi le due metà vengono scambiate. Questo cifrario implementa il concetto di rete di sostituzione-permutazione di Shannon.
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.5\linewidth]{feistel-encr-decr.png}
+\end{figure}
+Gli elementi del cifrario di Feistel sono:
+\begin{itemize}
+	\bitem{dimensione del blocco}dimensioni di blocco maggiori significano maggiore sicurezza (maggiore diffusione)  ma riducono la velocità di crittografia/decrittazione;
+	\bitem{dimensione della chiave}dimensioni di chiave maggiori significano maggiore sicurezza (maggiore resistenza ai bruteforce attacks e maggiore confusione) ma possono diminuire la velocità di crittografia/decrittazione;
+	\bitem{numero di round}l'essenza di un cifrario a blocchi simmetrico è che un singolo round offre sicurezza inadeguata, mentre più round offrono una sicurezza crescente;
+	\bitem{algoritmo di generazione delle sottochiavi} maggiore complessità in questo algoritmo dovrebbe portare a una maggiore difficoltà nella crittoanalisi;
+	\bitem{funzione di round}maggiore complessità generalmente significa maggiore resistenza alla crittoanalisi; una dimensione tipica è di 16 rounds;
+	\bitem{facilità di analisi}se l'algoritmo puù essere spiegato in modo coinciso e chiaro, è più facile analizzarlo per vulnerabilità crittoanalitiche e quindi sviluppare un livello più elevato di garanzia sulla sua robustezza.
+\end{itemize}
+\subsection{Algoritmi di crittografia a blocchi simmetrici} 
+\paragraph{Cifrario a blocchi} Elabora l'input in chiaro in blocchi di dimensioni fisse e produce un blocco di testo cifrato di dimensioni uguali per ogni blocco di testo in chiaro. Sono gli algoritmi di crittografia simmetrica più comunemente usati. I tre cifrari a blocco simmetrici più importanti sono:
+\begin{itemize}
+	\item DES -- Data Encryption Standard;
+	\item 3DES -- Triple DES;
+	\item Advanced encryption Standard AES
+\end{itemize}
+\subsubsection{DES -- Data Encryption Standard}  La sicurezza del DES è stata a lungo messa in discussione. Ci sono state molte speculazioni sulla lunghezza della chiave, sul numero di iterazioni e sul design delle S-box (coinvolgimento dell'NSA). 
+
+La struttura del DES è una leggera variazione della rete Feistel. Ci sono 16 round di elaborazione, il testo in chiaro è lungo 64 bit (bit di input), la chiave è lunga 56 bit. 
+
+DES è stato attaccato nel 1999 in 22 ore con un computer da un milione di dollari. 
+
+I punti critici di DES sono:
+\begin{itemize}
+	\bitem{chiavi a 56 bit} lo spazio delle chiavi è circa $7,2\times 10^{16}$; un singolo PC che esegue una cifratura al $\mu s$ impiegherebbe oltre 1000 anni, ma macchine parallele o hardware moderno riducono molto i tempi. Un singolo PC moderno può rompere DES in circa un anno; con più PC o supercomputer il tempo scende a ore. Le chiavi grandi almeno 128 bit sono praticamente inattaccabili con brute-force;
+	\bitem{natura dell'algoritmo (S-box)} le otto S-box di DES sono state oggetto di sospetti perché i criteri di progettazione non furono pubblici; sono state trovate regolarità ma non sono emerse debolezze decisive sfruttabili per una crittoanalisi completa;
+	\bitem{attacchi di timing} osservando i tempi di decrittazione si possono ricavare informazioni (es. peso di Hamming della chiave). Studi indicano che DES è relativamente resistente a questi attacchi e la tecnica, al momento, non sembra praticabile per compromettere DES, Triple DES o AES.
+\end{itemize}
+
+\paragraph{2DES}Per aumentare la sicurezza del DES, si passò al 2DES -- Double DES. L'idea è quella di eseguire due crittografie. Si creano due chiavi $K_1$ e $K_2$ e si utilizza un processo di crittografia $E_{K_2}(E_{K_1}(M))$. Questo non è equivalente ad utilizzare chiavi da 112 bit. Infatti è possibile attaccare DDES con un attacco di tipo \textbf{meet-in-the-middle}
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{double-DES}
+\end{figure}
+\paragraph{Attacco plaintext contro il 2DES (meet-in-the-middle)}Per $C=E_{K_2}(E_{K_1}(P))$ si pone $X=E_{K_1}(P)=D_{K_2}(C)$. Dato un $P$ e un $C$ noti, crittografare $P$ per tutte le $2^{56} $ possibili $K_1$. Memorizzare in una tabella ordinata per $X$. Decrittare $C$ con tutte le $2^{56}$ possibili $K_2$ e cercare una corrispondenza. Ogni corrispondenza è una soluzione candidata. Validare con un ulteriore coppia di plaintext/ciphertext. 
+\paragraph{3DES--Triple DES}Utilizza tre fasi di crittografia invece di due. La compatibilità viene mantenuta con il DES standard (si pone $K_2=K_1$). \textbf{Vantiaggi:} la lunghezza della chiave di 168 bit supera la vulnerabilità agli attacchi di forza bruta del DES e l'algoritmo di crittografia sottostante è lo stesso del DES. \textbf{Svantaggi:} l'algoritmo è lento in software e utilizza una dimensione di blocco di 64 bit.
+\begin{figure}[thbp]
+	\begin{subfigure}[c]{.45\linewidth}
+		\includegraphics[width=\linewidth]{Triple-DES.png}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[c]{.45\linewidth}
+		\includegraphics[width=\linewidth]{stages-3des}
+	\end{subfigure}
+\end{figure}
+\subsubsection{AES -- Advanced Encryption Standard} Nato per sostituire il 3DES. Nel 1997 il NIST ha emesso una richiesta di proposte per un nuovo AES:
+\begin{itemize}
+	\item dovrebbe avere una forza di sicurezza pari o superiore a quella del 3DES e un'efficienza significativamente migliorata;
+	\item deve essere una crittografia simmetrica a blocchi con una lunghezza di blocco di 128 bit e supporto per lunghezze di chiave di 128, 192 e 256 bit;
+	\item i criteri di valutazione includevano sicurezza, efficienza computazionale, requisiti di memoria, idoneità hardware e software, e flessibilità.
+\end{itemize}
+Il NIST ha selezionato \textbf{Rinjdael} come algoritmo AES proposto (2 sviluppatori belgi Dr. Joan Daemen e Dr. Vincent Rijmen). 
+\paragraph{Svantaggi del DES} Algoritmo progettato per l'implementazione hardware degli anni '70. Esegue lentamente nelle implementazioni software. 3DES è 3 volte più lento a causa dei 3 round. La dimensione del blocco di 64 bit deve essere aumentata per velocizzare le operazioni. 
+\paragraph{Panoramica dell'AES}Ha dimensioni del blocco di 128, 192 e 256 bit (128 è il più comune). \underline{Non è una struttura di Feistel}, elabora l'intero blocco in parallelo. La chiave di 128 bit viene espansa in 44 parole da 32 bit con 4 parole utilizzate per ogni round.
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.5\linewidth]{AES.png}
+\end{figure}
+\subsection{Numeri casuali e pseudocasuali} Un certo numero di algoritmi di sicurezza di rete basati sulla crittografia fa uso di numeri casuali. Ad esempio nella generazione di chiavi per l'algoritmo di crittografia a chiave pubblica RSA e altri algoritmi a chiave pubblica e nella generazione di una chiave simmetrica da utilizzare come chiave di sessione temporanea; utilizzata in diverse applicazioni di rete come la sicurezza del livello di trasporto, WiFi, sicurezza delle e-mail e sicurezza IP.
+
+In diversi scenari della distribuzione delle chiavi , come Kerberos, i numeri casuali vengono utilizzati per l'handshake per prevenire attacchi di replay. 
+
+Due requisiti distinti e non necessariamente compatibili per una sequenza di numeri casuali sono:
+\paragraph{Randomness}Tradizionalmente, la preoccupazione nella generazione di una sequenza di numeri presumibilmente casuali è stata che la sequenza di numeri fosse casuale in qualche ben definito senso statistico. I seguenti due criteri sono utilizzati per convalidare che una sequenza di numeri sia casuale:
+\begin{itemize}
+\bitem{distribuzione uniforme} la distribuzione dei bit nella sequenza dovrebbe essere uniforme; cioè, la frequenza di occorrenza di uno e zero dovrebbe essere approssimativamente uguale.
+
+\bitem{indipendenza}nessuna sottosequenza nella sequenza può essere dedotta dalle altre.
+\end{itemize}
+
+\paragraph{Non predicibilità}In applicazioni come l'autenticazione reciproca e la generazione di chiavi di sessione, il requisito non è tanto che la sequenza di numeri sia statisticamente casuale, ma che i membri successivi della sequenza siano imprevedibili. Con le sequenze ``vere'' casuali, ogni numero è statisticamente indipendente dagli altri numeri nella sequenza e quindi imprevedibile. È necessario prestare attenzione affinché un avversario non possa prevedere elementi futuri della sequenza sulla base degli elementi precedenti. 
+
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{generatori-di-numeri.png}
+\end{figure}
+
+\paragraph{TRNG, PRNG, PRF} Le applicazioni crittografiche fanno uso di tecniche algoritmiche per la generazione di numeri casuali che sono deterministiche e che producono sequenze di numeri che non sono statisticamente casuali e che vengono definiti numeri pseudocasuali. Non sono realmente casuali ma sembrano casuali.
+
+\paragraph{TRNG (True Random Number Generator)}Prende come input una sorgente che è casuale e che è solitamente chiamata \textbf{sorgente di entropia}. Sostanzialmente, una sorgente di entropia è presa dall'ambiente fisico di un computer e può includere ad esempio i tempi con cui vengono battuti i tasti della tastiera, le attività elettriche del disco, i movimenti del mouse e valori istantanei del clock di sistema. La sorgente o una combinazione di sorgenti, serve come input all'algoritmo che produce un output binario casuale (questo è realmente casuale). I TRNG potrebbero coinvolgere conversioni si una sorgente analogica per produrre un output binario. I TRNG potrebbero includere processamento aggiuntivo per far fronte a qualsiasi bias nella sorgente.
+\paragraph{PRNG}Un PRNG prende come input un valore fissato chiamato \textbf{seme} e produce una sequenza di bit in output usando un algoritmo deterministico. Molte volte il seme viene generato da una TRNG. Tipicamente esiste un percorso di feedback tramite il quale alcuni dei risultati prodotti dall'algoritmo vengono reimmessi come input mentre vengono prodotti ulteriori bit di output. È importante notare che il flusso di bit in uscita è determinato esclusivamente dal valore o dai valori di input, in modo che un avversario che conosce l'algoritmo e il seme possa riprodurre l'intero flusso di bit. 
+\paragraph{PRF} Un PRF è usato per produrre una stringa di bit pseudocasuale di una qualche lunghezza fissata. Esempi sono la crittografia delle chiavi simmetriche e i nonces. Di solito, il PRF prende come input un seme più alcuni valori dal contesto specifico, come ad esempio l'ID dell'utente o l'ID di un'applicazione.  
+
+Per creare i PRNG vengono solitamente utilizzate tre categorie di algoritmi crittografici:
+\begin{itemize}
+	\item cifrari simmetrici a blocchi;
+	\item cirfrari asimmetrici;
+	\item funzioni hash e codici di autenticazione dei messaggi.
+\end{itemize}
+
+\paragraph{Considerazioni sul design dei cifrari a flusso} 
+\begin{itemize}
+	\item La sequenza di crittografia dovrebbe avere un lungo periodo: più lungo è il periodo di ripetizione, più difficile sarà effettuare la crittoanalisi. 
+	\item Il flusso di chiavi dovrebbe approssimare le proprietà di un vero flusso di numeri casuali il più possibile: più il flusso di chiavi appare casuale, più il testo cifrato è randomizzato, rendendo la crittoanalisi più difficile.
+	\item Il generatore di numeri pseudocasuali è condizionato dal valore della chiave di input: per proteggersi dagli attacchi di forza bruta, la chiave deve essere sufficientemente lunga; con la tecnologia attuale, è auspicabile una lunghezza della chiave di almeno 128 bit.
+\end{itemize}
+
+\paragraph{Algoritmo RC4}
+\begin{itemize}
+	\item Dal 2015 non viene più utilizzato in TLS perché sono state trovate diverse vulnerabilità di sicurezza.
+	\item È un cifrario a flusso progettato nel 1987 da Ron Rivest per RSA security, con dimensione della chiave variabile e operazioni orientate ai byte.
+	\item L'algoritmo si basa sull'uso di una permutazione casuale. 
+	\item È utilizzato negli standard Secure Sockets Layer/Transport Layer Security (SSL/TLS) definiti per la comunicazione tra browser Web e server.
+	\item Utilizzato anche nel protocollo WEP (Wired Equivalent Privacy) e nel più recente protocollo WPA (WiFi Protected Access), che fanno parte dello standard IEEE 802.11 per le reti LAN wireless.
+\end{itemize}
+
+\subsection{Modalità di operazione dei cifrari a blocco} Un cifrario simmetrico a blocchi elabora un blocco di dati alla volta. Nel caso di DES e 3DES, la lunghezza del blocco è di 64 bit. Per AES, la lunghezza del blocco è di 128 bit. Per quantità maggiori di testo in chiaro, è necessario suddividere il testo in blocchi di $b$ bit, aggiungendo padding all'ultimo blocco se necessario. 
+\subsubsection{Le 5 modalità di operazione definite dal NIST}
+Cinque modalità di operazione sono state definite dal NIST, destinate a coprire praticamente tutte le possibili applicazioni di crittografia per le quali un cifrario a blocchi potrebbe essere utilizzato, inclusi tutti i cifrari simmetrici a blocchi tra cui 3DES e AES.
+\paragraph{ECB (Electronic Codebook)}La modalità ECB è la più semplice. Il testo in chiaro viene gestito 64 bit per volta; ognuno dei blocchi di 64 bit viene cifrato con la stessa chiave. Per messaggi più lunghi di 64 bit, si procede suddividendo il messaggio in blocchi di 64 bit, utilizzando, se necessario, bit di riempimento nell'ultimo blocco.
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{Ecb_encryption}
+\end{figure}
+Per una data chiave, esiste un unico testo cifrato per ogni blocco di testo in chiaro di 64 bit; in altre parole, se nel messaggio compare più volte lo stesso blocco di 64 bit di testo in chiaro, verrà prodotto sempre lo stesso testo cifrato. Per questo motivo, il metodo ECB è ideale per limitati volumi di dati (ad esempio, la trasmissione di una chiave di cifratura), poiché per messaggi più lunghi potrebbe essere insicuro: se si trattasse di dover cifrare un messaggio molto strutturato, l'analisi crittografica potrebbe sfruttarne le regolarità.
+
+L'ECB presenta i seguenti vantaggi:
+\begin{itemize}
+	\item cifratura parallelizzabile;
+	\item gli errori rimangono localizzati, quindi non si ha propagazione di errore sui diversi blocchi. 
+\end{itemize}
+Presenta anche svantaggi:
+\begin{itemize}
+	\item non è garantita l'integrità del messaggio, poiché un attaccante potrebbe invertire dei blocchi e la vittima non se ne accorgerebbe;
+	\item usa una chiave fissa che quindi può essere predisposta ad attacchi di analisi crittografica;
+	\item non è sicuro contro attacchi di forza bruta.
+\end{itemize}
+
+\paragraph{CBC (Cipher Block Chaining)}Per superare i limiti di sicurezza di ECB, è necessario l'utilizzo di una tecnica in cui lo stesso blocco di testo in chiaro, se ripetuto, produce blocchi di testo cifrato differenti. Questo, è ciò che accade con la modalità CBC, in cui l'input dell'algoritmo di crittografia è il risultato dello XOR tra il blocco di testo in chiaro corrente e il blocco di testo cifrato precedente; per ciascun blocco viene utilizzata la stessa chiave. 
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{Cbc_encryption}
+\end{figure}
+In fase di decifratura, ciascun blocco di testo cifrato passa attraverso l'algoritmo di decrittografia; il risultato subisce uno XOR con il blocco di testo precedente, per produrre il blocco di testo in chiaro. 
+
+Per produrre il primo blocco di testo cifrato, lo XOR viene effettuato tra un vettore di inizializzazione IV (dall'inglese \textit{initialization vector}) e il primo blocco di testo in chiaro. In decifratura, l'IV subisce uno XOR con l'output dell'algoritmo di decrittografia in modo da ottenere nuovamente il primo blocco di testo in chiaro. Il vettore di inizializzazione IV deve essere dunque noto non solo al mittente ma anche al destinatario, che tipicamente lo riceve assieme alla chiave; entrambi i valori vengono cifrati in modalità ECB. Per aumentare il livello di sicurezza ed evitare il replay attack, si utilizza un IV casuale per ogni processo di cifratura. Questo permette di produrre un testo cifrato differente anche a parità di testo in chiaro e chiave di crittografia. In questi casi è desiderabile poter evitare di condividere con il destinatario ogni IV generato; questo è possibile, semplicemente premettendo al testo in chiaro un blocco di testo casuale: in questo modo verrà generato un primo blocco cifrato comunque utilizzabile nel processo di cifratura. Implementando questa modalità, in fase di decifratura sarà necessario generare un nuovo IV casuale, quindi scartare il primo blocco di testo in chiaro che verrà prodotto. È possibile utilizzare un IV casuale e senza la necessità di condividerne ogni valore con il destinatario, anche nei cifrari a blocco in modalità CFB e OFB. In conclusione, questa modalità è la più appropriata per cifrare messaggi più lunghi di 64 bit. Inoltre, la modalità CBC può essere utilizzata anche per l'autenticazione.
+\paragraph{CFB (Cipher Feedback)}La modalità CFB è stata ideata per convertire idealmente una cifratura a blocchi in una cifratura a flusso. La cifratura a flusso non necessita di eseguire riempimenti e può inoltre operare in tempo reale. Nell'operazione di cifratura, l'input della funzione di crittografia è un registro a scorrimento a 64 bit che inizialmente viene importato con un vettore di inizializzazione IV. Gli $s$ bit più significativi (ovvero quelli più a sinistra) dell'output subiscono uno XOR con il primo segmento di testo in chiaro $P_1$ per produrre la prima unità di testo cifrato $C_1$.
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{Cfb_encryption}
+\end{figure}
+ Il contenuto del registro di scorrimento viene fatto scorrere a sinistra di $s$ bit, e negli $s$ bit meno significativi (quelli più a destra) del registro viene inserito $C_1$. Il processo viene reiterato fino all'esaurimento di tutte le unità di testo in chiaro. All'atto della decifratura, si utilizza il medesimo schema, tranne per il fatto che le unità di testo cifrato ricevute sono sottoposte ad uno XOR con l'output della funzione di crittografia. Non si utilizza dunque la funzione di decrittografia, percheé se $S_S(x)$ sono gli $s$ bit più significativi di $X$, allora:
+$$C_1=P_1 \oplus S_S(E_K(IV))$$
+Pertanto $$P_1=C_1\oplus S_S(E_K(IV))$$ e lo stesso ragionamento vale per i passi successivi.
+\paragraph{OFB}
+La modalità OFB è molto simile alla CFB. Il vantaggio della OFB è che non propaga gli errori di trasmissione dei bit. Il suo svantaggio è che è più vulnerabile a un attacco a modifica del flusso dei messaggi. 
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{Ofb_encryption}
+\end{figure}
+\paragraph{CTR (Counter)}Questa quinta modalità è stata introdotta successivamente alle altre quattro, per poter essere applicata a ATM (Asynchronous Transfer Mode) e a IPsec (IP security). In questa modalità viene utilizzato un contatore corrispondente alle dimensioni del blocco di testo in chiaro. 
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{Ctr_encryption}
+\end{figure}
+Il requisito essenziale è che il suo valore sia differente per ciascun blocco da cifrare; in genere viene inizializzato con un determinato valore e poi incrementato di un'unità per ogni blocco successivo (modulo $2^b$ dove $b$ corrisponde alle dimensioni del blocco). Per la cifratura, il contatore viene crittografato e poi si applica uno XOR col blocco di testo in chiaro per produrre il blocco di testo cifrato. Per la decifratura si utilizza la stessa sequenza di valori del contatore ai quali si applica lo XOR con i blocchi di testo cifrato. 
+
+I vantaggi del CTR sono:
+\begin{itemize}
+	\item efficienza dell'hardware;
+	\item efficienza del software;
+	\item pre-elaborazioni;
+	\item accesso diretto;
+	\item sicurezza dimostrabile;
+	\item semplicità.
+\end{itemize}
+
+
+\begin{table}[thbp]
+	\centering
+	\begin{tabular}{|c|l|}
+		\hline
+		\textbf{Modalità} & \textbf{Applicazioni tipiche}\\
+		\hline
+		ECB & Trasmissione sicura di singoli valori\\
+		\hline
+		CBC & \parbox{.7\linewidth}{
+			\begin{itemize}
+				\item Trasmissione di carattere generale orientata ai blocchi
+				\item Autenticazione
+			\end{itemize}
+		}\\
+		\hline
+		CFB &\parbox{.7\linewidth}{ \begin{itemize}
+				\item Trasmissione di carattere generale orientata al flusso di dati
+				\item Autenticazione
+		\end{itemize}}\\
+		\hline
+		OFB & Trasmissione orientata al flusso di dati su canali rumorosi\\
+		\hline
+		CTR & \parbox{.7\linewidth}{
+			\begin{itemize}
+				\item Trasmissione di carattere generale orientata ai blocchi
+				\item Utile per requisiti di alta velocità
+		\end{itemize}}\\
+		\hline
+	\end{tabular}
+\end{table}
+
+\paragraph{Sicurezza dimostrabile (provable security)} In crittografia un sistema crittografico presenta una sicurezza dimostrabile se i suoi requisiti di sicurezza possono essere fissati formalmente in un modello con precisi assunti, dove colui che cerca di violare il sistema (comunemente denominato ``avversario'') ha accesso allo stesso ed ha abbastanza risorse computazionali per cercare di forzarlo. La dimostrazione di sicurezza (chiamata ``riduzione'') è che questi requisiti di sicurezza siano soddisfatti stabilito che le ipotesi riguardanti l'accesso dell'avversario al sistema siano soddisfatte e che siano chiaramente indicate quelle inerenti alla difficoltà computazionale di alcuni calcoli. Esempi di requisiti sono stati pubblicati nel 1989 da Shafi Goldwasser e Silvio Micali. 
+
+La sicurezza dimostrabile si basa principalmente su due nozioni di sicurezza:
+\begin{itemize}
+	\item la sicurezza semantica;
+	\item la sicurezza computazionale.
+\end{itemize}
+La prima nozione di sicurezza, antecedente a quella di sicurezza dimostrabile, è quella di sicurezza perfetta ed è stata introdotta da Claude Shannon nel suo celebre articolo \textit{Comunication theory of secrecy systems} pubblicato nel 1949. Come egli stesso ha dimostrato, esiste solo un sistema che è stato provato sia incondizionatamente sicuro, il cifrario di Vernam, dove la chiave crittografica è lunga quanto il testo da cifrare: senza di essa è provatamente impossibile risalire ad alcuna informazione inerente al messaggio in chiaro. 
+
+La nozione di sicurezza dimostrabile, invece, si basa sul fatto che, se non si dispone che di una limitata capacità computazionale, sarà possibile risalire al messaggio in chiaro solo con una probabilità detta trascurabile, ovvero minima. 
+
+\paragraph{Posizionamento della crittografia}
+\begin{itemize}
+	\bitem{Crittografia a livello di collegamento} avviene in modo indipendente su ogni collegamento. Il traffico deve essere decrittografato e ricrittografato a ogni collegamento. Richiede molti dispositivi, ma con chiavi abbinate.
+	\bitem{Crittografia end-to-end}avviene tra la sorgente originale e la destinazione finale. Sono necessari dispositivi a ciascun estremo. Richiede chiavi condivise tra i due punti finali della comunicazione.
+\end{itemize}
+\section{Distribuzione delle chiavi} Gli schemi crittografici simmetrici richiedono che entrambe le parti condividano una chiave segreta comune, che deve essere distribuita in modo sicuro attraverso un canale affidabile prima dell'inizio della comunicazione cifrata. 
+\paragraph{Approcci alla distribuzione delle chiavi}Le parti A e B hanno diverse alternative per la distribuzione delle chiavi:
+\begin{itemize}
+	\item A può selezionare la chiave e consegnarla fisicamente a B; 
+	\begin{itemize}
+		\item richiede la consegna manuale della chiave. È ragionevole per la cifratura di collegamento (\textit{link encryption}) tra due dispositivi partner ma scomodo e poco pratico per la cifratura end-to-end su una rete distribuita, dove sono necessarie molte chiavi dinamiche;
+	\end{itemize}
+	\item una terza parte può selezionare e consegnare la chiave ad A e B; 
+	\begin{itemize}
+		\item richiede la consegna manuale della chiave ma è inefficace per la cifratura end-to-end a causa della necessità di distribuire un gran numero di chiavi dinamicamente in sistemi distribuiti;
+	\end{itemize}
+	\item se A e B hanno comunicato in precedenza, possono utilizzare la chiave precedente per crittografare una nuova chiave;
+	\begin{itemize}
+		\item è una possibilità sia per la cifratura di collegamento che per quella end-to-end. Tuttavia, se un aggressore ottiene l'accesso a una chiave, tutte le chiavi successive saranno rilevate. Inoltre, rimane irrisolto il problema della distribuzione iniziale di milioni di chiavi;
+	\end{itemize}
+	\item se A e B hanno comunicazioni sicure con una terza parte C, C può trasmettere la chiave tra A e B;
+	\begin{itemize}
+		\item ampiamente adottata per la cifratura end-to-end. Utilizza un centro di distribuzione chiavi (KDC) responsabile della consegna delle chiavi quando necessario. Ogni utente deve condividere una chiave univoca con il KDC per la distribuzione delle chiavi.
+	\end{itemize}
+\end{itemize}
+
+Tipicamente viene utilizzata una gerarchia delle chiavi:
+\begin{itemize}
+	\bitem{Chiave di sessione} utilizzata per la crittografia dei dati tra gli utenti per una sessione logica, quindi scartata.
+	\bitem{Chiave master} utilizzata per crittografare le chiavi di sessione.
+\end{itemize}
+La gerarchia delle chiavi viene condivisa tra l'utente e il centro di distribuzione delle chiavi.
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{scenario-distribuzione-chiavi}
+\end{figure}
+\paragraph{Problemi di distribuzione delle chiavi}
+\begin{itemize}
+	\item Sono necessarie gerarchie di KDC (Key Distribution Center) per reti di grandi dimensioni, ma devono fidarsi l'uno dell'altro. 
+	\item La durata delle chiavi di sessione dovrebbe essere limitata per una maggiore sicurezza.
+	\item Utilizzo della distribuzione automatica delle chiavi per conto degli utenti, ma è necessario fidarsi del sistema. 
+	\item Utilizzo della distribuzione decentralizzata delle chiavi.
+	\item Controllo dell'uso delle chiavi.
+\end{itemize}
+
+\paragraph{Problema della scalabilità}La scala del problema dipende dal livello di cifratura:
+\begin{itemize}
+	\bitem{Cifratura a livello di rete (IP)}è necessaria una chiave per ogni coppia di host, con un numero di chiavi pari a $\frac{n(n-1)}{2}$, dove $n$ è il numero di host.
+	\bitem{Cifratura a livello di applicazione}è necessaria una chiave per ogni coppia di utenti/processi. Poiché ci sono molti più utenti/processi che host, il numero di chiavi richieste è molto più alto (ad esempio, 50 milioni di chiavi per 10.000 applicazioni rispetto a mezzo milione per 1000 nodi).
+\end{itemize}
+
+\subsection{Algoritmo RSA} Algoritmo di crittografia asimmetrica, inventato nel 1977 da Ronald Rivest, Adi Shamir e Leonard Aldeman utilizzabile per cifrare o firmare informazioni. 
+
+L'algoritmo RSA si basa sulla difficoltà di fattorizzare un numero molto grande in due numeri primi. Quindi, anche se qualcuno ha accesso all'informazione cifrata e alla chiave pubblica, è molto difficile per loro scoprire la chiave privata che è necessaria per decodificare il messaggio. Questa caratteristica rende l'algoritmo RSA molto sicuro e per questo viene utilizzato per proteggere molte comunicazioni online, come per esempio i pagamenti online o le comunicazioni via e-mail.
+
+\paragraph{Funzionamento base}
+\begin{enumerate}
+	\item si scelgono a caso due numeri primi $p$ e $q$ abbastanza grandi da garantire la sicurezza dell'algoritmo (per esempio, il più grande numero RSA, RSA-2048, utilizza due numeri primi lunghi più di 300 cifre);
+	\item si calcola il loro prodotto $n=pq$, chiamato \textit{modulo} (dato che tuta l'aritmetica seguente è modulo $n$), e il prodotto $\varphi(n) = (p-1(q-1))$, dove $\varphi(n)$ è la funzione toziente;
+	\item si considera che la fattorizzazione di $n$ è segreta e solo chi sceglie i due numeri primi, $p$ e $q$, la conosce;
+	\item si sceglie poi un numero $e$ (chiamato \textit{esponente pubblico}), coprimo con $\varphi(n)$ e più piccolo di $\varphi(n)$;
+	\item si calcola il numero $d$ (chiamato esponente \textit{privato}) tale che il suo prodotto con $e$ sia congruo a $1$ modulo $\varphi(n)$ ovvero che $ed\equiv 1 \mod \varphi(n)$; per calcolare $d$ si utilizza l'algoritmo esteso di Euclide.
+\end{enumerate}
+La chiave pubblica è $(n,e)$, mentre la chiave privata è $(n,d)$.
+
+La forza dell'algoritmo sta nel fatto che per calcolare $d$ da $e$ (o viceversa) non basta la conoscenza di $n$ ma serve il numero $\phi(n)=(p-1)(q-1)$, e che il suo calcolo richiede tempi molto elevati; infatti fattorizzare in numeri primi (cioè scomporre un numero nei suoi divisori primi) è un'operazione computazionalmente costosa. 
+
+Un messaggio $ m$ viene cifrato attraverso l'operazione $m^e\mod n$ trasformandolo nel messaggio cifrato $c$. Una volta trasmesso, $c$ viene decifrato con $c^d\mod n=,m$. Il procedimento funziona solo se $m<n$ e la chiave $e$ utilizzata per cifrare e la chiave $d $ utilizzata per decifrare sono legate tra loro dalla relazione $ed\equiv 1\mod \varphi(n)$, quindi quando un messaggio viene cifrato con una delle due chiavi può essere decifrato solo utilizzando l'altra. L'algoritmo si basa sull'assunzione mai dimostrata (nota come assunzione RSA) che il problema di calcolare $\sqrt[e]{c}\mod n$, con $n$ numero composto di cui non si conoscono i fattori, sia computazionalmente non trattabile. 
+
+La firma digitale non è altro che l'inverso: il messaggio viene crittografato con la chiave privata, in modo che chiunque possa, utilizzando la chiave pubblica conosciuta da tutti decifrarlo e, oltre a poterlo leggere in chiaro, essere certo che il messaggio è stato mandato dal possessore della chiave privata corrispondente a quella pubblica utilizzata per leggerlo.
+
+Per motivi di efficienza e comodità, normalmente viene inviato il messaggio in chiaro con allegata la firma digitale di un hash del messaggio stesso; in questo modo il ricevente può direttamente leggere il messaggio (che è in chiaro), utilizzare la chiave pubblica per estrarre l'hash della firma e verificare che questo sia uguale a quello calcolato localmente sul messaggio ricevuto. Se l'hash è crittograficamente sicuro, la corrispondenza dei due valori conferma che il messaggio ricevuto è identico a quello originalmente firmato e trasmesso. 
+\paragraph{Fondamenti matematici} La decifratura del messaggio è assicurata grazie ad alcuni teoremi matematici; infatti dal calcolo si ottiene:
+$$e^d\mod n=(m^e)^d\mod n=m^{ed}\mod n$$
+Ma sappiamo che $ed\equiv 1\mod (p-1)(q-1)$, di conseguenza abbiamo che $ed\equiv 1\mod (p-1)$ e che $ed\equiv 1\mod (q-1)$. Quindi per il piccolo teorema di Fermat: $$m^{ed}\equiv m\mod p\quad \text{e}\quad m^{ed}\equiv \mod q$$
+Siccome $p$ e $q$ sono numeri diversi e primi, possiamo applicare il teorema cinese del resto, ottenendo che $$m^{ed}\equiv m\mod pq$$ e quindi che $$e^d\equiv m\mod n$$
+\begin{theorem}[Piccolo teorema di Fermat]
+	Se $p$ è un numero primo, allora per ogni intero $a$: $$a^p\equiv a\mod p$$
+	\end{theorem}
+	Questo significa che se si prende un qualunque numero $a$, lo si moltiplica per se stesso $p$ volte e si sottrae $a$, il risultato è divisibile per $p$. È spesso espresso nella forma equivalente: se $p$ è primo e $a$ è un intero coprimo con $p$, allora: $$a^{p-1}\equiv 1\mod p$$.
+	\begin{theorem}[Teorema cinese del resto]
+		Si supponga che $n_1,...,n_k$ siano interi a due a due coprimi (il che significa che $\gcd(n_i,n_j)=1$ quando $i\ne j$). Allora, comunque si scelgano degli interi $a_1,\dots,a_k$, esiste un intero $x$ soluzione del sistema di congruenze $$x\equiv a_i\mod n_i\quad \text{per}\ i=1,\dots,k$$ 
+		Inoltre, tutte le soluzioni $x$ di questo sistema sono congruenti modulo il prodotto $n=n_1,\dots,n_k$.
+	\end{theorem}
+	Si può trovare una soluzione $x$ come segue. Per ogni $i$ gli interi $n_i$ e $\frac{n}{n_i}$ sono coprimi, e utilizzando l'algoritmo di Euclide esteso si possono trovare due interi $r$ e $s$ tali che $rn_i+s\frac{n}{n_i}=1$. Ponendo $e_i=s\frac{n}{n_i}$, si ottiene $$e_i\equiv 1\mod n_i\quad \text{e}\quad e_i\equiv 0\mod n_j\quad \text{per}\quad j\ne i$$ Una soluzione del sistema di congruenze è quindi: $$x=\sum_{i=1}^{k}a_ie_i$$
+	
+Usare il teorema cinese del resto nell'algoritmo di RSA permette di trasportare i calcoli dall'anello $Z_n$ all'anello $Z_p\times Z_q$. La somma delle dimensioni in bit di $p$ e $q$ è la dimensione in bit di $n$, in questo modo i calcoli vengono molto semplificati.
+
+\paragraph{Riepilogo RSA}
+\begin{itemize}
+	\item seleziona $p,q$ dove $p$ e $q$ sono entrambi numeri primi, $p\ne q$
+	\item calcola $n=p\times q$
+	\item calcola $\varphi(n)=(p-1)(q-1)$
+	\item seleziona un intero $e$ tale che il massimo comun divisore tra $\varphi(n)$ e $e$ è 1, ovvero $$\gcd(\varphi(n),e)=1$$ e $$1<e<\varphi(n)$$
+	\item calcola $d$ tale che: $$de\mod{\varphi(n)=1}$$
+	\item chiave pubblica $P_k=\{e,n\}$
+	\item chiave privata $S_k=\{d,n\}$
+	\item plaintext $M<n$
+	\item cifratura: $C=M^e\mod{n}$
+	\item decifratura:$M=C^d\mod{n}$
+\end{itemize}
+\paragraph{Considerazioni sulla sicurezza}La sicurezza di RSA dipende dal suo utilizzo in modo da contrastare potenziali attacchi. Gli approcci di attacco sono:
+\begin{itemize}
+	\bitem{attacchi matematici}fattorizzazione dei numeri primi per derivare $p$ e $q$ da $n$; per contrastare la fattorizzazione, utilizzare chiavi di grande dimensione: almeno 2048 bit;
+	\bitem{attacchi di temporizzazione}per dedurre la dimensione delle chiavi dal tempo di decrittazione;
+	\bitem{attacchi chosen-ciphertext}per messaggi piccoli, potrebbe essere fattibile eseguire attacchi di forza bruta; utilizzare padding.
+\end{itemize}
+\subsection{Scambio di chiavi Diffie-Hellman}Il protocollo Diffie-Hellman-Merkle (comunemente noto come DH) è un protocollo crittografico che consente a due entità (spesso chiamate Alice e Bob) che non si conoscono in precedenza di stabilire congiuntamente una chiave segreta condivisa su un canale di comunicazione non sicuro (pubblico). Questa chiave segreta può essere poi utilizzata per cifrare le comunicazioni successive tramite un algoritmo di cifratura simmetrica.
+\paragraph{Storia} Il concetto è stato pubblicato per la prima volta da Whitfield Diffie e Martin Hellman nel 1976. È stato il primo metodo pratico per lo scambio di chiavi segrete su un canale non autenticato senza conoscenza preliminare tra le parti, ed è considerato una delle invenzioni fondamentali della crittografia a chiave pubblica. Successivamente è stato riconosciuto che Ralph Merkle aveva sviluppato un metodo simile in precedenza, portando talvolta alla denominazione più completa di ``scambio di chiavi Diffie-Hellman-Merle''.
+\begin{figure}
+	\centering
+	\includegraphics[width=.7\linewidth]{DiffieHellman.png}
+\end{figure}
+\paragraph{Descrizione del funzionamento}Il metodo si basa sulla difficoltà computazionale del \textbf{problema del logaritmo discreto.}
+\begin{enumerate}
+	\bitem{Parametri pubblici}Alice e Bob concordano pubblicamente su due numeri:
+	\begin{itemize}
+		\item $p$: un numero primo grande;
+		\item $g$: una radice primitiva modulo $p$ (o un generatore).
+	\end{itemize}
+	\bitem{Chiavi private}
+	\begin{itemize}
+		\item Alice sceglie un intero segreto $a$;
+		\item Bob sceglie un intero segreto $b$.
+	\end{itemize}
+	\bitem{Chiavi pubbliche scambiate}
+	\begin{itemize}
+		\item Alice calcola il suo valore pubblico $A=g^a\mod{p}$ e lo invia a Bob;
+		\item Bob calcola il suo valore pubblico $B=g^b\mod{p}$ e lo invia ad Alice.
+	\end{itemize}
+	\bitem{Calcolo della chiave segreta condivisa}
+	\begin{itemize}
+		\item Alice calcola la chiave segreta $K$ usando il valore pubblico di Bob e la sua chiave privata: $K_A=B^a\mod{p}$;
+		\item Bob calcola la chiave segreta $K$ usando il valore pubblico di Alice e la sua chiave privata: $K_B=A^b\mod{p}$.
+	\end{itemize}
+\end{enumerate}
+Grazie alle proprietà dell'aritmetica modulare, si ha che: 
+\begin{gather*}
+	K_A=(g^b)^a\mod{p}=g^{ba}\mod{p}\\
+	K_B=(g^a)^b\mod{p}=g^{ab}\mod{p}
+\end{gather*}
+Quindi $K_A=K_B$, e Alice e Bob arrivano allo stesso segreto condiviso $K=g^{ab}\mod{p}$.
+\paragraph{Livello di sicurezza}La sicurezza si basa sul fatto che un ascoltatore (Eve) che intercetta i valori pubblici $g,p,A,B$ non può facilmente calcolare la chiave segreta $K$ perché dovrebbe risolvere il problema del logaritmo discreto per trovare $a$ o $b$.
