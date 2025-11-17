@@ -390,7 +390,7 @@ Usare il teorema cinese del resto nell'algoritmo di RSA permette di trasportare 
 	\begin{itemize}
 		\item Alice sceglie un intero segreto $a$;
 		\item Bob sceglie un intero segreto $b$.
-	\end{itemize}
+	\end{itemize}t
 	\bitem{Chiavi pubbliche scambiate}
 	\begin{itemize}
 		\item Alice calcola il suo valore pubblico $A=g^a\mod{p}$ e lo invia a Bob;
@@ -409,3 +409,82 @@ Grazie alle proprietà dell'aritmetica modulare, si ha che:
 \end{gather*}
 Quindi $K_A=K_B$, e Alice e Bob arrivano allo stesso segreto condiviso $K=g^{ab}\mod{p}$.
 \paragraph{Livello di sicurezza}La sicurezza si basa sul fatto che un ascoltatore (Eve) che intercetta i valori pubblici $g,p,A,B$ non può facilmente calcolare la chiave segreta $K$ perché dovrebbe risolvere il problema del logaritmo discreto per trovare $a$ o $b$.
+\paragraph{Attacco Man-in-the-Middle}Il Diffie-Hellman nella sua forma base è suscettibile all'attacco Man-in-the-Middle. Eve può:
+\begin{itemize}
+	\item intercettare $A$ (il valore di Alice) e inviare il suo valore $E_A=g^{ea}\mod{p}$ a Bob;
+	\item intercettare $B$ (il valore di Bob) e inviare il suo valore $E_B=g^{eb}\mod{p}$ a Alice.
+\end{itemize}
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=.7\linewidth]{mitm-scheme-diffie-hellman}
+\end{figure}
+A questo punto, Eve ha una chiave segreta condivisa con Alice  e una chiave segreta diversa condivisa con Bob, consentendole di decifrare, leggere, e ricifrare tutti i messaggi tra i due senza che loro se ne accorgano.
+
+Per mitigare questo, si utilizzano versioni del protocollo con \textbf{autenticazione}, come il DHE (DH effimero) o l'ECDH (Elliptic Curve Diffie-Hellman) , spesso sono implementati all'interno di protocolli come TLS/SSL.
+
+\subsubsection{Perfect Forward Secrecy}Il Perfect Forward Secrecy (PFS), in crittografia, è una proprietà di un sistema di scambio di chiavi che garantisce che una chiave si sessione compromessa \underline{non comprometta anche le chiavi di sesisone precedenti e future.} In termini più semplici, se un attaccante riesce a registrare la comunicazione cifrata oggi, e domani, ottiene la chiave a lungo termine (chiave privata del server), non sarà in grado di decifrare i dati registrati. 
+
+\paragraph{Funzionamento} Per ottenere la PFS, un sistema deve utilizzare chiavi di sessione temporanee ed effimere che vengono generate in modo indipendente per ogni sessione di comunicazione.
+\begin{itemize}
+	\bitem{Chiavi effimere}invece di usare sempre la stessa chiave privata a lungo termine del server per cifrare la chiave di sessione, vengono usate chiavi di sessione uniche, spesso derivate tramite un algoritmo di scambio effimero. 
+	\bitem{Distruzione}dopo la fine della sessione,  le chiavi effimere utilizzate per quella sessione vengono immediatamente distrutte (non vengono memorizzate da nessuna parte).
+\end{itemize}
+Se un aggressore ruba la chiave privata permanente del server in un momento successivo (compromissione a posteriori), tale chiave gli permetterà di decifrare le future comunicazioni non protette da PFS, ma non gli darà alcuna informazione utile per decifrare le comunicazioni passate, poiché le chiavi temporanee usate in precedenza sono state eliminate.
+\paragraph{Protocolli e algoritmi}La PFS è implementata tipicamente nei protocolli di sicurezza come TLS (Transport Layer Security), la base per HTTPS. Gli algoritmi di scambio di chiavi che offrono PFS sono:
+\begin{itemize}
+	\bitem{DHE (Diffie-Hellma Effimero)}utilizza chiavi Diffie-Hellman diverse e temporanee per ogni sessione.
+	\bitem{ECDHE (Elliptic Curve Diffie-Hellman Effimero)}simile al DHE, ma utilizza la crittografia a curve ellittiche, che è più efficiente.
+\end{itemize}
+I moderni browser e server web preferiscono l'utilizzo di ECDHE per l'equilibrio tra sicurezza, velocità ed efficienza.
+\paragraph{Mancanza di PFS}Quando un protocollo non ha PFS, generalmente utilizza la chiave privata a lungo termine del server (o una master key statica) per proteggere direttamente o derivare la chiave di sessione. Un esempio di non-PFS è l'utilizzo di RSA statico per lo scambio di chiavi in TLS: se un aggressore ruba la chiave privata RSA del server, può derivare tutto il traffico registrato in precedenza che è stato scambiato con quel server.
+\paragraph{Dettagli aggiuntivi su Forward secrecy}
+\begin{enumerate}
+	\bitem{Definizione formale e sinonimi}
+	\begin{itemize}
+		\bitem{Sinonimi}PFS è spresos chiamato semplicemente Forward Secrecy (FS) o Public-Key Forward Secrecy (PFS) quando applicato a protocolli a chiave pubblica.
+		\bitem{Obbiettivo tecnico} un sistema ha la proprietà di FS se l'ispezione (cioè la decifratura) in chiaro dello scambio di dati che avviene durante la \ul{fase di accordo chiave} all'inizio della sessione non rileva la chiave utilizzata per cifrare il resto della sessione.
+	\end{itemize}
+	\bitem{Origine storica e protocolli}
+	\begin{itemize}
+		\bitem{Padri fondatori}il concetto di Forward Secrecy fu introdotto formalmente da Whitfield Diffie, Paul van Oorschot e Micheal James Wiener nel 1992, descrivendolo come una proprietà del protocollo Station-to-Station.
+		\bitem{Adozione diffusa}la PFS è una caratteristica cruciale adottata da numerosi protocolli e applicazioni:
+		\begin{itemize}
+			\item è una caratteristica opzionale in IPsec;
+			\item è utilizzata in SSH (Secure Shell);
+			\item è un pilastro di protocolli di messaggistica moderna come OTR\footnote{Protocollo crittografico che fornisce una cifratura alle conversazioni di messagistica istantanea utilizzando una combinazione di crittografia simmetrica AES con chiavi di 128 bit, scambio di chiavi Diffie-Hellman e funzione crittografica di hash SHA1. Oltre all'autenticazione e alla cifratura, l'OTR fornisce anche perfect forward secrecy.} (Off-the-Record Messaging) e il Protocollo Signal\footnote{Protocollo critografico non federato che fornisce la crittografia end-to-end per i messaggi e le chiamate di messaggistica istantanea. Il protocollo è stato sviluppato da Open Whisper Systems nel 2013 ed è stato introdotto nell'app open source TextStructure, la quale in sequito è stata rinominata Signal. A partire dal 2018 è stato sviluppato dalla fondazione Signal ed è distribuito con licenza libeera AGPLv3.}, che garantiscono l'indipendenza di ogni singolo messaggio.
+		\end{itemize}
+		\bitem{La mandatorietà di TLS 1.3}Il protocollo TLS 1.3, la versione più recente e sicura del Transport Layer Security (che è la base di HTTPS), ha elevato la PFS da ``opzionale'' a obbligatoria.
+		\begin{itemize}
+			\item L'IETF ha imposto che TLS 1.3 consenta solo le suite di cifrature effimere (come ECDHE).
+			\item Questo significa che lo scambio di chiavi RSA statico (che non offriva PFS è stato eliminato in TLS 1.3, rendendo la Perfect Forward Secrecy uno standard \textit{de facto} per la navigazione web sicura moderna.)
+		\end{itemize}
+		\bitem{Il concetto di Backward Secrecy}sebbene il PFS protegga le comunicazioni passate da una compromissione futura della chiave a lungo termine, esiste un concetto correlato:
+		\begin{itemize}
+			\bitem{Backward Secrecy (o Future Secrecy)}è la proprietà che assicura che un'intercettazione e/o compromissione della chiave di sesisone attuale non permetta di decifrare le sessioni di comunicazione che avverranno in futuro. 
+			\item Alcuni protocolli avanzati, come il Protocollo Signal, implementano sia il Forward Secrecy che il Backward Secrecy per fornire una protezione completa contro la compromissione delle chiavi in qualsiasi momento.
+		\end{itemize}
+	\end{itemize}
+\end{enumerate}
+\subsection{Standard di Firma Digitale (DSS)}
+FIPS PUB 186 è conosciuto come Standard di Firma Digitale. Fa uso di SHA-1 e presenta una nuova tecnica di firma digitale, l'Algoritmo di Firma Digitale (DSA). Proposto originariamente nel 1991 e revisionato nel 1993 e nuovamente nel 1996. Utilizza un algoritmo progettato per fornire \ul{solo} la funzione di firma digitale. A differenza di RSA, non può essere utilizzato per la crittografia o lo scambio di chiavi. 
+\paragraph{Evoluzione dello standard} Le versioni successive come FIPS 186-3 (2009) e FIPS 186-4 (2013) hanno introdotto l'uso di SHA-2 (SHA-224, SHA-256, SHA-384 e SHA-512) al posto di SHA-1 per una maggiore sicurezza. Il più recente standard, FIPS 186-5 (2023), ha ritirato l'uso di DSA per le nuove implementazioni a causa della sua crescente complessità rispetto a RSA ed ECDSA, e ha introdotto l'uso potenziale di nuovi schemi di firma basati sulla crittografia post-quantistica (come gli schemi basati su reticoli).
+\subsubsection{Firme digitali} NIST FIPS PUB 186-4 (Standard di Firma Digitale DSS) definisce una firma digitale come: \textit{``il risultato di una trasformazione crittografica dei dati che, se implementata correttamente, fornisce un meccanismo per verificare l'\textbf{autenticità dell'origine}, l'\textbf{integrità dei dati }e la \textbf{non ripudiabilità del firmatario}''}. Pertanto, una firma digitale è un modello di bit dipendente dai dati, generato da un agente come funzione di un file, messaggio o altra forma di blocco di dati. 
+
+FIPS 186-4 specifica l'uso di uno dei tre algoritmi di firma digitale:
+\begin{itemize}
+	\item algoritmo di firma digitale (DSA);
+	\item algoritmo di firma digitale RSA;
+	\item algoritmo di firma digitale a curva ellittica (ECDSA).
+\end{itemize}
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.5\linewidth]{elementi-essenziali-firma-digitale}
+\end{figure}
+\paragraph{Processo di firma} Il processo generale di firma digitale coinvolge due fasi principali.
+\begin{enumerate}
+	\bitem{Fase di firma}il documento (o messaggio) viene prima sottoposto a hashing utilizzando una funzione crittografica come SHA-2. L'hash risultante (noto come \textit{message digest}) viene quindi crittografato con la chiave privata del firmatario (utilizzando uno degli algoritmi specificati: DSA, RSA o ECDSA). La firma digitale è l'hash crittografato.
+	\bitem{Fase di verifica}chiunque può verificare  la firma decrittografando l'hash con la chiave pubblica del firmatario. L'hash decrittografato viene poi confrontato con un nuovo hash generato dal documento ricevuto. Se i due hash corrispondono, la firma è considerata valida, provando l'autenticità e l'integrità.
+\end{enumerate}
+\paragraph{Crittografia a curva ellittica}La tecnica si basa sull'uso di una costruzione matematica nota come \textbf{curva ellittica} (specificatamente sul problema del logaritmo discreto su curve ellittiche, ECDLP). L'attrazione principale dell'ECC rispetto a RSA è che sembra offrire una sicurezza equivalente per una dimensione di bit molto più piccola, riducendo così il sovraccarico di elaborazione. Ad esempio, una chiave ECC a 256 bit è considerata equivalente in sicurezza a una chiave RSA a 3072 bit. Il livello di fiducia nell'ECC non è ancora alto come quello in RSA (le chiavi di \textit{backdoor} sono state diffuse in alcuni momenti, come con l'algoritmo Dual EC DRBG).
+\paragraph{Algorimto ECDSA}l'Algoritmo di Firma Digitale a Curva Ellittica (ECDSA) è la variante di DSA che utilizza l'ECC. È oggi ampiamente preferito in molti protocolli moderni (come TLS/SSL e Bitcoin) grazie alle dimensioni ridotte della chiave e delle firme, che lo rendono ideale per ambienti con larghezza di banda limitata o per dispositivi mobili. 
+
