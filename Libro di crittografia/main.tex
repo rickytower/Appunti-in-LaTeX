@@ -1,0 +1,43 @@
+
+
+\documentclass{report}
+\usepackage[italian]{babel}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{soul}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{xspace}
+\newtheorem{definition}{Definizione}
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proof}{Dimostrazione}
+\begin{document}
+\title{Crittografia}
+\author{Riccardo Torre}
+\chapter*{Prefazione} Questo report è una riscrittura del lavoro dell'Egregio Dottor Michele Perlotto. 
+\begin{quotation}
+	\textit{``I Procioni sono meglio dei Panda Rossi'' }-- cit. Michele Perlotto.
+\end{quotation}
+\date{}
+\maketitle
+
+\tableofcontents % Output the table of contents
+
+
+\input{chapters/chapter1.tex}
+\input{chapters/chapter2 - crittogradia in cascata.tex}
+\input{chapters/chapter3 - cenni alla teoria dei numeri.tex}
+\input{chapters/chapter4 - crittografia a chiave pubblica.tex}
+\input{chapters/chapter5 - crittografia a blocchi.tex}
+\input{chapters/chapter6 - codifica di un singolo bit.tex}
+\input{chapters/chapter7 - codifica di sequenze di bit.tex}
+\input{chapters/chapter8 - lancio della moneta e hard core predicate.tex}
+\input{chapters/chapter9 - generatori pseudocasuali.tex}
+\input{chapters/chapter10 - funzioni pseudocasuali.tex}
+\input{chapters/chapter11 - autenticazione di messaggi.tex}
+\input{chapters/chapter12 - protocolli vari.tex}
+\input{chapters/chapter13 - zero knowledge.tex}
+\end{document}
