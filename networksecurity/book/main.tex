@@ -11,11 +11,11 @@
 \usepackage{subcaption}
 \usepackage{array}
 \usepackage{soul}
-
+\usepackage{ragged2e}
 \renewcommand{\underline}{\ul}
-\newcolumntype{x}[1]{>{\raggedleft\hspace{0pt}}p{#1}}
-\newcolumntype{y}[1]{>{\raggedright\hspace{0pt}}p{#1}}
-\newcolumntype{z}[1]{>{\centering\hspace{0pt}}p{#1}}
+\newcolumntype{x}[1]{>{\RaggedLeft\hspace{0pt}}p{#1}}
+\newcolumntype{y}[1]{>{\RaggedRight\hspace{0pt}}p{#1}}
+\newcolumntype{z}[1]{>{\Centering\hspace{0pt}}p{#1}}
 \newtheorem{theorem}{Teorema}
 \newcommand{\bitem}[1]{\item\textbf{#1:}\xspace}
 \title{Appunti di network security}
@@ -25,4 +25,5 @@
 	\tableofcontents
 	\input{introduzione}
 	\input{sym-enc}
+	\input{pki-ma}
 \end{document}

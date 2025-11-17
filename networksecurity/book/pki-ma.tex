@@ -1,0 +1,104 @@
+\graphicspath{{pki-message-authentication/}}
+\section{Crittografia a chiave pubblica e autenticazione dei messaggi}
+La crittografia protegge contro attacchi passivi (intercettazione). Un requisito diverso è proteggere contro attacchi attivi (falsificazione di dati e transazioni). La protezione contro tali attacchi è nota come \textbf{autenticazione dei messaggi}.
+\subsection{Autenticazione dei messaggi} È una procedura che consente alle parti comunicanti di verificare che i messaggi ricevuti siano autentici. I due aspetti importanti sono:
+\begin{enumerate}
+	\item verificare che il contenuto del messaggio non sia stato alterato;
+	\item verificare che la fonte sia autentica;
+\end{enumerate}
+Altri requisiti sono la tempestività, l'assenza di ripetizioni o il riordino. 
+
+\paragraph{Approcci all'autenticazione dei messaggi}
+\begin{itemize}
+	\bitem{Utilizzando la crittografia convenzionale}la crittografia simmetrica da sola non è uno strumento adatto per l'autenticazione dei dati. Si assume che solo che il mittente e il destinatario condividano una chiave, quindi solo il mittente genuino sarebbe in grado di crittografare un messaggio con successo. Il destinatario presume che non siano state apportate alterazioni e che la sequenza sia corretta se il messaggio include un codice di rilevamento degli errori e un numero di sequenza. Se il messaggio include un timestamp, il destinatario presume che il messaggio non sia stato ritardato oltre il tempo normalmente previsto per il transito in rete.
+	\bitem{Senza crittografia del messaggio}viene generato un tag di autenticazione e aggiunto a ciascun messaggio per la trasmissione. Il messaggio stesso non è crittografato e può essere letto a destinazione indipendentemente dalla funzione di autenticazione a destinazione. Poiché il messaggio non è crittografato, la riservatezza del messaggio non è garantita.
+\end{itemize}
+\subsubsection{MAC (Message Authentication Code)}Il MAC, in crittografia, è un piccolo blocco di dati utilizzato per garantire l'\ul{autenticazione}, e l'\ul{integrità} di un messaggio digitale, ma non la sua confidenzialità (riservatezza). Viene generato attraverso un meccanismo di crittografia simmetrica che richiede una chiave segreta condivisa tra mittente e destinatario. 
+
+\paragraph{Come funziona il MAC}
+\begin{enumerate}
+	\bitem{Generazione del MAC (mittente)}il mittente prende il messaggio da inviare e lo elabora con un algoritmo MAC  (ad esempio, HMAC, CBC-MAC e una chiave segreta $K$. L'algoritmo produce in output un valore chiamato MAC (o tag). Il mittente invia al destinatario il messaggio in chiaro e il MAC associato. 
+	\bitem{Verifica del MAC (destinatario)}il destinatario riceve il messaggio e il MAC. Utilizzando  lo stesso algoritmo MAC e la stessa chiave segreta $K$ ricalcola il MAC sul messaggio ricevuto. Confronta il MAC ricalcolato con il MAC allegato al messaggio dal mittente. 
+	\bitem{Esito della verifica}\begin{itemize}
+		\item Se i due MAC coincidono, il destinatario ha la certezza che il messaggio non è stato modificato durante la trasmissione (\textbf{integrità}) e che proviene effettivamente da chi  non possiede la chiave segreta (quindi, il mittente legittimo).
+		\item Se i due MAC non coincidono, significa che il messaggio è stato alterato o che non proviene dal mittente legittimo.
+	\end{itemize}
+\end{enumerate}
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{autenticazione-con-MAC.png}
+\end{figure}
+
+\begin{table}[thbp]
+\centering
+	\begin{tabular}{|y{.2\linewidth}|y{.2\linewidth}|y{.2\linewidth}| y{.2\linewidth}|}
+		\hline
+		Caratteristica & MAC (Message Authentication Code) & Funzione di Hash (message digest) & Firma digitale\\
+		\hline
+		\textbf{Obbiettivo principale} & Autenticazione e integrità & Integrità (senza chiave) & Integrità, autenticazione e non ripudio\\
+		\hline
+		\textbf{Uso della chiave} & Sì (chiave segreta simmetrica) & No & Sì (chiave privata asimmetrica)\\
+		\hline
+		\textbf{Non ripudio} & No (chi verifica può anche generare) & No & Sì (solo il proprietario della chiave privata può firmare)\\
+		\hline 
+		\textbf{Tipo di crittografia}& Simmetrica & Nessuna (solo funzione matematica) & Asimmetrica\\
+		\hline
+	\end{tabular}
+\end{table}
+\paragraph{MAC e riservatezza}È fondamentale notare che il MAC da solo non cripta il contenuto del messaggio; protegge solo da modifiche e falsificazioni. Per garantire anche la riservatezza delle informazioni (cioè per impedire che terzi leggano il messaggio), il MAC viene solitamente utilizzato in combinazione con un algoritmo di crittografia simmetrica (ad esempio, AES) che provvede a cifrare l'intero messaggio.
+\subsubsection{Funzioni Hash unidirezionali} Le funzioni hash unidirezionali (o one-way hash functions), sono algoritmi fondamentali in crittografia e sicurezza informatica. Sono funzioni matematiche che prendono un input di lunghezza arbitraria (il messaggio, un file, una password, ecc\dots) e producono in output una stringa di caratteri di lunghezza fissa chiamata \textbf{valore hash} o \textbf{digest}. Il concetto di ``unidirezionale'' è la proprietà di sicurezza cruciale. 
+
+Una funzione è considerata unidirezionale se è:
+\begin{enumerate}
+	\bitem{Facile da calcolare}dato un input $x$, è estremamente rapido e semplice calcolare l'output $h(x)$.
+	\bitem{Impossibile da invertire}dato l'output $h(x)$, è \ul{computazionalmente impossibile} risalire all'input originale $x$ in un tempo ragionevole (richiederebbe un attacco a forza bruta con tempi superiori alla vita dell'universo).
+\end{enumerate}
+Questa proprietà garantisce che, anche se un attaccante intercetta o ottiene il valore hash, non può ricostruire il messaggio o la password originali. 
+
+\paragraph{Requisiti di sicurezza (funzioni hash sicure)} Per essere considerate sicure e utilizzabili in crittografia, le funzioni hash devono soddifare tre proprietà principali:
+\begin{enumerate}
+		\bitem{Resistenza alla preimmagine (one-way)}dato un valore hash $h$, è difficile trovare un messaggio $m$ tale che $h(m)=h$ (impossibilità di invertire la funzione).
+		
+		\bitem{Resistenza alla seconda preimmagine(weak collision resistance)}dato un messaggio originale $m_1$, è difficile trovare un secondo messaggio diverso $m_2$ tale che $h(m_1)=h(m_2)$ (impossibilità di alterare un messaggio lasciando inalterato l'hash).
+		
+		\bitem{Resistenza alle collisioni (strong collision resistance)}è difficile trovare una coppia di messaggi \ul{qualsiasi} $(m_1,m_2)$ tali che $h(m_1) = h(m_2)$ (questa è la proprietà più restrittiva e cruciale).
+		
+\end{enumerate}
+\paragraph{Effetto valanga}Un'altra caratteristica importante è l'\textbf{effetto valanga} (\textit{``avalanche effect''}): anche una piccola modifica all'input (ad esempio, cambiare un singolo bit nel messaggio) deve causare un drastico e imprevedibile cambiamento nell'output hash.
+\paragraph{Applicazioni principali}Le funzioni hash unidirezionali sono il pilastro di  molti meccanismi di sicurezza:
+\begin{itemize}
+	\bitem{Verifica dell'integrità dei dati}un hash (spesso chiamato \textit{checksum}) viene calcolato su un file prima della trasmissione/memorizzazione ri ricalcolato dopo. Se i due hash coincidono, il file è integro. 
+	\bitem{Memorizzazione sicura delle password} i sistemi non memorizzano mai le password degli utenti in chiaro. Memorizzano invece l'hash della password (spesso chiamato ``salato'' con un valore casuale, \textit{``salt''}). Qaundo un utente accede, la password viene passata alla funzione di hash e confrontata con l'hash memorizzato. Poiché la funzione è unidirezionale, anche se il database viene violato, gli aggressori non ottengono le password reali.
+	\bitem{Firme digitali}invece di firmare digitalmente l'intero documento  (che è inefficiente), l'algoritmo di firma digitale si applica solo all'hash (o \textit{digest}) del documento.
+	\bitem{Blockchain e criptovalute}vengono utilizzate intensamente per concatenare i blocchi, per l'identificazione delle transazioni e nel processo di \textit{mining}(Proof-of-Work).
+\end{itemize}
+Esempi noti di hash crittograficamente sicuri includono la famiglia SHA-2 (come SHA-256) e SHA-3. Algoritmi più vecchi come MD5 e SHA-1 sono stati considerati in gran parte abbandonati per la resistenza alle collisioni\footnote{In pratica, è diventato fattibile per un attaccante trovare due input diversi che producono lo stesso identico valore di hash. Quando ciò accade, l'algoritmo non è più considerato sicuro per la maggior parte delle applicazioni crittografiche poiché un attaccante potrebbe creare un file dannoso con lo stesso hash di un file legittimo, falsificando l'autenticità.}.
+\paragraph{Approcci per attaccare una funzione hash sicura} Può avvenire tramite crittoanalisi (trovando debolezze logiche nell'algoritmo di hash) oppure con attacco di forza bruta (la resistenza di una funzione hash contro questo attacco dipende esclusivamente dalla lunghezza del codice hash prodotto dall'algoritmo).
+\paragraph{SHA-1,SHA-2,SHA-3 }SHA (Secure Hash Standard) è stata sviluppata dal NIST ed è stata pubblicata come standard federale di elaborazione delle informazioni (FIPS 180) nel 1993. È stata revisionata nel 1995 come SHA-1 e pubblicata come FIPS 180-1. Si basa sulla funzione hash MD4 e il suo design modella strettamente MD4. Produce valori hash di 160 bit. Nel 2005, il NIST ha annunciato l'intenzione di eliminare l'approvazione di SHA-1 e di passare a una dipendenza da SHA-2 (256,384,512 bit) entro il 2010. (Nel 2015, il NIST ha rilasciato una nuova versione, SHA-3).
+\paragraph{Funzionamento di SHA2}
+\begin{enumerate}
+ \bitem{Imbottitura}al messaggio originale vengono aggiunti dei bit di ``imbottitura'' affinché la lunghezza finale del messaggio risulti congruenti a 448 modulo 512, così facendo la lunghezza in bit di ``messaggio + imbottitura'' divisa per 512 darà resto 448.
+ 	\bitem{Aggiunta lunghezza}alla sequenza di bit (messaggio+imbottitura) viene aggiunto un intero unsigned di 64 bit contenente la lunghezza del messaggio originale. Alla fine di questi due primi passi otteniamo una sequenza di bit che è un multiplo di 512. 
+ 	\bitem{Inizializzazione del buffer MD}un buffer di 160 bit suddiviso in 5 registri da 32 bit ciascuno viene creato per la memorizzazione di alcuni passaggi intermedi. I 5 registri verranno convenzionalmente indicati con (A,B,C,D,E) ed inizializzati con i seguenti valori esadecimali:
+ 	\begin{enumerate}
+ 		\item A=67452301
+ 		\item B=EFCDAB89
+ 		\item C=98BADCFE
+ 		\item D=10325476
+ 		\item E=C3D2E1F0
+ 	\end{enumerate}
+ 	\bitem{Elaborazione dei blocchi da 512 bit}la sequenza di bit che comprende il messaggio, l'imbottitura e la lunghezza del messaggio, viene divisa in blocchi da 512 bit, che identificheremo con $B_n$ con $0\le n\le L$. Il fulcro dell'algoritmo SHA-1 è chiamato \textit{compression function} ed è formato da 4 cicli di 20 passi cadauno. I cicli hanno una struttura molto simile tra di loro se non per il fatto che utilizzano una differente funzione logica primitiva. Ogni blocco viene preso come parametro di input da tutti e  4 i cicli insieme ad una costante $K$ e i valori dei 5 registri. Alla fine della computazione otterremo dei nuovi valori per A,B,C,D,E, che useremo per la computazione del blocco successivo sino ad arrivare al blocco finale F.
+\end{enumerate}
+
+
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{generazione-sha512}
+\end{figure}
+
+Nel 2001 il NIST pubblicò quattro funzioni di \textit{hash} addizionali facenti parti della famiglia SHA, ognuna con un digest più lungo di quello originale, collettivamente denominate SHA-2. Queste varianti sono note con la lunghezza in bit del digest generato a seguire la sigla ufficiale dell'hash. Gli algoritmi SHA-256 e SHA-512 lavorano rispettivamente con word di 32 e 64 bit: utilizzano un numero differente di rotazioni e di costanti addizionali, ma la loro struttura è sostanzialmente identica. 
+
+SHA3 deve poter sostituire SHA-2 e deve preservarne la sua natura.
+
+\subsubsection{HMAC (Hash-based Message Authentication Code)}
+L'HMAC è uno schema specifico per creare un MAC utilizzando una funzione hash crittografica (come SHA-256)
