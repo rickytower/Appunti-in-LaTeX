@@ -15,18 +15,18 @@ I \textbf{sistemi a prodotto} comportano più fasi di sostituzioni e trasposizio
 \subsection{Tecniche di attacco della crittoanalisi}
 \paragraph{Ciphertext only}Il crittoanalista ha accesso solo al testo cifrato. È il caso più frequente ed è quello che fornisce meno informazioni all'attaccante. 
 \paragraph{Known plaintext}L'attaccante ha un insieme di testi cifrati dei quali conosce i corrispondenti testi in chiaro. A primo avviso può sembrare una situazione improbabile, ma i casi in cui l'attaccante può conoscere sia il testo in chiaro che quello cifrato non sono rari: ad esempio, molti messaggi di e-mail iniziano con frasi ricorrenti o terminano con firme predefinite.
-\paragraph{Chrosen plaintext}In questo caso l'attaccante può scegliere \underline{arbitrariamente} i testi da cifrare. Anche questa situazione non è improbabile: nella crittografia asimmetrica, la chiave pubblica è nota a tutti e può essere utilizzata per cifrare quanti messaggi si desidera.
+\paragraph{Chosen plaintext}In questo caso l'attaccante può scegliere \underline{arbitrariamente} i testi da cifrare. Anche questa situazione non è improbabile: nella crittografia asimmetrica, la chiave pubblica è nota a tutti e può essere utilizzata per cifrare quanti messaggi si desidera.
 \paragraph{Chosen ciphertext}L'attaccante può ottenere i testi in chiaro corrispondenti da un insieme \underline{arbitrario} di testi cifrati. L'informazione ignota è in questo caso la chiave crittografica.
-\paragraph{Chosen text}questo attacco combina gli approcci dei precedenti. Il crittoanalista può \underline{scegliere} sia un messaggio in chiaro che un testo cifrato e ottenere le rispettive versioni cifrate e decifrate. Questo fornisce una quantità significativa di informazioni, rendendo più facile per il crittoanalista analizzare e compromettere la crittografia.
+\paragraph{Chosen text}Questo attacco combina gli approcci dei precedenti. Il crittoanalista può \underline{scegliere} sia un messaggio in chiaro che un testo cifrato e ottenere le rispettive versioni cifrate e decifrate. Questo fornisce una quantità significativa di informazioni, rendendo più facile per il crittoanalista analizzare e compromettere la crittografia.
 
-\subsection{Crittoanalisi} Uno schema di crittografia e considerato sicuro dal punto di vista computazionale se il testo cifrato generato dallo schema soddisfa uno o entrambi i seguenti criteri:
+\subsection{Crittoanalisi} Uno schema di crittografia è considerato sicuro dal punto di vista computazionale se il testo cifrato generato dallo schema soddisfa uno o entrambi i seguenti criteri:
 \begin{itemize}
 	\item il costo per rompere il cifrario supera il valore delle informazioni cifrate;
 	\item il tempo necessario per rompere il cifrario supera la vita utile delle informazioni.
 \end{itemize}
 \paragraph{Attacco di forza bruta} Comporta il tentativo di ogni possibile chiave fino a ottenere una traduzione comprensibile del testo cifrato in testo in chiaro. In media, deve essere provata metà di tutte le chiavi possibili per raggiungere il successo. A meno che non venga fornito un testo in chiaro noto, l'analista deve essere in grado di riconoscere il testo in chiaro come tale. Per integrare l'approccio di forza bruta è necessaria una certa conoscenza sul testo in chiaro previsto e avere un mezzo per distinguere automaticamente il testo in chiaro dal testo confuso.
 
-\subsection{Claude Shannon e i cifrari a permutazione e sostituzione}Nel 1949, Calude Shannon introdusse l'idea delle reti di sostituzione-permutazione (S-P) , le quali formano la base dei cifrari a blocchi moderni. Le reti S-P si basavano sulle operazioni delle due operazioni crittografiche primitive di \textbf{sostituzione (S-box)} e \textbf{permutazione(P-box)} che forniscono confusione e diffusione del messaggio.
+\subsection{Claude Shannon e i cifrari a permutazione e sostituzione}Nel 1949, Calude Shannon introdusse l'idea delle reti di sostituzione-permutazione (S-P), le quali formano la base dei cifrari a blocchi moderni. Le reti S-P si basavano sulle operazioni delle due operazioni crittografiche primitive di \textbf{sostituzione (S-box)} e \textbf{permutazione(P-box)} che forniscono confusione e diffusione del messaggio.
 
 \begin{figure}[thbp]
 	
@@ -51,7 +51,7 @@ I \textbf{sistemi a prodotto} comportano più fasi di sostituzioni e trasposizio
 
 \paragraph{Cifrari a prodotto} Combinano catene di sostituzioni e trasposizioni. Le S-box confondono i bit di input e le P-box diffondono i bit attraverso gli input delle S-box.
 Un pad monouso oscura completamente le proprietà statistiche del messaggio originale.
-\paragraph{Cifrario di Feistel} ideato da Horst Feistel, è basato sul concetto di cifrario di prodotto invertibile. Il crittosistema prende in input un blocco che viene diviso a metà, successivamente elabora attraverso più round eseguendo una sostituzione sulla metà sinistra, mentre sulla metà destra viene applicata la funzione di round a cui viene applicata la sottochiave. Quindi le due metà vengono scambiate. Questo cifrario implementa il concetto di rete di sostituzione-permutazione di Shannon.
+\paragraph{Cifrario di Feistel} Ideato da Horst Feistel, è basato sul concetto di cifrario di prodotto invertibile. Il crittosistema prende in input un blocco che viene diviso a metà, successivamente elabora attraverso più round eseguendo una sostituzione sulla metà sinistra, mentre sulla metà destra viene applicata la funzione di round a cui viene applicata la sottochiave. Quindi le due metà vengono scambiate. Questo cifrario implementa il concetto di rete di sostituzione-permutazione di Shannon.
 \begin{figure}[thbp]
 	\centering
 	\includegraphics[width=.5\linewidth]{feistel-encr-decr.png}
@@ -63,19 +63,18 @@ Gli elementi del cifrario di Feistel sono:
 	\bitem{numero di round}l'essenza di un cifrario a blocchi simmetrico è che un singolo round offre sicurezza inadeguata, mentre più round offrono una sicurezza crescente;
 	\bitem{algoritmo di generazione delle sottochiavi} maggiore complessità in questo algoritmo dovrebbe portare a una maggiore difficoltà nella crittoanalisi;
 	\bitem{funzione di round}maggiore complessità generalmente significa maggiore resistenza alla crittoanalisi; una dimensione tipica è di 16 rounds;
-	\bitem{facilità di analisi}se l'algoritmo puù essere spiegato in modo coinciso e chiaro, è più facile analizzarlo per vulnerabilità crittoanalitiche e quindi sviluppare un livello più elevato di garanzia sulla sua robustezza.
+	\bitem{facilità di analisi}se l'algoritmo può essere spiegato in modo coinciso e chiaro, è più facile analizzarlo per vulnerabilità crittoanalitiche e quindi sviluppare un livello più elevato di garanzia sulla sua robustezza.
 \end{itemize}
 \subsection{Algoritmi di crittografia a blocchi simmetrici} 
 \paragraph{Cifrario a blocchi} Elabora l'input in chiaro in blocchi di dimensioni fisse e produce un blocco di testo cifrato di dimensioni uguali per ogni blocco di testo in chiaro. Sono gli algoritmi di crittografia simmetrica più comunemente usati. I tre cifrari a blocco simmetrici più importanti sono:
 \begin{itemize}
 	\item DES -- Data Encryption Standard;
 	\item 3DES -- Triple DES;
-	\item Advanced encryption Standard AES
+	\item Advanced encryption Standard AES.
 \end{itemize}
 \subsubsection{DES -- Data Encryption Standard}  La sicurezza del DES è stata a lungo messa in discussione. Ci sono state molte speculazioni sulla lunghezza della chiave, sul numero di iterazioni e sul design delle S-box (coinvolgimento dell'NSA). 
 
 La struttura del DES è una leggera variazione della rete Feistel. Ci sono 16 round di elaborazione, il testo in chiaro è lungo 64 bit (bit di input), la chiave è lunga 56 bit. 
-
 DES è stato attaccato nel 1999 in 22 ore con un computer da un milione di dollari. 
 
 I punti critici di DES sono:
@@ -135,7 +134,7 @@ Due requisiti distinti e non necessariamente compatibili per una sequenza di num
 
 \paragraph{TRNG, PRNG, PRF} Le applicazioni crittografiche fanno uso di tecniche algoritmiche per la generazione di numeri casuali che sono deterministiche e che producono sequenze di numeri che non sono statisticamente casuali e che vengono definiti numeri pseudocasuali. Non sono realmente casuali ma sembrano casuali.
 
-\paragraph{TRNG (True Random Number Generator)}Prende come input una sorgente che è casuale e che è solitamente chiamata \textbf{sorgente di entropia}. Sostanzialmente, una sorgente di entropia è presa dall'ambiente fisico di un computer e può includere ad esempio i tempi con cui vengono battuti i tasti della tastiera, le attività elettriche del disco, i movimenti del mouse e valori istantanei del clock di sistema. La sorgente o una combinazione di sorgenti, serve come input all'algoritmo che produce un output binario casuale (questo è realmente casuale). I TRNG potrebbero coinvolgere conversioni si una sorgente analogica per produrre un output binario. I TRNG potrebbero includere processamento aggiuntivo per far fronte a qualsiasi bias nella sorgente.
+\paragraph{TRNG (True Random Number Generator)}Prende come input una sorgente che è casuale e che è solitamente chiamata \textbf{sorgente di entropia}. Sostanzialmente, una sorgente di entropia è presa dall'ambiente fisico di un computer e può includere ad esempio i tempi con cui vengono battuti i tasti della tastiera, le attività elettriche del disco, i movimenti del mouse e valori istantanei del clock di sistema. La sorgente o una combinazione di sorgenti, serve come input all'algoritmo che produce un output binario casuale (questo è realmente casuale). I TRNG potrebbero coinvolgere conversioni di una sorgente analogica per produrre un output binario. I TRNG potrebbero includere processamento aggiuntivo per far fronte a qualsiasi bias nella sorgente.
 \paragraph{PRNG}Un PRNG prende come input un valore fissato chiamato \textbf{seme} e produce una sequenza di bit in output usando un algoritmo deterministico. Molte volte il seme viene generato da una TRNG. Tipicamente esiste un percorso di feedback tramite il quale alcuni dei risultati prodotti dall'algoritmo vengono reimmessi come input mentre vengono prodotti ulteriori bit di output. È importante notare che il flusso di bit in uscita è determinato esclusivamente dal valore o dai valori di input, in modo che un avversario che conosce l'algoritmo e il seme possa riprodurre l'intero flusso di bit. 
 \paragraph{PRF} Un PRF è usato per produrre una stringa di bit pseudocasuale di una qualche lunghezza fissata. Esempi sono la crittografia delle chiavi simmetriche e i nonces. Di solito, il PRF prende come input un seme più alcuni valori dal contesto specifico, come ad esempio l'ID dell'utente o l'ID di un'applicazione.  
 

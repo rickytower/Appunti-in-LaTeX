@@ -1,6 +1,6 @@
 \section{Introduzione}
 \graphicspath{{introduzione}}
-\paragraph{Cos'è la cybersecurity} La \textit{cybersecurity} o \textit{sicurezza informatica}, è l'insieme dei mezzi, delle tecnologie e delle procedure tesi alla protezione dei sistemi informatici in termini di \textit{confidenzialità}, \textbf{integrità} e \textit{disponibilità} dei beni o asset informatici.
+\paragraph{Cos'è la cybersecurity} La \textit{cybersecurity} o \textit{sicurezza informatica}, è l'insieme dei mezzi, delle tecnologie e delle procedure tesi alla protezione dei sistemi informatici in termini di \textit{confidenzialità}, \textit{integrità} e \textit{disponibilità} dei beni o asset informatici.
 \paragraph{Information security} Preserva la confidenzialità, l'integrità e la disponibilità delle \textit{informazioni}. In aggiunta, altre proprietà come l'autenticità, il non ripudio e l'affidabilità possono essere incluse.
 \paragraph{Network security} Protegge le reti e i relativi servizi da modifiche non autorizzate, da distruzioni o divulgazioni non autorizzate e garantisce che la rete svolga correttamente le sue funzioni critiche e che non vi siano effetti collaterali dannosi.
 
@@ -32,7 +32,7 @@
 \begin{itemize}
 		\bitem{Security attack}è una qualsiasi azione che compromette la sicurezza delle informazioni possedute da un'organizzazione.
 	\bitem{Security mechanism}è un processo (o un dispositivo che incorpora tale processo) che è progettato per rilevare, prevenire, o ripristinare da un security attack.
-	\bitem{Security service}è un servizio di elaborazione o comunicazione che migliora la sicurezza dei sistemi di elaborazione dati e dei trasferimenti di informazione di un' organizzazione. È destinato  a contrastare gli attacchi alla sicurezza e utilizza uno  o più meccanismi di sicurezza per fornire il servizio.
+	\bitem{Security service}è un servizio di elaborazione o comunicazione che migliora la sicurezza dei sistemi di elaborazione dati e dei trasferimenti di informazione di un'organizzazione. È destinato  a contrastare gli attacchi alla sicurezza e utilizza uno  o più meccanismi di sicurezza per fornire il servizio.
 \end{itemize}
 \subsection{Minacce e attacchi} 
 \begin{itemize}
@@ -43,16 +43,16 @@
 	\centering
 	\includegraphics[width=.7\linewidth]{attacchi.png}
 \end{figure}
-	\paragraph{Attacchi passivi}Tentano di apprendere o utilizzare informazioni dal sistema ma non influenzano sulle risorse del sistema ascoltando o monitorando le trasmissioni; lo scopo dell'attaccante è di ottenere le informazioni che sono state trasmesse. vi sono due tipi di attacchi passivi:
+	\paragraph{Attacchi passivi}Tentano di apprendere o utilizzare informazioni dal sistema ma non influenzano sulle risorse del sistema ascoltando o monitorando le trasmissioni; lo scopo dell'attaccante è di ottenere le informazioni che sono state trasmesse. Vi sono due tipi di attacchi passivi:
 	\begin{itemize}
 		\bitem{rilascio dei contenuti dei messaggi} possono contenere informazioni confidenziali o sensibili); ad esempio una conversazione al telefono, una mail elettronica, un file trasferito; i messaggi nono sono mascherati;
 		\bitem{l'analisi del traffico} i messaggi sono mascherati con la crittografia; l'attaccante inferisce il contenuto dei messaggi in base a frequenza e lunghezza;
 	\end{itemize}
 	\paragraph{Attacchi attivi} Tentano di alterare le risorse del sistema o influenzare il loro funzionamento comportando una modifica del flusso di dato o la creazione di un flusso falso. Sono difficili da prevenire a causa della vasta gamma di potenziali vulnerabilità fisiche, software e di rete. I tipi di attacco possono essere:
 	\begin{itemize}
-		\bitem{masquerade} si verifica quando un'entità finge di essere un'altra entità e di solito include una delle altre forme id attacco attivo;
+		\bitem{masquerade} si verifica quando un'entità finge di essere un'altra entità e di solito include una delle altre forme di attacco attivo;
 		\bitem{replay}comporta la cattura passiva di un'unità di dati e la sua successiva ritrasmissione per produrre un effetto non autorizzato;
-		\bitem{data modification}alcune parti di un messaggio legittimo vengono alterate, oppure i messaggi vengono ritardati o riordinati per produrre une effetto non autorizzato;
+		\bitem{data modification}alcune parti di un messaggio legittimo vengono alterate, oppure i messaggi vengono ritardati o riordinati per produrre un effetto non autorizzato;
 		\bitem{denial of service}preclude o inibisce l'uso normale o la gestione delle strutture di comunicazione.
 	\end{itemize}
 
@@ -60,25 +60,25 @@
 	\centering
 	\includegraphics[width=.7\linewidth]{servizi.png}
 \end{figure}
-\paragraph{Autenticazione}si occupa di garantiche che una comunicazione sia autentica:
+\paragraph{Autenticazione}si occupa di garantire che una comunicazione sia autentica:
 	\begin{itemize}
 		\item nel caso di un singolo messaggio, assicura che il messaggio provenga dalla fonte che afferma di essere;
 		\item nel caso di un'interazione continua, assicura che le due entità siano autentiche e che la connessione non sia interferita in modo tale che una terza parte possa mascherarsi come una delle due parti legittime;
 	\end{itemize}
 e si suddivide in:
 \begin{itemize}
-	\bitem{autenticazione delle entità peer}fornisce la conferma dell'identità di un'entità peer in un'associazione. Due entità sono considerate peer se implementano lo stesso protocollo in sistemi diversi. L'autenticazione delle entità peer è prevista per l'uso al momento dell'instaurazione, o in determinati momenti durante la fase di trasferimento dei dati di una connessione. Essa cerca di fornire fiducia che un'entità non stia eseguendo né masquerading, né una ripetizione non autorizzata di una connessione precedente.
-	\bitem{autenticazione all'origine dei dati}fornisce la conferma della fonte di un'unità dati. Non offre protezione contro la duplicazione o la modifica delle unità di dati. questo tipo di servizio supporta applicazioni come la posta elettronica, dove nono ci sono interazioni in corso tra le entità comunicanti.
+	\bitem{autenticazione delle entità peer}fornisce la conferma dell'identità di un'entità peer in un'associazione. Due entità sono considerate peer se implementano lo stesso protocollo in sistemi diversi. L'autenticazione delle entità peer è prevista per l'uso al momento dell'instaurazione di una connessione, o in determinati momenti durante la fase di trasferimento dei dati in una connessione. Essa cerca di fornire fiducia che un'entità non stia eseguendo né masquerading, né una ripetizione non autorizzata di una connessione precedente.
+	\bitem{autenticazione all'origine dei dati}fornisce la conferma della fonte di un'unità dati. Non offre protezione contro la duplicazione o la modifica delle unità di dati. Questo tipo di servizio supporta applicazioni come la posta elettronica, dove non ci sono interazioni in corso tra le entità comunicanti.
 \end{itemize}
 \paragraph{Controllo degli accessi}La capacità di limitare e controllare l'accesso ai sistemi host e alle applicazioni tramite collegamenti di comunicazione. Per raggiungere questo obbiettivo, ogni entità che cerca di ottenere accesso deve prima essere identificata o autenticata, in modo che i diritti di accesso possano essere personalizzati per l'individuo.
-\paragraph{Riservatezza dei dati} Deve prevenire la riservatezza dei dati da attacchi passivi proteggendo il contenuto dei messaggi scambiati tra gli utenti, andando a proteggere l'intero messaggio o anche limitandosi a specifici campi al suo interno; da attacchi attivi onde evitare che un attaccante non possa inferire informazioni interessanti (sorgente, destinazione, frequenza, lunghezza\dots) facendo analisi del traffico. 
+\paragraph{Riservatezza dei dati} Deve prevenire la riservatezza dei dati da attacchi passivi proteggendo il contenuto dei messaggi scambiati tra gli utenti, andando a proteggere l'intero messaggio o anche limitandosi a specifici campi al suo interno; da attacchi attivi onde evitare che un attaccante non possa inferire informazioni interessanti (sorgente, destinazione, frequenza, lunghezza,\dots) facendo analisi del traffico. 
 \paragraph{Integrità dei dati}Può applicarsi a un flusso di messaggi, a un singolo messaggio o a campi selezionati all'interno di un messaggio. 
 \begin{itemize}
-	\bitem{servizio di integrità orientato alla connessione} si occupa di un flusso di messaggi, assicura vengano ricevuti così come sono stati inviati, senza duplicazioni, inserimenti, modifiche, riordini o ripetizioni;
-	\bitem{servizio di integrità senza connessione}si occupa di messaggi individuali senza considerare un contesto più ampio, fornisce generalmente protezione contro la modifica dei messaggi.
+	\bitem{Servizio di integrità orientato alla connessione} si occupa di un flusso di messaggi, assicura vengano ricevuti così come sono stati inviati, senza duplicazioni, inserimenti, modifiche, riordini o ripetizioni.
+	\bitem{Servizio di integrità senza connessione}si occupa di messaggi individuali senza considerare un contesto più ampio, fornisce generalmente protezione contro la modifica dei messaggi.
 \end{itemize}
 \paragraph{Non ripudio}Previene che il mittente o il destinatario possano negare un messaggio trasmesso. Quando un messaggio viene inviato, il destinatario può dimostrare che il presunto mittente ha effettivamente inviato il messaggio. Quando un servizio viene ricevuto, il mittente può dimostrare che il presunto destinatario ha effettivamente ricevuto il messaggio.
-\paragraph{Servizio di disponibilità} Protegge un sistema per garantire la sua disponibilità. Questo servizio affronta le preoccupazioni si sicurezza sollevate dagli attacchi di negazione del servizio e dipende dalla corretta gestione e controllo delle risorse di sistema, quindi dipende dal servizio di controllo degli accessi e da altri servizi di sicurezza. 
+\paragraph{Servizio di disponibilità} Protegge un sistema per garantire la sua disponibilità. Questo servizio affronta le preoccupazioni di sicurezza sollevate dagli attacchi di negazione del servizio e dipende dalla corretta gestione e controllo delle risorse di sistema, quindi dipende dal servizio di controllo degli accessi e da altri servizi di sicurezza. 
 \subsection{Meccanismi di sicurezza}
 \begin{figure}[thbp]
 	\centering\includegraphics[width=.7\linewidth]{meccanismi-sicurezza}
