@@ -24,8 +24,97 @@ L'opzione 3 è una possibilità sia per la crittografia dei collegamenti che per
 
 Per la crittografia end-to-end, una qualche variazione dell'opzione 4 è stata ampiamente adottata. In questo schema, un centro di distribuzione delle chiavi è responsabile della distribuzione delle chiavi a coppie di utenti (host, processi, applicazioni) secondo necessità. Ogni utente deve condividere una chiave unica con il centro di distribuzione delle chiavi per scopi di distribuzione delle chiavi.
 
-La \cref{fig:distribuzione-chiavi} illustra due diverse opzioni, ciascuna con due variazioni per la distribuzione delle chiavi. I numeri lungo le linee rappresentano i passaggi dello scambio. In questi esempi, esiste una connessione tra le entità A e B, che desiderano scambiare informazioni utilizzando tecniche crittografiche. A questo scopo, necessitano di una chiave di sessione temporanea che durerà per la durata di una connessione logica, come una connessione TCP. A e B condividono ciascuno una chiave master di lunga durata con una terza parte coinvolta nella fornitura della chiave di sessione. La chiave di sessione è etichettata come $K_s$ e le chiavi master tra le entità A e B e la terza parte sono etichettate come $K_{ma}$ e $K_mb$ rispettivamente. Un centro di traduzione chiavi (KTC) trasferisce chiavi simmetriche per future comunicazioni tra due entità, almeno una delle quali ha la capacità di generare o acquisire chiavi simmetriche autonomamente. L'entità A genera o acquisisce una chiave simmetrica da utilizzare come chiave di sessione per la comunicazione con B. A cripta la chiave utilizzando la chiave master che condivide con il KTC e invia la chiave criptata al KTC. Il KTC decripta la chiave di sessione, la cripta nuovamente con la chiave master che condivide con B e invia quella chiave di sessione criptata nuovamente ad A affinché A la inoltri a B, oppure la invia direttamente a B.
+La \cref{fig:distribuzione-chiavi} illustra due diverse opzioni, ciascuna con due variazioni per la distribuzione delle chiavi. I numeri lungo le linee rappresentano i passaggi dello scambio. In questi esempi, esiste una connessione tra le entità A e B, che desiderano scambiare informazioni utilizzando tecniche crittografiche. A questo scopo, necessitano di una chiave di sessione temporanea che durerà per la durata di una connessione logica, come una connessione TCP. A e B condividono ciascuno una chiave master di lunga durata con una terza parte coinvolta nella fornitura della chiave di sessione. La chiave di sessione è etichettata come $\ks$ e le chiavi master tra le entità A e B e la terza parte sono etichettate come $K_{ma}$ e $K_mb$ rispettivamente. Un centro di traduzione chiavi (KTC) trasferisce chiavi simmetriche per future comunicazioni tra due entità, almeno una delle quali ha la capacità di generare o acquisire chiavi simmetriche autonomamente. L'entità A genera o acquisisce una chiave simmetrica da utilizzare come chiave di sessione per la comunicazione con B. A cripta la chiave utilizzando la chiave master che condivide con il KTC e invia la chiave criptata al KTC. Il KTC decripta la chiave di sessione, la cripta nuovamente con la chiave master che condivide con B e invia quella chiave di sessione criptata nuovamente ad A affinché A la inoltri a B, oppure la invia direttamente a B.
 
 \paragraph{KDC (Key Distribution Center)}Un centro di distribuzione chiavi (KDC) genera e distribuisce chiavi di sessione. L'entità A invia una richiesta al KDC per una chiave simmetrica da utilizzare come chiave di sessione per la comunicazione con B. Il KDC genera una chiave di sessione simmetrica, quindi la cripta con la chiave master che condivide con B e la invia a B. In alternativa, invia entrambi i valori di chiave criptati ad A, e A inoltra la chiave di sessione criptata con la chiave master condivisa dal KDC e B a B.
 
 Vi sono un certo numero di dettagli omessi, ad esempio, le parti che scambiano chiavi devono autenticarsi reciprocamente. I timestamp sono spesso utilizzati per limitare il tempo in cui può avvenire uno scambio di chiavi e/o la durata di vita di una chiave scambiata.
+
+\paragraph{Gerarchia delle chiavi}
+\begin{figure}
+	\centering
+	\includegraphics[width=.5\linewidth]{key-hierarchy}
+\end{figure}
+Un requisito comune in una varietà di protocolli come IEEE 802.11 e IPsec è la crittografia di una chiave simmetrica in modo che possa essere distribuita a due parti per future comunicazioni. Spesso, un protocollo richiede una gerarchia di chiavi con chiavi più basse nella gerarchia utilizzate più frequentemente e cambiate più spesso per contrastare gli attacchi. Una chiave di livello superiore, che viene utilizzata raramente, e quindi è più resistente alla crittoanalisi, viene utilizzata per crittografare una chiave di livello inferiore appena creata in modo che possa essere scambiata tra le parti che condividono la chiave di livello superiore. Il termine chiave effimera si riferisce a una chiave che viene utilizzata solo una volta o al massimo ha una vita molto breve.
+
+
+\subsection{Distribuzione delle chiavi simmetriche} 
+\paragraph{Utilizzo della crittografia asimmetrica} A causa dell'inefficienza dei sistemi crittografici a chiave pubblica, essi sono quasi mai utilizzati per la crittografia diretta di blocchi di grandi dimensioni, ma sono limitati a blocchi relativamente piccoli. Uno degli usi più importanti di un sistema crittografico a chiave pubblica è quello di crittografare chiavi segrete per la distribuzione. 
+
+\paragraph{Distribuzione semplice delle chiavi segrete}
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=\linewidth]{simple-use-pbkey-encr-session}
+\end{figure}
+
+Uno schema estremamente semplice è stato proposto da Merkle. Se A desidera comunicare con B, viene impegata la seguente procedura:
+\begin{enumerate}
+	\item A genera una coppia di chiavi pubblica/privata $\{\pu{a},\pr{a}\}$ e trasmette a B un messaggio contenente $\pu{a}$ e un indentificatore di A, $\id{a}$;
+	\item B genera una chiave segreta $\ks$, e la trasmette a A, che è criptata con la chiave pubblica di A;
+	\item A calcola $\dr{\pr{a}}{\er{\pu{a}}{\ks}}$ per recuperare la chiave segreta. Pouché solo A può decriptare il messaggio, solo A e B conosceranno l'identità di $\ks$;
+	\item  A scarta $\pu{A}$ e $\pr{A}$ e B scarta $\pu{B}$.
+\end{enumerate}
+A e B possono ora comunicare in modo sicuro utilizzando la crittografia convenzionale e la chiave di sessione $\ks$. Al termine dello scambio, sia A che B scartano $\ks$. Nonostante la sua semplicità, questo è un protocollo attraente. Non esistono chiavi prima dell'inizio della comunicazione e nessuna esiste dopo il completamento della comunicazione . Pertanto il rischio di compromissione delle chiavi è minimo. Allo stesso tempo, la comunicazione è sicura da intercettazioni. Ma il protocollo risulta essere insicuro contro un avversario che può intercettare i messaggi e può sia inoltrare il messaggio intercettato, sia sostituirlo con un altro messaggio. Tale attacco è noto come attacco \textbf{man-in-the-middle}\footnote{Attacco informatico in cui qualcuno segretamente ritrasmette o altera la comunicazione tra due parti che credono di comunicare direttamente tra di loro.}. Se un avversario D ha il controllo del canale di comunicazione intermedio, allora D può compromettere la comunicazione senza essere rivelato:
+\begin{enumerate}
+	\item A genera una coppia di chiavi pubblica/privata $\{\pr{a},\pr{b}\}$ e trasmette un messaggio destinato a B contenente $\pu{a}$ e un identificatore di A, $\id{a}$;
+	\item D intercetta il messaggio, crea la propria coppia di chiavi pubblica/privata $\{\pu{d},\pr{d}\}$ e trasmette $\pu{d}||\id{a}$ a B;
+	\item B genera una chiave segreta $\ks$,e trasmette $\er{\pu{d}}{\ks}$;
+	\item D intercetta il messaggio e appende $\ks$ calcolando $\dr{\pr{d}}{\er{\pu{d}}{\ks}}$;
+	\item D trasmette $\er{\pu{A}}{\ks}$ ad A.
+\end{enumerate}
+Il risultato è che sia A che B conoscono $\ks$ e non sono a conoscenza del fatto che $\ks$ è stato rivelato anche a $D$. A e B possono ora scambiarsi messaggi utilizzando $\ks$. D non interferisce più attivamente con il canale di comunicazione, ma semplicemente ascolta. Conoscendo $\ks$, D può decriptare tutti i messaggi, e sia A che B non sono a conoscenza del problema. Pertanto, questo semplice protocollo è utile solo in un ambiente in cui l'unica minaccia è l'intercettazione.
+
+\paragraph{Distribuzione della chiave segreta con riservatezza e autenticazione} 
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{needam-schroeder-pkdist}
+\end{figure}
+\begin{enumerate}
+	\item A utilizza la chiave pubblica di B per crittografare un messaggio a B contenente un identificatore di A $\id{a}$ e un nonce $\n{1}$ che viene utilizzato per identificare univocamente questa transazione;
+	\item B invia un messaggio ad A crittografato con $\pu{A}$ e contenente il nonce di A $\n{1}$ così come un nuovo nonce generato da B $\n{2}$. Poiché solo B potrebbe aver decriptato il messaggio (1), la presenza di $\n{1}$ nel messaggio (2) assicura ad A che il corrispondente è B;
+	\item A restituisce $\n{2}$, crittografato utilizzando la chiave pubblica di B, per assicurare a B che il suo corrispondente è A;
+	\item A seleziona una chiave segreta $\ks$ e invia $M=\er{\pu{b}}{\er{\pr{a}}{\ks}}$ a B. La crittografia di questo messaggio con la chiave pubblica di B assicura che solo B possa leggerlo; la crittografia con la chiave privata di A assicura che solo A possa averlo inviato (firma di A);
+	\item B calcola $\dr{\pu{a}}{\dr{\pr{b}}{M}}$ per recuperare la chiave segreta.
+\end{enumerate}
+
+Il risultato è che questo schema garantisce sia la riservatezza che l'autenticazione nello scambio di una chiave segreta.
+
+\paragraph{Distribuzione delle chiavi pubbliche}
+\begin{enumerate}
+	\bitem{Annuncio pubblico delle chiavi pubbliche}
+	\begin{figure}[thbp]
+		\centering
+		\includegraphics[width=.7\linewidth]{uncontrolled-pkdistr}
+	\end{figure}
+	 Se esiste un algoritmo di chiave pubblica ampiamente accettato, come RSA, qualsiasi partecipante può inviare la propria chiave pubblica a qualsiasi altro partecipante o trasmettere la chiave alla comunità in generale. Sebbene questo approccio sia conveniente, presenta una grande debolezza. Chiunque può falsificare un tale annuncio pubblico. Cioè, un utente potrebbe fingersi l'utente A e inviare una chiave pubblica a un altro partecipante o trasmettere tale chiave pubblica. Fino a quando l'utente A non scopre la falsificazione e avvisa gli altri partecipanti, il falsario è in grado di leggere tutti i messaggi crittografati destinati ad A e può utilizzare le chiavi falsificate per l'autenticazione. 
+	 \bitem{Directory pubblicamente disponibile} un maggiore grado di sicurezza può essere raggiunto mantenendo una directory dinamica di chiavo pubbliche, pubblicamente disponibile. La manutenzione e la distribuzione della directory pubblica dovrebbe essere responsabilità di un'entità o organizzazione fidata. Tale schema includerebbe i seguenti elementi:
+	 \begin{enumerate}
+	 	\item l'autorità mantiene una directory con un'entrata {nome,  chiave pubblica} per ciascun partecipante;
+	 	\item  ogni partecipante registra una chiave pubblica presso l'autorità della directory. La registrazione dovrebbe avvenire di persona o tramite qualche forma di comunicazione sicura e autenticata;
+	 	\item un partecipante può sostituire la chiave esistente con una nuova in qualsiasi momento, sia per il desiderio di sostituire una chiave pubblica che è già stata utilizzata per una grande quantità di dati, sia perché la chiave privata corrispondente è stata compromessa in qualche modo;
+	 	\item i partecipanti potrebbero anche accedere alla directory elettronicamente. A tal fine, è obbligatoria una comunicazione sicura e autenticata dall'autorità al partecipante. 
+	 \end{enumerate}
+ 	\bitem{Autorità delle chiavi pubbliche}una sicurezza più forte per la distribuzione delle chiavi pubbliche può essere raggiunta fornendo un controllo più rigoroso sulla distribuzione delle chiavi pubbliche dalla directory. 
+ 	\begin{figure}
+ 		\centering
+ 		\includegraphics[width=.7\linewidth]{pki-distr-scenario}
+ 	\end{figure}
+ 	Come prima lo scenario assume che un'autorità centrale mantenga una directory dinamica delle chiavi pubbliche di tutti i partecipanti. Inoltre, ogni partecipante conosce in modo affidabile una chiave pubblica per l'autorità, con solo l'autorità che conosce la corrispondente chiave privata. Si verificano i seguenti passaggi:
+ 	\begin{enumerate}[label=\arabic*.]
+ 		\item A invia un messaggio con timestamp all'autorità delle chiavi pubbliche contenente una richiesta per la chiave pubblica attuale di B. 
+ 		\item L'autorità risponde con un messaggio che è crittografato utilizzando la chiave privata dell'autorità $\pr{auth}$.  Pertanto, A è in grado di decriptare il messaggio utilizzando la chiave pubblica dell'autorità. Di conseguenza, A è assicurato che il messaggio provenga dall'autorità. Il messaggio include:
+ 		\begin{itemize}
+ 			\item la chiave pubblica di B, $\pu{b}$ che A può utilizzare per crittografare i messaggi destinati a B;
+ 			\item la richiesta originale utilizzata per consentire ad A di abbinare questa risposta con la corrispondente richiesta precedente e per verificare che la richiesta originale non sia stata alterata prima della ricezione da parte dell'autorità;
+ 			\item il timestamp originale fornito affinché A possa determinare che questo non è un messaggio vecchio dell'autorità contenente una chiave diversa dalla chiave pubblica attuale di B.
+ 		\end{itemize}
+ 		\item A memorizza la chiave pubblica di B e la utilizza anche per crittografare un messaggio a B contenente un identificatore di A $\id{a}$ e un nonce $\n{1}$, che viene utilizzato per identificare univocamente questa transazione;
+ 		\item[\label=4 e 5.] B recupera la chiave pubblica di A dall'autorità nello stesso modo in cui A ha recuperato la chiave pubblica di B. A questo punto, le chiavi pubbliche sono state consegnate in modo sicuro ad A e B, e possono iniziare il loro scambio protetto. Tuttavia, sono desiderabili due ulteriori passaggi;
+ 		\setcounter{enumii}{5}
+ 		\item B invia un messaggio ad A crittografato con $\pu{A}$ e contenente il nonce di A $\n{1}$ così come un nuovo nonce generato da B $\n{2}$. Poiché solo B potrebbe aver decriptato il messaggio (3), la presenza di $\n{1}$ nel messaggio (6) assicura ad A che il corrispondente è B;
+ 		\item A restituisce $\n{2}$, crittografato utilizzando la chiave pubblica di B, per assicurare a B che il suo corrispondente è A.
+ 	\end{enumerate}
+ 	Pertanto, sono richiesti un totale di sette messaggi. Tuttavia, i primi cinque messaggi devono essere utilizzati solo raramente, poiché sia A che B possono salvare la chiave pubblica dell'altro per un uso futuro -- una tecnica nota come caching. Periodicamente, un utente dovrebbe richiedere copie fresche delle chiavi pubbliche dei suoi corrispondenti per garantire la loro attualità. 
+\end{enumerate}
+
+

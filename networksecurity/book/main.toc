@@ -14,7 +14,7 @@
 \contentsline {subsection}{\numberline {1.3}Minacce e attacchi}{3}{subsection.1.3}%
 \contentsline {paragraph}{Attacchi passivi}{5}{section*.13}%
 \contentsline {paragraph}{Attacchi attivi}{5}{section*.14}%
-\contentsline {paragraph}{Autenticazione}{6}{section*.16}%
+\contentsline {paragraph}{Autenticazione}{5}{section*.16}%
 \contentsline {paragraph}{Controllo degli accessi}{6}{section*.17}%
 \contentsline {paragraph}{Riservatezza dei dati}{6}{section*.18}%
 \contentsline {paragraph}{Integrità dei dati}{6}{section*.19}%
@@ -132,3 +132,9 @@
 \contentsline {paragraph}{Tecnica di distribuzione delle chiavi}{39}{section*.126}%
 \contentsline {paragraph}{Distribuzione della chiave simmetrica}{40}{section*.127}%
 \contentsline {paragraph}{KDC (Key Distribution Center)}{41}{section*.129}%
+\contentsline {paragraph}{Gerarchia delle chiavi}{41}{figure.caption.131}%
+\contentsline {subsection}{\numberline {5.1}Distribuzione delle chiavi simmetriche}{42}{subsection.5.1}%
+\contentsline {paragraph}{Utilizzo della crittografia asimmetrica}{42}{section*.132}%
+\contentsline {paragraph}{Distribuzione semplice delle chiavi segrete}{42}{figure.caption.134}%
+\contentsline {paragraph}{Distribuzione della chiave segreta con riservatezza e autenticazione}{43}{figure.caption.136}%
+\contentsline {paragraph}{Distribuzione delle chiavi pubbliche}{44}{section*.137}%

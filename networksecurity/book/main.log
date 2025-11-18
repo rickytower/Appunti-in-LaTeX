@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2025.11.15)  18 NOV 2025 12:21
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2025.11.15)  18 NOV 2025 17:04
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -477,31 +477,31 @@ File: l3backend-xetex.def 2023-01-16 L3 backend support: XeTeX
 (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 25.
-LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 2
-5.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 33.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 3
+3.
  (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2022/07/10 v2.5l Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -537,7 +537,7 @@ LaTeX Font Info:    ... okay on input line 25.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 25.
+Package hyperref Info: Link coloring OFF on input line 33.
 (./main.out) (./main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
@@ -556,9 +556,9 @@ File: introduzione/cyberschema.pdf Graphic file (type pdf)
  [2]
 File: introduzione/attacks.pdf Graphic file (type pdf)
 <use introduzione/attacks.pdf>
+ [3] [4]
 File: introduzione/attacchi.png Graphic file (type bmp)
 <introduzione/attacchi.png>
- [3] [4]
 File: introduzione/servizi.png Graphic file (type bmp)
 <introduzione/servizi.png>
 
@@ -631,18 +631,33 @@ File: pki-message-authentication//CMAC.png Graphic file (type bmp)
 File: pki-key-sharing/distribuzione-chiavi-tra-due-entità.png Graphic file (typ
 e bmp)
 <pki-key-sharing/distribuzione-chiavi-tra-due-entità.png>
- [39] [40])
-[41] (./main.aux)
+ [39] [40]
+File: pki-key-sharing/key-hierarchy.png Graphic file (type bmp)
+<pki-key-sharing/key-hierarchy.png>
+
+[41]
+File: pki-key-sharing/simple-use-pbkey-encr-session.png Graphic file (type bmp)
+
+<pki-key-sharing/simple-use-pbkey-encr-session.png>
+ [42]
+File: pki-key-sharing/needam-schroeder-pkdist.png Graphic file (type bmp)
+<pki-key-sharing/needam-schroeder-pkdist.png>
+ [43]
+File: pki-key-sharing/uncontrolled-pkdistr.png Graphic file (type bmp)
+<pki-key-sharing/uncontrolled-pkdistr.png>
+File: pki-key-sharing/pki-distr-scenario.png Graphic file (type bmp)
+<pki-key-sharing/pki-distr-scenario.png>
+ [44] [45]) [46] (./main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: B73A2E8348BD0B3A59F0F5428CF1347B;7724.
+(rerunfilecheck)             Checksum: 1C386ACF060E2F37B73F61D839B43A89;7981.
  ) 
 Here is how much of TeX's memory you used:
- 15658 strings out of 477887
- 277857 string characters out of 5827407
- 1865018 words of memory out of 6000000
- 35606 multiletter control sequences out of 15000+600000
+ 15762 strings out of 477887
+ 281338 string characters out of 5827407
+ 1864018 words of memory out of 6000000
+ 35705 multiletter control sequences out of 15000+600000
  516944 words of font info for 63 fonts, out of 8000000 for 9000
  430 hyphenation exceptions out of 8191
- 72i,12n,77p,1625b,605s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 72i,12n,77p,1625b,652s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.pdf (41 pages).
+Output written on main.pdf (46 pages).
