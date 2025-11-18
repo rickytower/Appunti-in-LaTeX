@@ -101,4 +101,87 @@ Nel 2001 il NIST pubblicò quattro funzioni di \textit{hash} addizionali facenti
 SHA3 deve poter sostituire SHA-2 e deve preservarne la sua natura.
 
 \subsubsection{HMAC (Hash-based Message Authentication Code)}
-L'HMAC è uno schema specifico per creare un MAC utilizzando una funzione hash crittografica (come SHA-256)
+L'HMAC è uno schema specifico per creare un MAC utilizzando una funzione hash crittografica (come SHA-256) in combinazione con una chiave segreta. \paragraph{Obbiettivo} HMAC è stato progettato per risolvere i problemi di sicurezza che sorgono quando si tenta semplicemente di concatenare la chiave segreta al messaggio e poi calcolare l'hash (es. hash(chiave + messaggio)). Tali metodi semplici si sono dimostrati vulnerabili a vari attacchi. HMAC è più robusto e utilizza la chiave segreta in due passaggi separati per mescolarla in modo efficace con il messaggio e prevenire attacchi noti. 
+
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{Struttura-HMAC}
+\end{figure}
+
+\paragraph{Come funziona}La formula generale di HMAC è: $$\text{HMAC}_K(M)=\text{Hash}((K\oplus opad)||\text{Hash}(K\oplus ipad)||M)$$
+dove $K$ è la chiave segreta, $M$ è il messaggio, Hash è la funzione hash sottostante (es. SHA-256), \textit{ipad} e \textit{opad} sono costanti fisse definite nello standard, $\oplus$ rappresenta l'operazione di  XOR  e $||$ rappresenta la concatenazione.
+
+\paragraph{Algoritmo} 
+\begin{enumerate}
+	\item Aggiungere zeri all'estremità sinistra di $K$ in modo tale che il risultato $K^+$ sia lungo $b$ bit (ad esempio, se $K$ ha una lunghezza di 160 bit e $b=512$, allora $K$ sarà completato con 44 zeri ovvero $\frac{512-160}{8}=\underbracket{\frac{352}{8}}_\textsubscript{\text{8 bit = 1 byte}}=44$ byte.
+	\item Eseguire l'operazione di XOR (bitwise exclusive-OR) tra $K^+$ e \textit{ipad} per produrre il blocco di $b$ bit $S_i$.
+	\item Aggiungere $M$ a $S_i$.
+	\item Applicare $H$ al flusso generato nel passo 3. 
+	\item Eseguire l'operazione di XOR tra $K^+$ e \textit{opad} per produrre il blocco di $b$ bit $S_0$.
+	\item Aggiungere il risultato dell'hash ottenuto dal passo 4 a $S_0$.
+	\item Applicare $H$ al flusso generato nel passo 6 e restituire il risultato.
+\end{enumerate}
+Nota che l'operazione XOR con \textit{ipad} comporta il ribaltamento della metà dei bit di $K$. Allo stesso modo, l'operazione XOR con \textit{opad} comporta il ribaltamento della metà dei bit di $K$, utilizzando un insieme diverso di bit. In effetti, passando $S_i$ e $S_0$ attraverso la funzione di compressione dell'algoritmo di hash, abbiamo generato pseudocasualmente due chiavi da $K$.
+\paragraph{Vantaggi principali} 
+\begin{itemize}
+	\bitem{Integrità e autenticazione}come tutti i MAC, l'HMAC garantisce che il messaggio non sia stato alterato e che provenga da un mittente che possiede la chiave segreta condivisa. 
+	\bitem{Sicurezza migliorata}la sua struttura a doppio hash (inner e outer) garantisce che, anche se vengono scoperte debolezze nell'algoritmo di hash sottostante (ad esempio, se si trova una collisione), l'HMAC rimanga difficile da falsificare. 
+	\bitem{Flessibilità}l'HMAC può utilizzare qualsiasi funzione hash crittografica come base (si parla infatti di HMAC-MD5, HMAC-SHA1, HMAC-SHA256, ecc\dots). Attualmente, HMAC-SHA256 è lo standard più raccomandato.
+\end{itemize}
+HMAC è ampiamente utilizzato in protocolli come IPsec, TLS (per la protezione dei dati), e nella generazione di token di sicurezza come i JSON Web Tokens (JWT).
+
+\subsubsection{CMAC (Cipher-based Message Authentication Code)} 
+Il CMAC è uno schema specifico per generare un Message Authentication Code (MAC) utilizzando un cifrario a blocchi simmetrico (come AES) in modalità CBC (Cipher Block Chaining). È stato sviluppato per superare le debolezze di sicurezza e le complessità legali (legate ai brevetti) del suo predecessore, il CBC-MAC standard.
+
+\paragraph{Caratteristiche fondamentali}
+\begin{itemize}
+	\bitem{Algoritmo sottostante}il CMAC utilizza un cifrario a blocchi simmetrico. L'implementazione più comune e raccomandata è AES-CMAC (che usa AES come cifrario).
+	\bitem{Scopo}garantisce sia \ul{l'integrità dei dati } che \ul{l'autenticazione del messaggio} grazie all'uso di una chiave segreta condivisa. 
+	\bitem{Standardizzazione} è stato formalmente specificato dal NIST nella pubblicazione NIST SP 800-38B e da IETF nella RFC 4493, il che ne assicura la robustezza e l'affidabilità.
+\end{itemize}
+
+\paragraph{Come funziona}
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{CMAC}
+	\end{figure}
+ A differenza dell'HMAC che usa funzioni hash, il CMAC usa un cifrario a blocchi:
+\begin{itemize}
+	\bitem{Crittografia a catena (CBC)}il CMAC elabora il messaggio in blocchi, proprio come la modalità CBC. Ogni blocco viene crittografato e il suo output viene combinato in XOR con il blocco di dati successivo prima che quest'ultimo venga crittografato. 
+	\bitem{Chiavi derivate}il CMAC si distingue dal CBC\_MAC standard per il modo in cui gestisce l'ultimo blocco. Per evitare vulnerabilità di sicurezza, il CMAC utilizza due chiavi aggiuntive $K_1$ e $K_2 $, che vengono derivate dalla chiave principale del cifrario $K$ utilizzando operazioni matematiche. 
+	\bitem{L'ultimo blocco}\begin{itemize}
+		\item se il messaggio è diviso esattamente in blocchi completi, l'ultimo blocco viene elaborato con la chiave derivata $K_1$;
+		\item se il messaggio è incompleto (non riempe l'ultimo blocco), viene aggiunto un padding standard e il blocco viene elaborato con la chiave derivata $K_2$.
+	\end{itemize}
+	\bitem{Generazione del MAC} l'output finale della crittografia dell'ultimo blocco, dopo essere stata combinata con la chiave derivata appropriata, è il valore CMAC (il tag di autenticazione).
+\end{itemize}
+\paragraph{Vantaggi}
+\begin{itemize}
+	\bitem{Efficienza} poiché utilizza gli stessi algoritmi di crittografia a blocchi già presenti nell'hardware per la riservatezza, spesso è molto efficiente in termini di implementazione e velocità di esecuzione.
+	\bitem{Robustezza} la corretta gestione dell'ultimo blocco (con l'uso di $K_1$ e $K_2$) garantisce che il CMAC sia \ul{matematicamente dimostrato sicuro} sotto l'ipotesi che il cifrario a blocchi sia un buona \textit{funzione pseudocasuale}. 
+\end{itemize}
+CMAC è ampiamente utilizzato negli standard di sicurezza e nei dispositivi hardware (come i moduli di sicurezza e hardware o HSM) dove l'efficienza è cruciale.
+\subsection{Applicazioni per i sistemi di crittografia a chiave pubblica}
+I sistemi a chiave pubblica sono caratterizzati dall'uso di un algoritmo crittografico con due chiavi: una mantenuta privata e una disponibile pubblicamente. A seconda dell'applicazione, il mittente utilizza la chiave privata del mittente, o la chiave pubblica del destinatario, o entrambe per eseguire un certo tipo di funzione crittografica:
+\begin{itemize}
+	\bitem{crittografia/decrittografia} il mittente crittografa un messaggio con la chiave pubblica del destinatario;
+	\bitem{firma digitale}il mittente ``firma'' un messaggio con la propria chiave privata;
+	\bitem{scambio di chiavi}due parti collaborano per scambiare una chiave di sessione.
+\end{itemize}
+
+\begin{table}[thbp]
+	\centering
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		\textbf{Algoritmo} & \textbf{Crittografia/decrittografia} & \textbf{Firma digitale} & \textbf{Scambio di chiavi}\\
+		\hline
+		RSA & Sì & Sì & Sì\\
+		\hline
+		Diffie-Hellman & No & No & Sì\\
+		\hline
+		DSS & No & Sì & No\\
+		\hline
+		Curva ellittica & Sì & Sì & Sì\\
+		\hline
+	\end{tabular}
+\end{table}
