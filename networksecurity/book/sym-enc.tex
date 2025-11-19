@@ -196,9 +196,9 @@ Per produrre il primo blocco di testo cifrato, lo XOR viene effettuato tra un ve
 	\centering
 	\includegraphics[width=.7\linewidth]{Cfb_encryption}
 \end{figure}
- Il contenuto del registro di scorrimento viene fatto scorrere a sinistra di $s$ bit, e negli $s$ bit meno significativi (quelli più a destra) del registro viene inserito $C_1$. Il processo viene reiterato fino all'esaurimento di tutte le unità di testo in chiaro. All'atto della decifratura, si utilizza il medesimo schema, tranne per il fatto che le unità di testo cifrato ricevute sono sottoposte ad uno XOR con l'output della funzione di crittografia. Non si utilizza dunque la funzione di decrittografia, percheé se $S_S(x)$ sono gli $s$ bit più significativi di $X$, allora:
-$$C_1=P_1 \oplus S_S(E_K(IV))$$
-Pertanto $$P_1=C_1\oplus S_S(E_K(IV))$$ e lo stesso ragionamento vale per i passi successivi.
+ Il contenuto del registro di scorrimento viene fatto scorrere a sinistra di $s$ bit, e negli $s$ bit meno significativi (quelli più a destra) del registro viene inserito $C_1$. Il processo viene reiterato fino all'esaurimento di tutte le unità di testo in chiaro. All'atto della decifratura, si utilizza il medesimo schema, tranne per il fatto che le unità di testo cifrato ricevute sono sottoposte ad uno XOR con l'output della funzione di crittografia. Non si utilizza dunque la funzione di decrittografia, perché se $S_s(x)$ sono gli $s$ bit più significativi di $X$, allora:
+$$C_1=P_1 \oplus S_s(E_K(IV))$$
+Pertanto $$P_1=C_1\oplus S_s(E_K(IV))$$ e lo stesso ragionamento vale per i passi successivi.
 \paragraph{OFB}
 La modalità OFB è molto simile alla CFB. Il vantaggio della OFB è che non propaga gli errori di trasmissione dei bit. Il suo svantaggio è che è più vulnerabile a un attacco a modifica del flusso dei messaggi. 
 \begin{figure}[thbp]
@@ -323,7 +323,7 @@ L'algoritmo RSA si basa sulla difficoltà di fattorizzare un numero molto grande
 \paragraph{Funzionamento base}
 \begin{enumerate}
 	\item si scelgono a caso due numeri primi $p$ e $q$ abbastanza grandi da garantire la sicurezza dell'algoritmo (per esempio, il più grande numero RSA, RSA-2048, utilizza due numeri primi lunghi più di 300 cifre);
-	\item si calcola il loro prodotto $n=pq$, chiamato \textit{modulo} (dato che tuta l'aritmetica seguente è modulo $n$), e il prodotto $\varphi(n) = (p-1(q-1))$, dove $\varphi(n)$ è la funzione toziente;
+	\item si calcola il loro prodotto $n=pq$, chiamato \textit{modulo} (dato che tutta l'aritmetica seguente è modulo $n$), e il prodotto $\varphi(n) = (p-1(q-1))$, dove $\varphi(n)$ è la funzione toziente;
 	\item si considera che la fattorizzazione di $n$ è segreta e solo chi sceglie i due numeri primi, $p$ e $q$, la conosce;
 	\item si sceglie poi un numero $e$ (chiamato \textit{esponente pubblico}), coprimo con $\varphi(n)$ e più piccolo di $\varphi(n)$;
 	\item si calcola il numero $d$ (chiamato esponente \textit{privato}) tale che il suo prodotto con $e$ sia congruo a $1$ modulo $\varphi(n)$ ovvero che $ed\equiv 1 \mod \varphi(n)$; per calcolare $d$ si utilizza l'algoritmo esteso di Euclide.
