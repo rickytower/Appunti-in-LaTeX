@@ -98,6 +98,8 @@ Il risultato è che questo schema garantisce sia la riservatezza che l'autentica
  	\begin{figure}
  		\centering
  		\includegraphics[width=.7\linewidth]{pki-distr-scenario}
+ 		\caption{autorità delle chiavi pubbliche.}
+ 		\label{fig:autorità-chiavi-pubbliche}
  	\end{figure}
  	Come prima lo scenario assume che un'autorità centrale mantenga una directory dinamica delle chiavi pubbliche di tutti i partecipanti. Inoltre, ogni partecipante conosce in modo affidabile una chiave pubblica per l'autorità, con solo l'autorità che conosce la corrispondente chiave privata. Si verificano i seguenti passaggi:
  	\begin{enumerate}[label=\arabic*.]
@@ -116,5 +118,234 @@ Il risultato è che questo schema garantisce sia la riservatezza che l'autentica
  	\end{enumerate}
  	Pertanto, sono richiesti un totale di sette messaggi. Tuttavia, i primi cinque messaggi devono essere utilizzati solo raramente, poiché sia A che B possono salvare la chiave pubblica dell'altro per un uso futuro -- una tecnica nota come caching. Periodicamente, un utente dovrebbe richiedere copie fresche delle chiavi pubbliche dei suoi corrispondenti per garantire la loro attualità. 
 \end{enumerate}
+\subsection{Certificati di chiave pubblica}
+Lo scenario nella \cref{fig:autorità-chiavi-pubbliche} presenta alcuni svantaggi. L'autorità delle chiavi pubbliche potrebbe rappresentare un collo di bottiglia nel sistema, poiché un utente deve fare riferimento all'autorità per ottenere la chiave pubblica di ogni altro utente che desidera contattare. Come prima, la directory di nomi e chiavi pubbliche mantenuta dall'autorità è vulnerabile a manomissioni. 
+
+Un approccio alternativo, suggerito per la prima volta da Kohnfelder, è quello di utilizzare certificati che possono essere usati dai partecipanti per scambiare chiavi senza contattare un'autorità delle chiavi pubbliche, in un modo che è affidabile come se le chiavi fossero ottenute direttamente da un'autorità delle chiavi pubbliche. In sostanza, un certificato consiste in una chiave pubblica, un identificatore del proprietario della chiave e l'intero blocco firmato da una terza parte fidata. Tipicamente, la terza parte è un'autorità di certificazione, come un'agenzia governativa o un'istituzione finanziaria, che è fidata dalla comunità degli utenti. Un agente può presentare la propria chiave pubblica all'autorità in modo sicuro e ottenere un certificato. L'utente può ottenere il certificato e verificare che sia valido tramite la firma fidata allegata. Un partecipante può anche trasmettere le proprie informazioni sulla chiave a un altro trasmettendo il proprio certificato. Altri partecipanti possono verificare che il certificato sia stato creato dall'autorità. 
+
+Possiamo porre i seguenti requisiti su questo schema:
+
+\begin{enumerate}
+	\item qualsiasi partecipante può leggere un certificato per determinare il nome e la chiave pubblica del proprietario del certificato;
+	\item qualsiasi partecipante può verificare che il certificato provenga dall'autorità di certificazione e non sia contraffatto;
+	\item solo l'autorità di certificazione può creare e aggiornare i certificati;
+	\item qualsiasi partecipante può verificare la validità temporale del certificato.
+\end{enumerate}
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{pkexchange-certificates}
+	\caption{schema di certificato.}
+	\label{fig:schema-certificato}
+\end{figure}
+Nello schema di certificato (\cref{fig:schema-certificato}), ogni partecipante fa richiesta all'autorità di certificazione, fornendo una chiave pubblica e richiedendo un certificato. La richiesta deve avvenire di persona o tramite qualche forma di comunicazione sicura  e autenticata. Per il partecipante A, l'autorità fornisce un certificato della forma:
+$$C_A=\er{\pr{auth}}{[T||\id{a}||\pu{a}]}$$
+dove $\pr{auth}$ è la chiave privata utilizzata dall'autorità e $T$ è un timestamp. A può quindi trasmettere questo certificato a qualsiasi altro partecipante, che legge e verifica il certificato come segue:
+$$\dr{\pu{auth}}{C_A}=\dr{\pu{auth}}{\er{\pr{auth}}{[T||\id{a}||\pu{a}]}}=(T||\id{a}||\pu{a})$$
+Il destinatario utilizza la chiave pubblica dell'autorità, $\pu{auth}$ per decifrare il certificato. Poiché il certificato è leggibile solo utilizzando la chiave pubblica dell'autorità, questo verifica che il certificato provenga dall'autorità di certificazione. Gli elementi $\id{a}$ e $\pu{a}$ forniscono al destinatario il nome A e la chiave pubblica del titolare del certificato. Il timestamp $T$ convalida l'attualità del certificato. Il timestamp contrasta il seguente scenario: la chiave privata di A viene appresa da un avversario. A genera una nuova coppia di chiavi private/pubbliche e fa richiesta all'autorità di certificazione per un nuovo certificato. Nel frattempo, l'avversario riproduce il vecchio certificato a B. Se B crittografa i messaggi utilizzando la vecchia chiave pubblica compromessa, l'avversario può leggere quei messaggi. 
+
+In questo contesto, la compromissione di una chiave privata è paragonabile alla perdita di una carta di credito. Il proprietario annulla il numero della carta di credito ma è a rischio fino a quanto tutti i possibili comunicanti non sono a conoscenza del fatto che la vecchia carta di credito è obsoleta. Pertanto, il timestamp funge da data di scadenza. Se un certificato è sufficientemente vecchio, si presume che sia scaduto.
+
+Uno schema è diventato universalmente accettato per la formattazione dei certificati di chiave pubblica: lo standard X.509. I certificati X.509 sono utilizzati nella maggior parte delle applicazioni di sicurezza di rete, inclusi la sicurezza IP, la sicurezza del livello di trasporto (TLS) e S/MIME.
+
+\subsubsection{Certificati X.509}
+La raccomandazione ITU-T X.509 fa parte della serie di raccomandazioni X.500 che definiscono un servizio di directory. La \textbf{directory} è, in effetti, un server o un insieme distribuito di server che gestisce un database di informazioni sugli utenti. Le informazioni includono una mappatura dal nome utente all'indirizzo di rete, oltre ad altri attributi e informazioni sugli utenti.
+
+X.509 definisce un framework per la fornitura di servizi di autenticazione da parte della directory X.500 ai suoi utenti. La directory può fungere da repository di certificati a chiave pubblica. Ogni certificato contiene la chiave pubblica di un utente ed è firmato con la chiave privata di un'autorità di certificazione (CA) fidata. Inoltre, X.509 definisce protocolli di autenticazione alternativi basati sull'uso di certificati a chiave pubblica.
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{x509-use}
+	\caption{funzionamento di X.509.}
+	\label{fig:x509-fn}
+\end{figure}
+X.509 è uno standard importante perché la struttura dei certificati e i protocolli di autenticazione definiti in X.509 sono utilizzati in una varietà di contesti. Ad esempio, il formato del certificato X.509 è utilizzato in S/MIME, IP Security e SSL/TLS.
+
+X.509 si basa sull'uso della crittografia a chiave pubblica e delle firme digitali. Lo standard non impone l'uso di uno specifico algoritmo di firma digitale né di una specifica funzione hash. La \cref{fig:x509-fn} illustra lo schema generale X.509 per la generazione di un certificato a chiave pubblica. Il certificato per la chiave pubblica di Bob include informazioni di identificazione univoche per Bob, la chiave pubblica di Bob e informazioni di identificazione sulla CA, oltre ad altre informazioni come spiegato di seguito. Queste informazioni vengono quindi firmate calcolando un valore hash delle informazioni e generando una firma digitale utilizzando il valore hash e la chiave privata della CA. Bob può quindi trasmettere questo certificato ad altri utenti o allegare il certificato a qualsiasi documento o blocco di dati che firma. Chiunque abbia bisogno di utilizzare la chiave pubblica di Bob può essere certo che la chiave pubblica contenuta nel certificato di Bob sia valida perché il certificato è firmato dalla CA fidata.
+
+\paragraph{Elementi di un certificato X.509}
+
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{formato-x509}
+\end{figure}
+\begin{itemize}
+	\bitem{Versione}differenzia tra le versioni successive del formato del certificato; il valore predefinito è la versione 1. Se l'identificatore univoco dell'emettente o l'identificatore univoco del soggetto sono presenti, il valore deve essere la versione 2. Se sono presenti una o più estensioni, la versione deve essere la versione 3. Sebbene a specifica X.509 sia attualmente alla versione 7, non sono state apportate modifiche ai campi che compongono il certificato dalla versione 3.
+	\bitem{Numero di serie}un valore intero unico all'interno della CA emittente che è inequivocabilmente associato a questo certificato.
+	\bitem{Identificatore dell'algoritmo di firma}l'algoritmo utilizzato per firmare il certificato insieme a eventuali parametri associati. Poiché queste informazioni sono ripetute nel campo della firma alla fine del certificato, questo campo ha poca, se non alcuna, utilità.
+	\bitem{Nome dell'emittente}nome X.500 della CA che ha creato e firmato questo certificato.
+	\bitem{Periodo di validità}consiste in due date: la prima e l'ultima in cui il certificato è valido.
+	\bitem{Periodo di validità}consiste in due date: la prima e l'ultima in cui il certificato è valido.
+	\bitem{Nome del soggetto}nome dell'utente a cui si riferisce questo certificato. Cioè, questo certificato certifica la chiave pubblica del soggetto che detiene la corrispondente chiave privata.
+	\bitem{Informazioni sulla chiave pubblica del soggetto}la chiave pubblica del soggetto, più un identificatore dell'algoritmo per il quale questa chiave deve essere utilizzata, insieme a eventuali parametri associati.
+	\bitem{Identificatore univoco dell'emittente}n campo di stringa di bit opzionale utilizzato per identificare univocamente la CA emittente nel caso in cui il nome X.500 sia stato riutilizzato per entità diverse.
+	\bitem{Identificatore univoco del soggetto}un campo di stringa di bit opzionale utilizzato per identificare univocamente il soggetto nel caso in cui il nome X.500 sia stato riutilizzato per entità diverse.
+	\bitem{Estensioni} un insieme di uno o più campi di estensione. Le estensioni sono state aggiunte nella versione 3.
+	\bitem{Firma}copre tutti gli altri campi del certificato. Un componente di questo campo è la firma digitale applicata agli altri campi del certificato. Questo campo include l'identificatore dell'algoritmo di firma. I campi identificatori univoci sono stati aggiunti nella versione 2 per gestire il possibile riutilizzo dei nomi dei soggetti e/o degli emittenti nel tempo. Questi campi sono raramente utilizzati.
+\end{itemize}
+
+L'autorità di certificazione firma il certificato con la sua chiave privata. Se la corrispondente chiave pubblica è nota a un utente, allora quell'utente può verificare che un certificato firmato dalla CA sia valido.
+\paragraph{Ottenere un certificato}I certificati utente generati da una CA hanno le seguenti caratteristiche:
+\begin{itemize}
+	\item qualsiasi utente con accesso alla chiave pubblica della CA può verificare la chiave pubblica dell'utente che è stata certificata;
+	\item nessuna parte, tranne l'autorità di certificazione, piò modificare il certificato senza che ciò venga rilevato.
+\end{itemize}
+Poiché i certificati sono inalterabili, possono essere collocati in una directory senza la necessità che la directory faccia sforzi speciali per proteggerli. Inoltre, un utente può trasmettere il proprio certificato direttamente ad altri utenti. Una volta che B è in possesso del certificato di A, B ha fiducia che i messaggi che crittografa con la chiave pubblica di A saranno sicuri da intercettazioni e che i messaggi firmati con la chiave privata di A sono inalterabili.
+\subsubsection{Modelli di fiducia}Diversi modelli di fiducia determinano come gli utenti stabiliranno la validità dei certificati.
+\paragraph{Fiducia diretta}Se tutti gli utenti si abbonano alla stessa CA, allora c'è una fiducia comune in quella CA. Tutti i certificati utente possono essere collocati nella stessa directory per l'accesso da parte di tutti gli utenti. Inoltre, la trasmissione dei certificati da utente a utente (come in PGP) è possibile.
+\paragraph{Fiducia gerarchica e albero di fiducia}Per una grande comunità di utenti, è più pratico avere un numero di CA, ciascuna delle quali fornisce in modo sicuro la propria chiave pubblica a una frazione degli utenti. La fiducia si estende da un certo numero di certificati radice. Questi certificati possono certificare certificati stessi, oppure possono certificare certificati che certificano ancora altri certificati lungo una certa catena. La validità del certificato foglia è verificata tracciando all'indietro dal suo certificatore, ad altri certificatori, fino a quando non si trova un certificato radice direttamente fidato.
+\paragraph{Cross-certificazione}Supponiamo che A e B abbiano ottenuto certificati dalle CA $X_1$ e $X_2$ rispettivamente. Se A non conosce in modo sicuro la chiave pubblica di $X_2$, allora A non può convalidare il certificato di B. Se le CA hanno scambiato le proprie chiavi pubbliche, allora A può ottenere la chiave pubblica di B tramite una catena di certificati (\textbf{cross-certificazione}).
+
+ A ottiene dalla directory, il certificato $X_2$ firmato da $X_1$ e può così ottenere la chiave pubblica di $X_2$ (e verificarla tramite la firma di $X_1$ sul certificato). A poi torna alla directory e ottiene il certificato di B firmato da $X_2$, che A può ora verificare con la copia fidata della chiave pubblica di $X_2$.
+
+In X.509 questa catena di certificati è espressa come:
+$$X_1\crt{X_2}X_2\crt{B}$$
+B ottiene la chiave pubblica di A con la chiave inversa:
+$$X_2\crt{X_1}X_1\crt{A}$$
+Una catena con $n$ elementi è:$$X_1\crt{X_2}X_2\crt{X_3}\dots X_n\crt{B}$$
+dove ogni coppia $(X_i,X_{i+1})$ di CA nella catena ha creato certificato l'uno per l'altro (memorizzati nella directory).
+\paragraph{Gerarchia X.509}
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{x509-tree}
+	\caption{gerarchia X.509.}
+	\label{fig:gerarchia-x509}
+\end{figure}
+Cerchi connessi indicano la relazione gerarchica tra le CA. I rettangoli indicano i certificati mantenuti nella directory per ciascun ingresso della CA. 
+\begin{itemize}
+	\bitem{Certificati in avanti} certificati di X generati da altre CA.
+	\bitem{Certificati inversi}certificati di altre CA generati da X.
+\end{itemize}
+\paragraph{Percorsi di connessione}Facendo riferimento alla \cref{fig:gerarchia-x509}
+\begin{itemize}
+	\item Percorso $A\to B$: $X\crt{W}W\crt{V}V\crt{Y}Y\crt{Z}Z\crt{B}$
+	\item Percorso $B\to A$: $Z\crt{Y}Y\crt{V}V\crt{W}W\crt{X}X\crt{A}$
+\end{itemize}
+\paragraph{Revoca dei certificati}
+\begin{itemize}
+	\item Ogni certificato include un periodo di validità. Tipicamente, un nuovo certificato viene emesso poco prima della scadenza del vecchio.
+	\item Può essere desiderabile, in alcune occasioni, revocare un certificato prima della scadenza, per uno dei seguenti motivi:
+	\begin{itemize}
+		\item la chiave privata dell'utente si presume compromessa;
+		\item l'utente non è più certificato da questa CA;
+		\item il certificato della CA si presume compromesso.
+	\end{itemize}
+	\item Ogni CA deve mantenere un elenco composto da tutti i certificati revocati ma non scaduti emessi da quella CA. Questi elenchi dovrebbero essere pubblicati nella directory.
+\end{itemize}
+\paragraph{X.509 v3}Il formato della versione 2 non trasmette tutte le informazioni che l'esperienza recente di progettazione e implementazione ha dimostrato essere necessarie. Invece di continuare ad aggiungere campi a un formato fisso, gli sviluppatori di standard hanno ritenuto necessario un approccio più flessibile. La versione 3 include un numero di estensioni opzionali. Le estensioni del certificato rientrano in tre categorie principali:
+\begin{itemize}
+	\item informazioni su chiavi e politiche (trasmettono informazioni aggiuntive sulle chiavi del soggetto e dell'emittente, oltre a indicatori della politica del certificato);
+	\item attributi del soggetto e dell'emittente (supportano nomi alternativi, in formati alternativi, per un soggetto del certificato o un emittente del certificato);
+	\item vincoli sul percorso di certificazione (consentono di includere specifiche di vincolo nei certificati emessi per le CA da altre CA).
+\end{itemize}
+Ogni estensione consiste di un identificatore dell'estensione, un suo indicatore di criticità e un suo valore.
+\paragraph{Interazione dei vari componenti}
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{pki-scenario}
+\end{figure}
+ Considera una parte affidabile, Alice, che ha bisogno di utilizzare la chiave pubblica di Bob. Alice deve prima ottenere in modo affidabile e sicuro una copia della chiave pubblica della CA. Questo può essere fatto in diversi modi e dipende dall'architettura PKI particolare e dalla politica aziendale.
+
+Se Alice desidera inviare dati crittografati a Bob, controlla con il Repository per determinare se il certificato di Bob è stato revocato e, se non lo è, ottiene una copia del certificato di Bob. Alice può quindi utilizzare la chiave pubblica di Bob per crittografare i dati inviati a Bob. Bob può anche inviare un documento ad Alice firmato con la chiave privata di Bob. Bob può includere il suo certificato con il documento o presumere che Alice abbia già o possa ottenere il certificato. In entrambi i casi, Alice utilizza prima la chiave pubblica della CA per verificare che il certificato sia valido, quindi utilizza la chiave pubblica di Bob (ottenuta dal certificato) per convalidare la firma di Bob.
+
+Piuttosto che una singola CA, un'azienda potrebbe dover fare affidamento su più CA e più repository. Le CA possono essere organizzate in modo gerarchico, con una CA radice che è ampiamente fidata e firma il certificato della chiave pubblica delle CA subordinate. Molti certificati radice sono incorporati nei browser Web, quindi hanno una fiducia integrata in quelle CA. I server Web, i client di posta elettronica, gli smartphone e molti altri tipi di hardware e software supportano anche la PKI e contengono certificati radice fidati delle principali CA.
+\subsection{Web of trust e PGP}
+PGP utilizza un'infrastruttura di gestione delle chiavi basata su certificati per le chiavi pubbliche degli utenti. I certificati PGP (e la gestione delle chiavi) differiscono dai certificati X.509 in diversi modi importanti, ad esempio:
+\begin{itemize}
+	\item una chiave PGP può avere più firme (anche ``auto firma'');
+	\item ogni utente crea e firma certificati per le persone che conosce (pertanto, non è necessaria un'infrastruttura centrale);
+	\item una nozione di ``fiducia'' è incorporata in ogni firma, e le firme per una singola chiave possono avere diversi livelli di fiducia (e gli utenti di un certificato agiscono in base al livello di fiducia);
+	\item in un ambiente PGP, qualsiasi utente può agire come un'autorità di certificazione:
+	\begin{itemize}
+		\item le firme digitali vengono usate come forma di introduzione: quando un utente firma la chiave di un altro, diventa introduttore di quella chiave;
+		\item man mano che questo processo continua, si stabilisce una rete di fiducia;
+	\end{itemize}
+	\item qualsiasi utente PGP può convalidare il certificato della chiave pubblica di un altro utente, ma tale certificato è valido per un altro utente solo se riconosce il validatore come un introduttore fidato.
+\end{itemize}
+\paragraph{Sistema di reputazione in PGP}Memorizzati nel keyring pubblico di ciascun utente ci sono indicatori che mostrano se l'utente considera una particolare chiave valida e il livello di fiducia che l'utente ripone nella chiave, in quanto ne è il proprietario, può fungere da certificatore delle chiavi di altri.
+\paragraph{Esempio PGP}
+Alice vuole comunicare con Bob. Ottiene il certificato della chiave pubblica PGP di Bob, ad esempio:
+
+$$
+\text{Ellen, Fred, Giselle }  \crt{\text{ Bob }} 
+$$
+
+Alice non conosce nessuno dei firmatari, quindi da un server di certificati ottiene il certificato PGP di Giselle:
+
+$$
+\text{Henry, Irene, Giselle } \crt{\text{ Giselle }} 
+$$
+
+Conosce vagamente Henry, quindi per verificare il certificato di Giselle ottiene il certificato di Henry:
+
+$$
+\text{Ellen, Henry } \crt{\text{ Henry } }
+$$
+
+Dunque abbiamo:
+
+\begin{itemize}
+	\item $\text{Ellen, Fred, Giselle } \crt{\text{ Bob } }$
+	\item $\text{Henry, Irene, Giselle } \crt{\text{ Giselle } }$
+	\item $\text{Ellen, Henry } \crt{\text{ Henry } }$
+\end{itemize}
+
+Alice nota che la firma di Henry è al livello di fiducia \textbf{casuale}, quindi decide di cercare conferma altrove. Ottiene il certificato di Ellen:
+
+$$
+\text{Jack, Ellen } \crt{\text{ Ellen } }
+$$
+
+Riconosce immediatamente Jack come suo cugino e, poiché ha il certificato di Jack, lo utilizza per convalidare il certificato di Ellen: nota che la sua firma è al livello di fiducia \textbf{positivo}, e quindi accetta il certificato di Ellen come valido e lo utilizza per convalidare quello di Bob.
+
+Nota che anche Ellen ha firmato il certificato con fiducia \textbf{positiva}, quindi conclude che il certificato, e la chiave pubblica che contiene, sono \textbf{affidabili}.
+
+Alice ha seguito due catene di firme:
+
+\begin{itemize}
+	\item $\text{Henry}  \crt{\text{ Henry } }\longrightarrow \text{ Henry} \crt{\text{ Giselle } }\longrightarrow \text{ Giselle} \crt{\text{ Bob } }$
+	\item $\text{Jack}\crt{\text{ Ellen } }\longrightarrow \text{ Ellen} \crt{\text{ Bob }} $
+\end{itemize}
+
+(dove le firme non verificate sono state omesse).
+
+I livelli di fiducia hanno influenzato il modo in cui Alice ha controllato il certificato.
 
 
+\paragraph{Distinzione tra Certificati X.509 e PGP}
+
+\begin{itemize}
+	\item I certificati \textbf{X.509} includono un elemento di fiducia, ma la fiducia \textbf{non è indicata} nel certificato.
+	\item I certificati \textbf{PGP} indicano il livello di fiducia, ma lo stesso livello di fiducia può avere \textbf{significati diversi} per diversi firmatari (cfr. anche risoluzione dei nomi).
+\end{itemize}
+\paragraph{Web of trust}La Web of trust (rete di fiducia) è un concetto fondamentale nella crittografia a chiave pubblica, in particolare utilizzato da software come PGP e GnuPG (compatibili con OpenPGP), per stabilire l'autenticità del legame tra una chiave pubblica e il suo legittimo proprietario (utente). Si tratta di un sistema deventralizzato che funge da alternativa o complemento all'affidamento esclusivo su un'autorità di certificazione (CA) centralizzata, tipica delle infrastrutture a chiave pubblica (PKI) tradizionali.
+\begin{itemize}
+	\bitem{Funzionamento principale}la rete di fiducia non si basa su una singola autorità, ma sul concetto di fiducia reciproca tra gli utenti:
+	\begin{itemize}
+		\bitem{firma del certificato}un certificato di identità OpenPGP, che contiene la chiave pubblica e le informazioni sul suo proprietario, può essere firmato elettronicamente da altri utenti.
+		\bitem{Attestazione}apponendo la propria firma, un utente attesta di aver verificato (solitamente di persona, in eventi noti come \textit{key signing party}) che quella specifica chiave pubblica appartiene effettivamente a quella specifica persona.
+		\bitem{Livelli di fiducia}ciascun utente configura il proprio livello di fiducia in modo indipendente, decidendo di quali chiavi firmate fidarsi. Ad esempio, un utente può decidere che un certificato è valido se è stato firmato da:
+		\begin{itemize}
+			\item un conoscente di cui si fida completamente;
+			\item oppure, da tre conoscenti di cui si fida parzialmente.
+		\end{itemize}
+		
+	\end{itemize}
+	Questo approccio si basa sull'idea dei 6 gradi di separazione, permettendo a un utente di fidarsi indirettamente di una chiave che non ha mai incontrato, purché sia stata validata da una catena di persone fidate (i propri contatti e i loro contatti).
+\end{itemize}
+
+La differenza principale con la PKI tradizionale sta nella struttura e nella flessibilità
+
+\begin{table}[thbp]
+	\centering
+	\begin{tabular}{|l|y{.3\linewidth}|y{.3\linewidth}|}
+		\hline
+		Caratteristica & Web of trust (PGP/GnuPG)&PKI (X.509)\\
+		\hline
+		\textbf{Autorità}&Decentralizzata. La fiducia è risposta negli individui. & \textbf{Centralizzata/gerarchica}. La fiducia è risposta nelle CA (autorità di certificazione).\\
+		\hline
+		\textbf{Validazione}& Multipla e configurabile. Le firme provengono da una rete di utenti. & Singola. Un certificato è firmato da una CA, risalendo fino a un root certificate preinstallato.\\
+		\hline
+		\textbf{Flessibilità} & Alta. L'utente sceglie i propri parametri di fiducia (quante firme servono e da chi). & Bassa. L'utente deve accettare implicitamente tutte le CA include nel browser o software.\\
+		\hline
+	\end{tabular}
+\end{table}
+In sintesi, la Web of trust pone il controllo e la responsabilità della validazione della chiave nelle mani dell'utente individuale, a differenza delle PKI che impongono la fiducia nelle autorità centrali.

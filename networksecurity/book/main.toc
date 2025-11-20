@@ -6,19 +6,19 @@
 \contentsline {paragraph}{Network security}{2}{section*.4}%
 \contentsline {subsection}{\numberline {1.1}Punti principali della cybersecurity}{2}{subsection.1.1}%
 \contentsline {paragraph}{Availability (disponibilità)}{2}{section*.6}%
-\contentsline {paragraph}{Confidenziality (condidenzialità)}{2}{section*.7}%
+\contentsline {paragraph}{Confidenziality (condidenzialità)}{3}{section*.7}%
 \contentsline {paragraph}{Integrity}{3}{section*.8}%
 \contentsline {paragraph}{Authentity (autentitcità)}{3}{section*.9}%
 \contentsline {paragraph}{Accountability (responsabilità)}{3}{section*.10}%
 \contentsline {subsection}{\numberline {1.2}Architettura OSI di sicurezza}{3}{subsection.1.2}%
-\contentsline {subsection}{\numberline {1.3}Minacce e attacchi}{3}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.3}Minacce e attacchi}{5}{subsection.1.3}%
 \contentsline {paragraph}{Attacchi passivi}{5}{section*.13}%
 \contentsline {paragraph}{Attacchi attivi}{5}{section*.14}%
-\contentsline {paragraph}{Autenticazione}{5}{section*.16}%
+\contentsline {paragraph}{Autenticazione}{6}{section*.16}%
 \contentsline {paragraph}{Controllo degli accessi}{6}{section*.17}%
 \contentsline {paragraph}{Riservatezza dei dati}{6}{section*.18}%
 \contentsline {paragraph}{Integrità dei dati}{6}{section*.19}%
-\contentsline {paragraph}{Non ripudio}{6}{section*.20}%
+\contentsline {paragraph}{Non ripudio}{7}{section*.20}%
 \contentsline {paragraph}{Servizio di disponibilità}{7}{section*.21}%
 \contentsline {subsection}{\numberline {1.4}Meccanismi di sicurezza}{7}{subsection.1.4}%
 \contentsline {paragraph}{Algoritmi crittografici}{7}{section*.23}%
@@ -27,16 +27,16 @@
 \contentsline {paragraph}{Scambio di autenticazione}{7}{section*.26}%
 \contentsline {paragraph}{Padding del traffico}{7}{section*.27}%
 \contentsline {paragraph}{Controllo del routing}{7}{section*.28}%
-\contentsline {paragraph}{Notarizzazione}{7}{section*.29}%
-\contentsline {paragraph}{Controllo degli accessi}{7}{section*.30}%
+\contentsline {paragraph}{Notarizzazione}{8}{section*.29}%
+\contentsline {paragraph}{Controllo degli accessi}{8}{section*.30}%
 \contentsline {subsubsection}{\numberline {1.4.1}Algoritmi senza chiave}{8}{subsubsection.1.4.1}%
 \contentsline {subsubsection}{\numberline {1.4.2}Algoritmi a chiave singola}{8}{subsubsection.1.4.2}%
 \contentsline {paragraph}{Algoritmi a chiave simmetrica}{8}{section*.31}%
 \contentsline {paragraph}{Codice MAC}{8}{section*.32}%
 \contentsline {subsubsection}{\numberline {1.4.3}Algoritmi asimmetrici}{8}{subsubsection.1.4.3}%
 \contentsline {paragraph}{Algoritmo di firma digitale}{8}{section*.33}%
-\contentsline {paragraph}{Scambio di chiavi}{8}{section*.34}%
-\contentsline {paragraph}{Autenticazione dell'utente}{8}{section*.35}%
+\contentsline {paragraph}{Scambio di chiavi}{9}{section*.34}%
+\contentsline {paragraph}{Autenticazione dell'utente}{9}{section*.35}%
 \contentsline {subsection}{\numberline {1.5}Elementi chiave della sicurezza delle reti}{9}{subsection.1.5}%
 \contentsline {paragraph}{Sicurezza delle comunicazioni}{9}{section*.37}%
 \contentsline {paragraph}{Sicurezza dei device}{9}{section*.38}%
@@ -47,25 +47,25 @@
 \contentsline {paragraph}{Chosen plaintext}{10}{section*.41}%
 \contentsline {paragraph}{Chosen ciphertext}{10}{section*.42}%
 \contentsline {paragraph}{Chosen text}{10}{section*.43}%
-\contentsline {subsection}{\numberline {2.2}Crittoanalisi}{10}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.2}Crittoanalisi}{11}{subsection.2.2}%
 \contentsline {paragraph}{Attacco di forza bruta}{11}{section*.44}%
 \contentsline {subsection}{\numberline {2.3}Claude Shannon e i cifrari a permutazione e sostituzione}{11}{subsection.2.3}%
 \contentsline {paragraph}{Cifrari a prodotto}{11}{section*.46}%
 \contentsline {paragraph}{Cifrario di Feistel}{11}{section*.47}%
 \contentsline {subsection}{\numberline {2.4}Algoritmi di crittografia a blocchi simmetrici}{12}{subsection.2.4}%
 \contentsline {paragraph}{Cifrario a blocchi}{12}{section*.49}%
-\contentsline {subsubsection}{\numberline {2.4.1}DES -- Data Encryption Standard}{12}{subsubsection.2.4.1}%
+\contentsline {subsubsection}{\numberline {2.4.1}DES -- Data Encryption Standard}{13}{subsubsection.2.4.1}%
 \contentsline {paragraph}{2DES}{13}{section*.50}%
 \contentsline {paragraph}{Attacco plaintext contro il 2DES (meet-in-the-middle)}{13}{section*.52}%
 \contentsline {paragraph}{3DES--Triple DES}{13}{section*.53}%
-\contentsline {subsubsection}{\numberline {2.4.2}AES -- Advanced Encryption Standard}{13}{subsubsection.2.4.2}%
+\contentsline {subsubsection}{\numberline {2.4.2}AES -- Advanced Encryption Standard}{14}{subsubsection.2.4.2}%
 \contentsline {paragraph}{Svantaggi del DES}{14}{section*.55}%
 \contentsline {paragraph}{Panoramica dell'AES}{14}{section*.56}%
-\contentsline {subsection}{\numberline {2.5}Numeri casuali e pseudocasuali}{15}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.5}Numeri casuali e pseudocasuali}{14}{subsection.2.5}%
 \contentsline {paragraph}{Randomness}{15}{section*.58}%
 \contentsline {paragraph}{Non predicibilità}{15}{section*.59}%
-\contentsline {paragraph}{TRNG, PRNG, PRF}{16}{section*.61}%
-\contentsline {paragraph}{TRNG (True Random Number Generator)}{16}{section*.62}%
+\contentsline {paragraph}{TRNG, PRNG, PRF}{15}{section*.61}%
+\contentsline {paragraph}{TRNG (True Random Number Generator)}{15}{section*.62}%
 \contentsline {paragraph}{PRNG}{16}{section*.63}%
 \contentsline {paragraph}{PRF}{16}{section*.64}%
 \contentsline {paragraph}{Considerazioni sul design dei cifrari a flusso}{16}{section*.65}%
@@ -76,65 +76,83 @@
 \contentsline {paragraph}{CBC (Cipher Block Chaining)}{18}{section*.69}%
 \contentsline {paragraph}{CFB (Cipher Feedback)}{19}{section*.71}%
 \contentsline {paragraph}{OFB}{19}{section*.73}%
-\contentsline {paragraph}{CTR (Counter)}{20}{section*.75}%
-\contentsline {paragraph}{Sicurezza dimostrabile (provable security)}{21}{section*.78}%
+\contentsline {paragraph}{CTR (Counter)}{19}{section*.75}%
+\contentsline {paragraph}{Sicurezza dimostrabile (provable security)}{20}{section*.78}%
 \contentsline {paragraph}{Posizionamento della crittografia}{21}{section*.79}%
 \contentsline {section}{\numberline {3}Distribuzione delle chiavi}{21}{section.3}%
-\contentsline {paragraph}{Approcci alla distribuzione delle chiavi}{21}{section*.80}%
+\contentsline {paragraph}{Approcci alla distribuzione delle chiavi}{22}{section*.80}%
 \contentsline {paragraph}{Problemi di distribuzione delle chiavi}{22}{section*.82}%
 \contentsline {paragraph}{Problema della scalabilità}{23}{section*.83}%
 \contentsline {subsection}{\numberline {3.1}Algoritmo RSA}{23}{subsection.3.1}%
 \contentsline {paragraph}{Funzionamento base}{23}{section*.84}%
 \contentsline {paragraph}{Fondamenti matematici}{24}{section*.85}%
 \contentsline {paragraph}{Riepilogo RSA}{25}{section*.86}%
-\contentsline {paragraph}{Considerazioni sulla sicurezza}{25}{section*.87}%
+\contentsline {paragraph}{Considerazioni sulla sicurezza}{26}{section*.87}%
 \contentsline {subsection}{\numberline {3.2}Scambio di chiavi Diffie-Hellman}{26}{subsection.3.2}%
 \contentsline {paragraph}{Storia}{26}{section*.88}%
-\contentsline {paragraph}{Descrizione del funzionamento}{26}{section*.90}%
+\contentsline {paragraph}{Descrizione del funzionamento}{27}{section*.90}%
 \contentsline {paragraph}{Livello di sicurezza}{27}{section*.91}%
 \contentsline {paragraph}{Attacco Man-in-the-Middle}{27}{section*.92}%
 \contentsline {subsubsection}{\numberline {3.2.1}Perfect Forward Secrecy}{28}{subsubsection.3.2.1}%
 \contentsline {paragraph}{Funzionamento}{28}{section*.94}%
 \contentsline {paragraph}{Protocolli e algoritmi}{28}{section*.95}%
-\contentsline {paragraph}{Mancanza di PFS}{28}{section*.96}%
-\contentsline {paragraph}{Dettagli aggiuntivi su Forward secrecy}{28}{section*.97}%
-\contentsline {subsection}{\numberline {3.3}Standard di Firma Digitale (DSS)}{29}{subsection.3.3}%
+\contentsline {paragraph}{Mancanza di PFS}{29}{section*.96}%
+\contentsline {paragraph}{Dettagli aggiuntivi su Forward secrecy}{29}{section*.97}%
+\contentsline {subsection}{\numberline {3.3}Standard di Firma Digitale (DSS)}{30}{subsection.3.3}%
 \contentsline {paragraph}{Evoluzione dello standard}{30}{section*.98}%
 \contentsline {subsubsection}{\numberline {3.3.1}Firme digitali}{30}{subsubsection.3.3.1}%
 \contentsline {paragraph}{Processo di firma}{30}{section*.100}%
-\contentsline {paragraph}{Crittografia a curva ellittica}{31}{section*.101}%
+\contentsline {paragraph}{Crittografia a curva ellittica}{30}{section*.101}%
 \contentsline {paragraph}{Algorimto ECDSA}{31}{section*.102}%
 \contentsline {section}{\numberline {4}Crittografia a chiave pubblica e autenticazione dei messaggi}{31}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Autenticazione dei messaggi}{31}{subsection.4.1}%
-\contentsline {paragraph}{Approcci all'autenticazione dei messaggi}{31}{section*.103}%
+\contentsline {paragraph}{Approcci all'autenticazione dei messaggi}{32}{section*.103}%
 \contentsline {subsubsection}{\numberline {4.1.1}MAC (Message Authentication Code)}{32}{subsubsection.4.1.1}%
 \contentsline {paragraph}{Come funziona il MAC}{32}{section*.104}%
 \contentsline {paragraph}{MAC e riservatezza}{32}{section*.107}%
-\contentsline {subsubsection}{\numberline {4.1.2}Funzioni Hash unidirezionali}{33}{subsubsection.4.1.2}%
-\contentsline {paragraph}{Requisiti di sicurezza (funzioni hash sicure)}{33}{section*.108}%
-\contentsline {paragraph}{Effetto valanga}{33}{section*.109}%
+\contentsline {subsubsection}{\numberline {4.1.2}Funzioni Hash unidirezionali}{34}{subsubsection.4.1.2}%
+\contentsline {paragraph}{Requisiti di sicurezza (funzioni hash sicure)}{34}{section*.108}%
+\contentsline {paragraph}{Effetto valanga}{34}{section*.109}%
 \contentsline {paragraph}{Applicazioni principali}{34}{section*.110}%
-\contentsline {paragraph}{Approcci per attaccare una funzione hash sicura}{34}{section*.111}%
-\contentsline {paragraph}{SHA-1,SHA-2,SHA-3 }{34}{section*.112}%
-\contentsline {paragraph}{Funzionamento di SHA2}{34}{section*.113}%
+\contentsline {paragraph}{Approcci per attaccare una funzione hash sicura}{35}{section*.111}%
+\contentsline {paragraph}{SHA-1,SHA-2,SHA-3 }{35}{section*.112}%
+\contentsline {paragraph}{Funzionamento di SHA2}{35}{section*.113}%
 \contentsline {subsubsection}{\numberline {4.1.3}HMAC (Hash-based Message Authentication Code)}{36}{subsubsection.4.1.3}%
 \contentsline {paragraph}{Obbiettivo}{36}{section*.115}%
 \contentsline {paragraph}{Come funziona}{36}{section*.117}%
-\contentsline {paragraph}{Algoritmo}{36}{section*.118}%
-\contentsline {paragraph}{Vantaggi principali}{37}{section*.119}%
-\contentsline {subsubsection}{\numberline {4.1.4}CMAC (Cipher-based Message Authentication Code)}{37}{subsubsection.4.1.4}%
-\contentsline {paragraph}{Caratteristiche fondamentali}{37}{section*.120}%
+\contentsline {paragraph}{Algoritmo}{37}{section*.118}%
+\contentsline {paragraph}{Vantaggi principali}{38}{section*.119}%
+\contentsline {subsubsection}{\numberline {4.1.4}CMAC (Cipher-based Message Authentication Code)}{38}{subsubsection.4.1.4}%
+\contentsline {paragraph}{Caratteristiche fondamentali}{38}{section*.120}%
 \contentsline {paragraph}{Come funziona}{38}{figure.caption.122}%
-\contentsline {paragraph}{Vantaggi}{38}{section*.123}%
+\contentsline {paragraph}{Vantaggi}{39}{section*.123}%
 \contentsline {subsection}{\numberline {4.2}Applicazioni per i sistemi di crittografia a chiave pubblica}{39}{subsection.4.2}%
-\contentsline {section}{\numberline {5}Gestione e distribuzione delle chiavi crittografiche}{39}{section.5}%
-\contentsline {paragraph}{Gestione delle chiavi crittografiche}{39}{section*.125}%
-\contentsline {paragraph}{Tecnica di distribuzione delle chiavi}{39}{section*.126}%
+\contentsline {section}{\numberline {5}Gestione e distribuzione delle chiavi crittografiche}{40}{section.5}%
+\contentsline {paragraph}{Gestione delle chiavi crittografiche}{40}{section*.125}%
+\contentsline {paragraph}{Tecnica di distribuzione delle chiavi}{40}{section*.126}%
 \contentsline {paragraph}{Distribuzione della chiave simmetrica}{40}{section*.127}%
-\contentsline {paragraph}{KDC (Key Distribution Center)}{41}{section*.129}%
-\contentsline {paragraph}{Gerarchia delle chiavi}{41}{figure.caption.131}%
-\contentsline {subsection}{\numberline {5.1}Distribuzione delle chiavi simmetriche}{42}{subsection.5.1}%
-\contentsline {paragraph}{Utilizzo della crittografia asimmetrica}{42}{section*.132}%
-\contentsline {paragraph}{Distribuzione semplice delle chiavi segrete}{42}{figure.caption.134}%
-\contentsline {paragraph}{Distribuzione della chiave segreta con riservatezza e autenticazione}{43}{figure.caption.136}%
+\contentsline {paragraph}{KDC (Key Distribution Center)}{42}{section*.129}%
+\contentsline {paragraph}{Gerarchia delle chiavi}{42}{figure.caption.131}%
+\contentsline {subsection}{\numberline {5.1}Distribuzione delle chiavi simmetriche}{43}{subsection.5.1}%
+\contentsline {paragraph}{Utilizzo della crittografia asimmetrica}{43}{section*.132}%
+\contentsline {paragraph}{Distribuzione semplice delle chiavi segrete}{43}{figure.caption.134}%
+\contentsline {paragraph}{Distribuzione della chiave segreta con riservatezza e autenticazione}{44}{figure.caption.136}%
 \contentsline {paragraph}{Distribuzione delle chiavi pubbliche}{44}{section*.137}%
+\contentsline {subsection}{\numberline {5.2}Certificati di chiave pubblica}{47}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Certificati X.509}{48}{subsubsection.5.2.1}%
+\contentsline {paragraph}{Elementi di un certificato X.509}{49}{figure.caption.143}%
+\contentsline {paragraph}{Ottenere un certificato}{51}{section*.144}%
+\contentsline {subsubsection}{\numberline {5.2.2}Modelli di fiducia}{51}{subsubsection.5.2.2}%
+\contentsline {paragraph}{Fiducia diretta}{51}{section*.145}%
+\contentsline {paragraph}{Fiducia gerarchica e albero di fiducia}{51}{section*.146}%
+\contentsline {paragraph}{Cross-certificazione}{51}{section*.147}%
+\contentsline {paragraph}{Gerarchia X.509}{52}{figure.caption.149}%
+\contentsline {paragraph}{Percorsi di connessione}{52}{section*.150}%
+\contentsline {paragraph}{Revoca dei certificati}{52}{section*.151}%
+\contentsline {paragraph}{X.509 v3}{53}{section*.152}%
+\contentsline {paragraph}{Interazione dei vari componenti}{53}{figure.caption.154}%
+\contentsline {subsection}{\numberline {5.3}Web of trust e PGP}{54}{subsection.5.3}%
+\contentsline {paragraph}{Sistema di reputazione in PGP}{54}{section*.155}%
+\contentsline {paragraph}{Esempio PGP}{54}{section*.156}%
+\contentsline {paragraph}{Distinzione tra Certificati X.509 e PGP}{55}{section*.157}%
+\contentsline {paragraph}{Web of trust}{55}{section*.158}%
