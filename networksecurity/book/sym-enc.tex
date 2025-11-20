@@ -323,7 +323,7 @@ L'algoritmo RSA si basa sulla difficoltà di fattorizzare un numero molto grande
 \paragraph{Funzionamento base}
 \begin{enumerate}
 	\item si scelgono a caso due numeri primi $p$ e $q$ abbastanza grandi da garantire la sicurezza dell'algoritmo (per esempio, il più grande numero RSA, RSA-2048, utilizza due numeri primi lunghi più di 300 cifre);
-	\item si calcola il loro prodotto $n=pq$, chiamato \textit{modulo} (dato che tutta l'aritmetica seguente è modulo $n$), e il prodotto $\varphi(n) = (p-1(q-1))$, dove $\varphi(n)$ è la funzione toziente;
+	\item si calcola il loro prodotto $n=pq$, chiamato \textit{modulo} (dato che tutta l'aritmetica seguente è modulo $n$), e il prodotto $\varphi(n) = (p-1)(q-1)$, dove $\varphi(n)$ è la funzione toziente;
 	\item si considera che la fattorizzazione di $n$ è segreta e solo chi sceglie i due numeri primi, $p$ e $q$, la conosce;
 	\item si sceglie poi un numero $e$ (chiamato \textit{esponente pubblico}), coprimo con $\varphi(n)$ e più piccolo di $\varphi(n)$;
 	\item si calcola il numero $d$ (chiamato esponente \textit{privato}) tale che il suo prodotto con $e$ sia congruo a $1$ modulo $\varphi(n)$ ovvero che $ed\equiv 1 \mod \varphi(n)$; per calcolare $d$ si utilizza l'algoritmo esteso di Euclide.
@@ -332,7 +332,7 @@ La chiave pubblica è $(n,e)$, mentre la chiave privata è $(n,d)$.
 
 La forza dell'algoritmo sta nel fatto che per calcolare $d$ da $e$ (o viceversa) non basta la conoscenza di $n$ ma serve il numero $\phi(n)=(p-1)(q-1)$, e che il suo calcolo richiede tempi molto elevati; infatti fattorizzare in numeri primi (cioè scomporre un numero nei suoi divisori primi) è un'operazione computazionalmente costosa. 
 
-Un messaggio $ m$ viene cifrato attraverso l'operazione $m^e\mod n$ trasformandolo nel messaggio cifrato $c$. Una volta trasmesso, $c$ viene decifrato con $c^d\mod n=,m$. Il procedimento funziona solo se $m<n$ e la chiave $e$ utilizzata per cifrare e la chiave $d $ utilizzata per decifrare sono legate tra loro dalla relazione $ed\equiv 1\mod \varphi(n)$, quindi quando un messaggio viene cifrato con una delle due chiavi può essere decifrato solo utilizzando l'altra. L'algoritmo si basa sull'assunzione mai dimostrata (nota come assunzione RSA) che il problema di calcolare $\sqrt[e]{c}\mod n$, con $n$ numero composto di cui non si conoscono i fattori, sia computazionalmente non trattabile. 
+Un messaggio $ m$ viene cifrato attraverso l'operazione $m^e\mod n$ trasformandolo nel messaggio cifrato $c$. Una volta trasmesso, $c$ viene decifrato con $c^d\mod n=m$. Il procedimento funziona solo se $m<n$ e la chiave $e$ utilizzata per cifrare e la chiave $d $ utilizzata per decifrare sono legate tra loro dalla relazione $ed\equiv 1\mod \varphi(n)$, quindi quando un messaggio viene cifrato con una delle due chiavi può essere decifrato solo utilizzando l'altra. L'algoritmo si basa sull'assunzione mai dimostrata (nota come assunzione RSA) che il problema di calcolare $\sqrt[e]{c}\mod n$, con $n$ numero composto di cui non si conoscono i fattori, sia computazionalmente non trattabile. 
 
 La firma digitale non è altro che l'inverso: il messaggio viene crittografato con la chiave privata, in modo che chiunque possa, utilizzando la chiave pubblica conosciuta da tutti decifrarlo e, oltre a poterlo leggere in chiaro, essere certo che il messaggio è stato mandato dal possessore della chiave privata corrispondente a quella pubblica utilizzata per leggerlo.
 
@@ -344,7 +344,7 @@ Siccome $p$ e $q$ sono numeri diversi e primi, possiamo applicare il teorema cin
 \begin{theorem}[Piccolo teorema di Fermat]
 	Se $p$ è un numero primo, allora per ogni intero $a$: $$a^p\equiv a\mod p$$
 	\end{theorem}
-	Questo significa che se si prende un qualunque numero $a$, lo si moltiplica per se stesso $p$ volte e si sottrae $a$, il risultato è divisibile per $p$. È spesso espresso nella forma equivalente: se $p$ è primo e $a$ è un intero coprimo con $p$, allora: $$a^{p-1}\equiv 1\mod p$$.
+	Questo significa che se si prende un qualunque numero $a$, lo si moltiplica per se stesso $p$ volte e si sottrae $a$, il risultato è divisibile per $p$. È spesso espresso nella forma equivalente: se $p$ è primo e $a$ è un intero coprimo con $p$, allora: $$a^{p-1}\equiv 1\mod p$$
 	\begin{theorem}[Teorema cinese del resto]
 		Si supponga che $n_1,...,n_k$ siano interi a due a due coprimi (il che significa che $\gcd(n_i,n_j)=1$ quando $i\ne j$). Allora, comunque si scelgano degli interi $a_1,\dots,a_k$, esiste un intero $x$ soluzione del sistema di congruenze $$x\equiv a_i\mod n_i\quad \text{per}\ i=1,\dots,k$$ 
 		Inoltre, tutte le soluzioni $x$ di questo sistema sono congruenti modulo il prodotto $n=n_1,\dots,n_k$.
@@ -389,7 +389,7 @@ Usare il teorema cinese del resto nell'algoritmo di RSA permette di trasportare 
 	\begin{itemize}
 		\item Alice sceglie un intero segreto $a$;
 		\item Bob sceglie un intero segreto $b$.
-	\end{itemize}t
+	\end{itemize}
 	\bitem{Chiavi pubbliche scambiate}
 	\begin{itemize}
 		\item Alice calcola il suo valore pubblico $A=g^a\mod{p}$ e lo invia a Bob;
@@ -431,7 +431,7 @@ Per mitigare questo, si utilizzano versioni del protocollo con \textbf{autentica
 Se un aggressore ruba la chiave privata permanente del server in un momento successivo (compromissione a posteriori), tale chiave gli permetterà di decifrare le future comunicazioni non protette da PFS, ma non gli darà alcuna informazione utile per decifrare le comunicazioni passate, poiché le chiavi temporanee usate in precedenza sono state eliminate.
 \paragraph{Protocolli e algoritmi}La PFS è implementata tipicamente nei protocolli di sicurezza come TLS (Transport Layer Security), la base per HTTPS. Gli algoritmi di scambio di chiavi che offrono PFS sono:
 \begin{itemize}
-	\bitem{DHE (Diffie-Hellma Effimero)}utilizza chiavi Diffie-Hellman diverse e temporanee per ogni sessione.
+	\bitem{DHE (Diffie-Hellman Effimero)}utilizza chiavi Diffie-Hellman diverse e temporanee per ogni sessione.
 	\bitem{ECDHE (Elliptic Curve Diffie-Hellman Effimero)}simile al DHE, ma utilizza la crittografia a curve ellittiche, che è più efficiente.
 \end{itemize}
 I moderni browser e server web preferiscono l'utilizzo di ECDHE per l'equilibrio tra sicurezza, velocità ed efficienza.
@@ -440,7 +440,7 @@ I moderni browser e server web preferiscono l'utilizzo di ECDHE per l'equilibrio
 \begin{enumerate}
 	\bitem{Definizione formale e sinonimi}
 	\begin{itemize}
-		\bitem{Sinonimi}PFS è spresos chiamato semplicemente Forward Secrecy (FS) o Public-Key Forward Secrecy (PFS) quando applicato a protocolli a chiave pubblica.
+		\bitem{Sinonimi}PFS è spesso chiamato semplicemente Forward Secrecy (FS) o Public-Key Forward Secrecy (PFS) quando applicato a protocolli a chiave pubblica.
 		\bitem{Obbiettivo tecnico} un sistema ha la proprietà di FS se l'ispezione (cioè la decifratura) in chiaro dello scambio di dati che avviene durante la \ul{fase di accordo chiave} all'inizio della sessione non rileva la chiave utilizzata per cifrare il resto della sessione.
 	\end{itemize}
 	\bitem{Origine storica e protocolli}
@@ -484,6 +484,6 @@ FIPS 186-4 specifica l'uso di uno dei tre algoritmi di firma digitale:
 	\bitem{Fase di firma}il documento (o messaggio) viene prima sottoposto a hashing utilizzando una funzione crittografica come SHA-2. L'hash risultante (noto come \textit{message digest}) viene quindi crittografato con la chiave privata del firmatario (utilizzando uno degli algoritmi specificati: DSA, RSA o ECDSA). La firma digitale è l'hash crittografato.
 	\bitem{Fase di verifica}chiunque può verificare  la firma decrittografando l'hash con la chiave pubblica del firmatario. L'hash decrittografato viene poi confrontato con un nuovo hash generato dal documento ricevuto. Se i due hash corrispondono, la firma è considerata valida, provando l'autenticità e l'integrità.
 \end{enumerate}
-\paragraph{Crittografia a curva ellittica}La tecnica si basa sull'uso di una costruzione matematica nota come \textbf{curva ellittica} (specificatamente sul problema del logaritmo discreto su curve ellittiche, ECDLP). L'attrazione principale dell'ECC rispetto a RSA è che sembra offrire una sicurezza equivalente per una dimensione di bit molto più piccola, riducendo così il sovraccarico di elaborazione. Ad esempio, una chiave ECC a 256 bit è considerata equivalente in sicurezza a una chiave RSA a 3072 bit. Il livello di fiducia nell'ECC non è ancora alto come quello in RSA (le chiavi di \textit{backdoor} sono state diffuse in alcuni momenti, come con l'algoritmo Dual EC DRBG).
+\paragraph{Crittografia a curva ellittica (ECC)}La tecnica si basa sull'uso di una costruzione matematica nota come \textbf{curva ellittica} (specificatamente sul problema del logaritmo discreto su curve ellittiche, ECDLP). L'attrazione principale dell'ECC rispetto a RSA è che sembra offrire una sicurezza equivalente per una dimensione di bit molto più piccola, riducendo così il sovraccarico di elaborazione. Ad esempio, una chiave ECC a 256 bit è considerata equivalente in sicurezza a una chiave RSA a 3072 bit. Il livello di fiducia nell'ECC non è ancora alto come quello in RSA (le chiavi di \textit{backdoor} sono state diffuse in alcuni momenti, come con l'algoritmo Dual EC DRBG).
 \paragraph{Algorimto ECDSA}l'Algoritmo di Firma Digitale a Curva Ellittica (ECDSA) è la variante di DSA che utilizza l'ECC. È oggi ampiamente preferito in molti protocolli moderni (come TLS/SSL e Bitcoin) grazie alle dimensioni ridotte della chiave e delle firme, che lo rendono ideale per ambienti con larghezza di banda limitata o per dispositivi mobili. 
 

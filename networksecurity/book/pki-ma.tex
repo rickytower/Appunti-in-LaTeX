@@ -67,7 +67,7 @@ Questa proprietà garantisce che, anche se un attaccante intercetta o ottiene il
 \paragraph{Effetto valanga}Un'altra caratteristica importante è l'\textbf{effetto valanga} (\textit{``avalanche effect''}): anche una piccola modifica all'input (ad esempio, cambiare un singolo bit nel messaggio) deve causare un drastico e imprevedibile cambiamento nell'output hash.
 \paragraph{Applicazioni principali}Le funzioni hash unidirezionali sono il pilastro di  molti meccanismi di sicurezza:
 \begin{itemize}
-	\bitem{Verifica dell'integrità dei dati}un hash (spesso chiamato \textit{checksum}) viene calcolato su un file prima della trasmissione/memorizzazione ri ricalcolato dopo. Se i due hash coincidono, il file è integro. 
+	\bitem{Verifica dell'integrità dei dati}un hash (spesso chiamato \textit{checksum}) viene calcolato su un file prima della trasmissione/memorizzazione ricalcolato dopo. Se i due hash coincidono, il file è integro. 
 	\bitem{Memorizzazione sicura delle password} i sistemi non memorizzano mai le password degli utenti in chiaro. Memorizzano invece l'hash della password (spesso chiamato ``salato'' con un valore casuale, \textit{``salt''}). Qaundo un utente accede, la password viene passata alla funzione di hash e confrontata con l'hash memorizzato. Poiché la funzione è unidirezionale, anche se il database viene violato, gli aggressori non ottengono le password reali.
 	\bitem{Firme digitali}invece di firmare digitalmente l'intero documento  (che è inefficiente), l'algoritmo di firma digitale si applica solo all'hash (o \textit{digest}) del documento.
 	\bitem{Blockchain e criptovalute}vengono utilizzate intensamente per concatenare i blocchi, per l'identificazione delle transazioni e nel processo di \textit{mining}(Proof-of-Work).
