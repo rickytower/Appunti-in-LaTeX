@@ -5,7 +5,7 @@
 \contentsline {paragraph}{Information security}{2}{section*.3}%
 \contentsline {paragraph}{Network security}{2}{section*.4}%
 \contentsline {subsection}{\numberline {1.1}Punti principali della cybersecurity}{2}{subsection.1.1}%
-\contentsline {paragraph}{Availability (disponibilità)}{2}{section*.6}%
+\contentsline {paragraph}{Availability (disponibilità)}{3}{section*.6}%
 \contentsline {paragraph}{Confidenziality (condidenzialità)}{3}{section*.7}%
 \contentsline {paragraph}{Integrity}{3}{section*.8}%
 \contentsline {paragraph}{Authentity (autentitcità)}{3}{section*.9}%
@@ -156,3 +156,17 @@
 \contentsline {paragraph}{Esempio PGP}{54}{section*.156}%
 \contentsline {paragraph}{Distinzione tra Certificati X.509 e PGP}{55}{section*.157}%
 \contentsline {paragraph}{Web of trust}{55}{section*.158}%
+\contentsline {section}{\numberline {6}Sicurezza della rete e dei protocolli Internet}{56}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Costruzione di un protocollo di stabilimento delle chiavi}{56}{subsection.6.1}%
+\contentsline {paragraph}{Un primo tentativo}{57}{figure.caption.161}%
+\contentsline {paragraph}{Problemi}{58}{section*.162}%
+\contentsline {paragraph}{Secondo tentativo}{58}{figure.caption.164}%
+\contentsline {paragraph}{Problema}{59}{section*.165}%
+\contentsline {paragraph}{Attacchi al secondo tentativo}{59}{figure.caption.167}%
+\contentsline {paragraph}{Legare crittograficamente i nomi dei principi alla chiave}{60}{figure.caption.170}%
+\contentsline {paragraph}{Problema con le chiavi di sessione}{60}{section*.171}%
+\contentsline {paragraph}{Attacco di replay}{61}{section*.173}%
+\contentsline {paragraph}{Utilizzo del nonce nel protocollo}{61}{figure.caption.175}%
+\contentsline {paragraph}{Approccio diverso}{62}{section*.177}%
+\contentsline {paragraph}{Problema}{62}{section*.179}%
+\contentsline {subsection}{\numberline {6.2}Protocollo di Needham Schroder}{63}{subsection.6.2}%
