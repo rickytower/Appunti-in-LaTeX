@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2025.11.15)  21 NOV 2025 10:53
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2025.11.21)  21 NOV 2025 18:07
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -706,17 +706,22 @@ File: protocols-auth-intro/slide38.png Graphic file (type bmp)
 <protocols-auth-intro/slide38.png>
 File: protocols-auth-intro/slide40.png Graphic file (type bmp)
 <protocols-auth-intro/slide40.png>
-) [62] [63] (./main.aux)
+ [62] [63] [64] [65]
+File: protocols-auth-intro/slide73.png Graphic file (type bmp)
+<protocols-auth-intro/slide73.png>
+File: protocols-auth-intro/slide74.png Graphic file (type bmp)
+<protocols-auth-intro/slide74.png>
+ [66]) [67] (./main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 8F6645C5C4D445695230C2AB05456065;9551.
+(rerunfilecheck)             Checksum: 4065B884F52DC86B9B975BFE6D66B175;10169.
  ) 
 Here is how much of TeX's memory you used:
- 16097 strings out of 477887
- 291234 string characters out of 5827407
+ 16139 strings out of 477887
+ 292271 string characters out of 5827407
  1864018 words of memory out of 6000000
- 36020 multiletter control sequences out of 15000+600000
- 516944 words of font info for 63 fonts, out of 8000000 for 9000
+ 36058 multiletter control sequences out of 15000+600000
+ 516952 words of font info for 64 fonts, out of 8000000 for 9000
  430 hyphenation exceptions out of 8191
  72i,12n,77p,1625b,737s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.pdf (63 pages).
+Output written on main.pdf (67 pages).

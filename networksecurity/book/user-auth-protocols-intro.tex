@@ -1,19 +1,19 @@
 \graphicspath{{protocols-auth-intro}}
 \section{Sicurezza della rete e dei protocolli Internet}
 \begin{definition}[Protocollo]
-	Un protocollo consiste in un insieme di regole (convenzioni) che determinano lo scambio di messaggi tra due o più principi (entità in comunicazione).
+	Un protocollo consiste in un insieme di regole (convenzioni) che determinano lo scambio di messaggi tra due o più principali (entità in comunicazione).
 \end{definition}
 I protocolli di sicurezza (o crittografici) utilizzano meccanismi crittografici per raggiungere obbiettivi di sicurezza.
 \subsection{Costruzione di un protocollo di stabilimento delle chiavi}
 Il completamento con successo dello stabilimento della chiave dell'autenticazione dell'entità è solo l'inizio di una sessione di comunicazione sicura: una volta che una nuova chiave è stata stabilita, il suo utilizzo serve a proteggere i dati da comunicare con meccanismi crittografici scelti. A tal fine, gli utenti interagiscono con un server fidato, ovvero è fidato per non impegnarsi in alcuna altra attività che comprometterebbe deliberatamente la sicurezza degli utenti, e per generare la nuova chiave in modo tale che sia sufficientemente casuale da prevenire che un attaccante ottenga informazioni utili su di essa.
 
-Pertanto il protocollo coinvolge 3 principi:
+Pertanto il protocollo coinvolge 3 principali:
 \begin{itemize}
 	\item Alice (A);
 	\item Bob (B);
 	\item il server fidato (S).
 \end{itemize}
-Il ruolo di S è quello di generare la nuova chiave di sessione $\ki{ab}$ e inviarla ad A e a B. Il protocollo dovrebbe permettere di conoscere la chiave solo ai principi A e B e a nessun altro, con la possibile eccezione di S. A e B dovrebbero sapere che $\ki{ab}$ è stata generata di recente.
+Il ruolo di S è quello di generare la nuova chiave di sessione $\ki{ab}$ e inviarla ad A e a B. Il protocollo dovrebbe permettere di conoscere la chiave solo ai principali A e B e a nessun altro, con la possibile eccezione di S. A e B dovrebbero sapere che $\ki{ab}$ è stata generata di recente.
 \paragraph{Un primo tentativo}
 \begin{figure}[thbp]
 	\centering
@@ -28,7 +28,7 @@ $\ki{ab}$ non contiene alcuna ``informazione'' su A e su B, ma è semplicemente 
 \begin{itemize}
 	\item Solo i messaggi scambiati in un'esecuzione riuscita del protocollo sono specificati. Non c'è alcuna descrizione di cosa succede nel caso in cui venga ricevuto un messaggio di formato errato o che non venga ricevuto alcun messaggio.
 	\item Questo è standard per i protocolli di sicurezza, mentre nella specifica dei protocolli di comunicazione ordinari è comune includere queste informazioni (poiché è essenziale per dimostrare le proprietà funzionali di base).
-	\item Nessuna specifica delle azioni interne dei principi. Le azioni interne sono abbastanza ovvie per molti protocolli (ad esempio calcolare ciò che p necessario per generare il prossimo messaggio), ma per altri protocolli ci sono numerose alternative e la scelta può avere rilevanza critica per la sicurezza.
+	\item Nessuna specifica delle azioni interne dei principali. Le azioni interne sono abbastanza ovvie per molti protocolli (ad esempio calcolare ciò che p necessario per generare il prossimo messaggio), ma per altri protocolli ci sono numerose alternative e la scelta può avere rilevanza critica per la sicurezza.
 	\item A e B sanno che i messaggi ricevuti fanno parte del protocollo. È comune omettere tali dettagli che sarebbero necessari affinché un computer in rete possa tracciare il progresso di un'esecuzione particolare del protocollo. Questo può includere dettagli su quale chiave dovrebbe essere utilizzata per decrittografare un messaggio ricevuto che è stato crittografato.
 	\item Nonostante le evidenti limitazioni associate alla specifica dei protocolli mostrando solo i messaggi di un'esecuzione riuscita, rimane il metodo più popolare per descrivere i protocolli di sicurezza. Tuttavia, ci sono molti lavori che hanno affrontato questi problemi per ``disambiguare'' la notazione. 
 \end{itemize}
@@ -63,9 +63,9 @@ Assumiamo che S condivida inizialmente una chiave segreta con ciascun utente del
 \begin{assumption}
 	L'avversario è in grado di alterare tutti i messaggi inviati in un protocollo di sicurezza utilizzando qualsiasi informazione disponibile. 
 \end{assumption}
-Può anche reindirizzare qualsiasi messaggio a qualsiasi altro principio (o può semplicemente intercettarli). Questo include la capacità di generare e inserire messaggi completamente nuovi. 
+Può anche reindirizzare qualsiasi messaggio a qualsiasi altro principale (o può semplicemente intercettarli). Questo include la capacità di generare e inserire messaggi completamente nuovi. 
 
-A differenza dei protocolli di comunicazione ordinari, nei protocolli di sicurezza è coinvolto un principio sconosciuto e imprevedibile. Sebbene ci possano essere non più di 4 o 5 messaggi coinvolti in un'esecuzione legittima del protocollo, ci sono un numero infinito di variazioni in cui partecipa l'avversario.
+A differenza dei protocolli di comunicazione ordinari, nei protocolli di sicurezza è coinvolto un principale sconosciuto e imprevedibile. Sebbene ci possano essere non più di 4 o 5 messaggi coinvolti in un'esecuzione legittima del protocollo, ci sono un numero infinito di variazioni in cui partecipa l'avversario.
 
 \paragraph{Attacchi al secondo tentativo}
 \begin{figure}[thbp]
@@ -79,15 +79,15 @@ Ma c'è anche un altro attacco più serio.
 	\centering
 	\includegraphics[width=.7\linewidth]{second-attempt-more-serious-attack}
 \end{figure}
-C altera il messaggio da A a S in modo che S crittografi la chiave $\ki{ac}$ con la chiave di C $\ki{cs}$, invece che on la chiave di B. Poiché A non può distinguere tra i messaggi crittografati destinati ad altri principi, non rileverà l'alterazione. 
+C altera il messaggio da A a S in modo che S crittografi la chiave $\ki{ac}$ con la chiave di C $\ki{cs}$, invece che on la chiave di B. Poiché A non può distinguere tra i messaggi crittografati destinati ad altri principali, non rileverà l'alterazione. 
 
 Nota anche che $\ki{ac}$ è semplicemente un nome formale per la stringa di bit che rappresenta la chiave di sessione, quindi sarà accettato da A. C intercetta il messaggio da A
 destinato a B in modo che B non rilevi alcuna anomalia. Pertanto A crederà che il protocollo sia stato completato con successo con B, mentre C conosce $\ki{ac}$ e può quindi spacciarsi per B, oltre a poter apprendere tutte le informazioni che A invia destinate a B.  A differenza dell'attacco precedente, questo avrà successo se C è un utente legittimo del sistema conosciuto da S, il che è un'assunzione realistica:
 \begin{assumption}
 	L'avversario può essere un partecipante legittimo al protocollo (un insider), o una parte esterna (un outsider), o una combinazione di entrambi.
 \end{assumption}
-Per superare questo attacco, i nomi dei principi che devono condividere $\ki{ab}$ devono essere legati crittograficamente alla chiave. Nessuno dei 2 attacchi precedenti ha successo sul seguente protocollo:
-\paragraph{Legare crittograficamente i nomi dei principi alla chiave}
+Per superare questo attacco, i nomi dei principali che devono condividere $\ki{ab}$ devono essere legati crittograficamente alla chiave. Nessuno dei 2 attacchi precedenti ha successo sul seguente protocollo:
+\paragraph{Legare crittograficamente i nomi dei principali alla chiave}
 \begin{figure}[thbp]
 	\centering
 	\includegraphics[width=.7\linewidth]{difesa-slide27}
@@ -115,14 +115,15 @@ Secondo l'\cref{assu:4} ci si può aspettare che C conosca il valore di $\ki{ab}
 	\centering
 	\includegraphics[width=.5\linewidth]{slide35}
 \end{figure}
-A invia il suo nonce $\n{a}$ a S con la richiesta di una nuova chiave. Se lo stesso valore viene ricevuto con la chiave di sessione, allora A può dedurre che la chiave non è stata riprodotta. Questa deduzione sarà valida finché la chiave di sessione e il nonce sono legati insieme in modo crittografico in maniera tale che solo S possa aver formato un messaggio del genere. Il problema però è che $\n{a}$ è solo un numero! Non c'è nulla in $\n{a}$ che identifichi chi lo ha creato pertanto si può scrivere anche $\n{1}$ o N1. Se la chiave crittografata per B è inclusa nella parte crittografata del messaggio di A, allora A può avere la certezza che sia recente. È allettante credere che A possa trasmettere questa certezza a B in un ulteriore handshake: 
+A invia il suo nonce $\n{a}$ a S con la richiesta di una nuova chiave. Se lo stesso valore viene ricevuto con la chiave di sessione, allora A può dedurre che la chiave non è stata riprodotta. Questa deduzione sarà valida finché la chiave di sessione e il nonce sono legati insieme in modo crittografico in maniera tale che solo S possa aver formato un messaggio del genere. 
+\paragraph{Problema}Il problema però è che $\n{a}$ è solo un numero! Non c'è nulla in $\n{a}$ che identifichi chi lo ha creato pertanto si può scrivere anche $\n{1}$ o N1. Se la chiave crittografata per B è inclusa nella parte crittografata del messaggio di A, allora A può avere la certezza che sia recente. È allettante credere che A possa trasmettere questa certezza a B in un ulteriore handshake: 
 \begin{itemize}
 	\item B genera un nonce $\n{b}$ e lo invia ad A protetto da $\ki{ab}$ stesso;
 	\item A utilizza $\ki{ab}$ per inviare una risposta a B.
 \end{itemize}
-Questo è uno dei protocolli di sicurezza più celebri: il \textbf{protocollo di Needham Schroder del 1978}.
+Questo è uno dei protocolli di sicurezza più celebri: il \textbf{protocollo di Needham Schroeder del 1978}.
 
-Sfortunatamente questo protocollo è vulnerabile all'attacco di Denning e Sacco. Il problema è che l'assunzione ``solo A sarà in grado di formare una risposta corretta al messaggio 4. di B'' è sbagliata. Poiché si prevede che l'avversario C conosca il valore di una vecchia chiave di sessione, questa assunzione è irrealistica. C si maschera da A e così persuade B a utilizzare la vecchia chiave $\ki{ab}$:
+\paragraph{Attacco al protocollo di Needham Schroeder}Sfortunatamente questo protocollo è vulnerabile all'attacco di Denning e Sacco. Il problema è che l'assunzione \ul{``solo A sarà in grado di formare una risposta corretta al messaggio 4. di B''} è sbagliata. Poiché si prevede che l'avversario C conosca il valore di una \textbf{vecchia chiave di sessione} (\textbf{replay attack}), questa assunzione è irrealistica. C si maschera da A e così persuade B a utilizzare la vecchia chiave $\ki{ab}$:
 \begin{figure}[thbp]
 	\centering
 	\includegraphics[width=.5\linewidth]{slide37}
@@ -134,10 +135,79 @@ Sfortunatamente questo protocollo è vulnerabile all'attacco di Denning e Sacco.
 \end{figure} 
 Il protocollo è ora avviato da B, che invia prima il suo nonce $\n{b}$ ad A. A aggiunge il suo nonce $\n{a}$ e invia entrambi a S, che ora è in grado di restituire $\ki{ab}$ in messaggi separati per A e B. Entrambi i messaggi possono essere verificati come freschi dai rispettivi destinatari.
 
-\paragraph{Problema}A poteva verificare non solo che la chiave è nuova e conosciuta solo da A, B e S, ma anche che B ha effettivamente ricevuto la chiave. Questa proprietà di conferma della chiave è raggiunta grazie all'uso della chaive da parte di B nel messaggio 4, assumendo che $\{\n{B}\}_{\ki{ab}}$ non possa essere formata senza la conoscenza di $\ki{ab}$. Nel protocollo finale, né A né B possono dedurre alla fine di un'esecuzione riuscita del protocollo che l'altro ha effettivamente ricevuto $\ki{ab}$. 
+\paragraph{Problema}A poteva verificare non solo che la chiave è nuova e conosciuta solo da A, B e S, ma anche che B ha effettivamente ricevuto la chiave. Questa proprietà di conferma della chiave è raggiunta grazie all'uso della chiave da parte di B nel messaggio 4, assumendo che $\{\n{B}\}_{\ki{ab}}$ non possa essere formata senza la conoscenza di $\ki{ab}$. Nel protocollo finale, né A né B possono dedurre alla fine di un'esecuzione riuscita del protocollo che l'altro ha effettivamente ricevuto $\ki{ab}$. 
 \begin{figure}[thbp]
 	\centering
 	\includegraphics[width=.5\linewidth]{slide40}
 \end{figure}
 Questo protocollo evita tutti gli attacchi visti finora, a condizione che l'algoritmo crittografico utilizzato fornisca le proprietà di riservatezza e integrità e che il server S agisca correttamente. 
-\subsection{Protocollo di Needham Schroder}
+\subsection{Protocollo di chiave pubblica di Needham Schroeder (NPSK)}
+Con il termine generico di protocollo di Needham-Schroeder si possono identificare due protocolli di comunicazione progettati per permettere comunicazioni cifrate su reti non sicure. 
+I protocolli furono proposti da Roger Needham e Micheal Schroeder nel 1978. 
+\begin{itemize}
+	\item Il \textit{protocollo di Needham-Schroeder a chiave segreta} è basato sulla \ul{crittografia simmetrica} ed \ul{è alla base del protocollo di rete Kerberos}. Il protocollo permette di stabilire una chiave di sessione utilizzabile da due entità di rete per proteggere le successive comunicazioni.
+	\item Il \textit{protocollo di Needham-Schroeder a chiave pubblica} è invece \ul{basato sulla crittografia asimmetrica} e permette di assicurare la mutua autenticazione tra due entità di rete. Nella sua forma proposta non è sicuro. 
+\end{itemize}
+\subsubsection{Il protocollo a chiave segreta} 
+\paragraph{Scenario}
+\begin{itemize}
+	\item Alice (A) e Bob (B) sono due entità di rete che devono comunicare in modo sicuro utilizzando un collegamento di rete non sicuro.
+	\item S è un server fidato, ovvero che gode della fiducia di entrambe le parti.
+	\item $\ki{as}$ è una chiave simmetrica nota esclusivamente ad A e S.
+	\item $\ki{bs}$ è una chiave simmetrica nota esclusivamente a B e S.
+	\item $\ki{ab}$ è una chiave simmetrica di sessione generata da S durante l'esecuzione dei passi del protocollo.
+	\item $\n{a}$ e $\n{b}$ sono nonce crittografici, ovvero numeri casuali da usare una volta sola. 
+\end{itemize}
+Si suppone che sia A a cominciare la comunicazione.
+
+\paragraph{Descrizione}A spedisce un messaggio a S con la sua identità e quella di B, per dichiarare che intende comunicare con B. Allega anche un numero $\n{a}$:$$A\to S\colon A,B,\n{a}$$ Il server genera la chiave di sessione $\ki{ab}$ e risponde ad A inviandole:
+\begin{itemize}
+	\item la chiave $\ki{ab}$ appena generata;
+	\item la coppia $(\ki{ab},A)$ criptata con la chiave $\ki{bs}$, in modo che possa essere inoltrata a B perché venga reso partecipe;
+	\item il nonce $\n{a}$ che assicura ad A che il messaggio è nuovo e che S sta rispondendo a quel particolare messaggio;
+	\item B: l'inclusione dell'identificatore di B dice ad A con chi lei sta condividendo la chiave.
+\end{itemize}
+Il tutto è criptato con la chiave segreta $\ki{as}$, nota solo ad A e a S: $$S\to A\colon\{\n{a},\ki{ab},B,\{\ki{ab},A\}_\ki{bs}\}_\ki{as}$$
+A comunica a B la chiave di sessione e il proprio identificativo, criptati con la chiave $\ki{bs}$, come comunicata dal server con il precedente messaggio. B può decriptare il messaggio e il fatto che sia stato cifrato da una entità fidata (ovvero S) lo rende autentico: $$A\to B\colon \{\ki{ab},A\}_\ki{bs}$$ 
+B risponde ad A con un nonce criptato con la chiave di sessione $\ki{ab}$, per mostrare che è in possesso della chiave: $$B\to A\colon \{\n{b}\}_\ki{ab}$$
+A decifra il nonce di B, lo modifica con una semplice operazione, lo cifra nuovamente e lo rispedisce indietro, provando così che è ancora attiva e in possesso della chiave: $$A\to B\colon \{\n{b}-1\}_\ki{ab}$$
+Da questo momento in poi la comunicazione è pienamente stabilita e viene condotta da entrambe le parti inviando messaggi cifrati con la chiave di sessione $\ki{ab}$.
+\paragraph{Vulnerabilità} Il protocollo è suscettibile ad attacchi di tipo replay. Se un attaccante E conosce una vecchia chiave $\ki{ab}'$ scambiata in una precedente esecuzione del protocollo, allora:
+\begin{itemize}
+	\item E può replicare il messaggio $\{\ki{ab}', A\}_\ki{bs}$ a B;
+	\item B accetta la chiave $\ki{ab}'$ non sapendo che è compromessa (quindi non sa che la chiave non è nuova).
+\end{itemize}
+\paragraph{Soluzione}Utilizzare i timestamp all'interno dei messaggi (ciò si vedrà come si utilizza nel protocollo di rete Kerberos).
+\subsubsection{Il protocollo a chiave pubblica}
+\paragraph{Scenario}
+\begin{itemize}
+	\item A e B sono due entità di rete che devono comunicare in modo sicuro utilizzando un collegamento di rete non sicuro.
+	\item S è un server che gode della fiduccia di entrambi e si occupa di distribuire chiavi pubbliche su richiesta.
+	\item $\ki{pa}$ e $\ki{sa}$ sono rispettivamente la chiave pubblica e la chiave segreta di A.
+	\item $\ki{pb}$ e $\ki{sb}$ similmente sono le chiavi di B.
+	\item $\ki{ps}$ e $\ki{ss}$ similmente sono le chiavi di S.
+\end{itemize}
+È importante specificare che mentre A e B usano la chiave pubblica per cifrare e quella privata per decifrare, S usa la chiave privata $\ki{ss}$ per cifrare e la chiave pubblica $\ki{ps}$ per decifrare; così facendo il server firma le proprie comunicazioni.
+\paragraph{Descrizione}
+A chiede a S la chiave pubblica di B: $$A\to S\colon A, B$$ S risponde, inviando anche l'identificativo di B per conferma. A può usare la chiave pubblica $\ki{ps}$ per verificare la firma di S e verificarne l'autenticità confrontando l'id di B ricevuto con quello in suo possesso: $$S\to A\colon \{\ki{pb},B\}_\ki{ss}$$Alice genera un nonce $\n{a}$ e lo invia a B cifrandolo con la chiave appena ricevuta: $$A\to B\colon \{\n{a},A\}_\ki{pb}$$B decifra il messaggio mediante la sua chiave privata, vede che è di A e richiede la sua chiave pubblica a S:
+$$B\to S \colon B,A$$ S soddisfa la richiesta di B: $$S\to B\colon\{\ki{pa},A\}_\ki{ss}$$B genera un nonce $\n{b}$ e lo invia ad A insieme a $\n{A}$, per provare che è in possesso della chiave privata $\ki{sb}$: $$B\to A\colon \{\n{a},\n{b}\}_\ki{pa}$$ A conferma $\n{b}$ a B per provare a sua volta che è in possesso della chiave privata $\ki{sa}$ $$ A\to B\colon \{\n{b}\}_\ki{pb}$$ Da questo momento in poi A e B si sono autenticati a vicenda e sono gli unici a conoscenza di $\n{a}$ e $\n{b}$.
+\paragraph{Vulnerabilità}Il protocollo è suscettibile ad attacchi di tipo \ul{man-in-the-middle}: un impostore I può ingannare A e convincerla a iniziare una sessione di comunicazione con lui e successivamente inoltrare i messaggi a B convincendolo di essere in comunicazione con A. 
+
+A parte le comunicazioni con S, che rimangono inalterate, l'attacco si svolge come segue: A invia $\n{a}$ a I, che decifra il messaggio con $\ki{si}$: $$A\to I\colon \{\n{a},A\}_\ki{pi}$$ I inoltra il messaggio a B, cifrandolo con la corrispettiva chiave pubblica, fingendo che sia A a voler comunicare con lui: $$I\to B\colon \{\n{A},A\}_\ki{pb}$$ B risponde inviando $\n{b}$. Questo messaggio arriva a I, che non può decifrarlo perché non è in possesso di $\ki{sa}$: $$B\to I\colon \{\n{a},\n{b}\}_\ki{pa}$$ I lo inoltra ad A: $$I\to A\colon \{\n{a},\n{b}\}_\ki{pa}$$ \ul{A crede che $\n{b}$ sia il nonce di I} (\textbf{attacco di binding}\footnote{Un \textbf{attacco di binding} si verifica quando l'informazione segreta che in questo caso è il nonce non è legata crittograficamente all'identificatore di colui che quell'informazione l'ha generata.}), quindi lo conferma come da protocollo: $$A \to I \colon \{\n{b}\}_\ki{pi}$$ Ora I conosce $\n{b}$, lo cifra con $\ki{pb}$ e invia a B, che vede una conferma valida $$I\to B\colon \{\n{b}\}_\ki{pb}$$ I agisce da ``uomo nel mezzo'' e intercetta tutti i messaggi di B, che crede di essere in comunicazione sicura con A. 
+
+\paragraph{Gavin Lowe}L'attacco è stato descritto per la prima volta da Gavin Lowe nel 1995. La versione corretta del protocollo, chiamata Needham-Schroeder-Lowe, sostituisce il sesto messaggio $$B\to A\colon \{\n{a},\n{b}\}_\ki{pa}$$ con $$B\to A\colon \{\n{a},\n{b},B\}_\ki{pa}$$ In questo modo A si può accorgere che i messaggi non arrivano dall'intruso, con cui aveva iniziato la comunicazione, ma da B.
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{slide73}
+\end{figure}
+\paragraph{Il protocollo è ancora vulnerabile ad un attacco di tipo flow}
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{slide74}
+\end{figure}
+\paragraph{Il protocollo non è ancora sicuro}Un impostore I può ancora fare un altro attacco man-in-the-middle. I invia a B un messaggio spacciandosi per A (spoofing attack)
+$$I\to B\colon \{\n{a},A\}_\ki{b}$$
+B è convinto che A voglia effettuare uno scambio di chiavi con il protocollo Needham-Schroeder-Lowe e dunque ha bisogno della chiave pubblica di A (sta seguendo il protocollo, deve inviare in risposta il proprio nonce crittografato). Chiede ad S la chiave pubblica di A dicendo di essere B $$B\to S\colon B,A$$ S risponde $$S\to B\colon \{A,\ki{a}\}_\ki{s}^{-1}$$ ovvero la chiave pubblica di A e l'identificatore di A (per confermare che quella chiave è associata all'identità di A). Il messaggio è firmato con la chiave privata del server $\ki{s}^\{-1\}$B risponde cifrando con la chiave pubblica di A la tripla $(\n{a},\n{b},B)_\ki{a}$ e solo A può leggere tale messaggio.
+Quindi I riceve il messaggio da B $$B\to I\colon \{\n{a},\n{b},B\}_\ki{a}$$ e lo inoltra ad A (\textbf{Oracle attack}\footnote{A viene usato come un ``oracolo'' per ottenere la decifratura del messaggio che solo lui può decifrare.}). 
+A legge la richiesta $$I\to A\colon \{\n{a},\n{b},B\}_\ki{a}$$ convinto che $\n{b},B$ sia l'identificatore di un principale legittimo (dato che ha ottenuto la chiave pubblica $\ki{a}$, dunque deve aver interagito con il server S). Quello appena descritto rappresenta un \textbf{type flaw attack}\footnote{Un attacco \textbf{type flaw} si verifica quando il destinatario di un messaggio accetta quel messaggio come
+	valido ma impone un'interpretazione diversa della sequenza di bit rispetto al principale che lo ha creato.}. Quindi A risponde con il messaggio $$A\to I\colon A,\n{b},B$$ in chiaro perché ha scambiato $\n{b},B$ per un identificatore, ed è convinto di inviare verso il server una richiesta per ottenere il certificato $A,\n{b},B$ (``io sono A, voglio ottenere il certificato di $\n{b},B$''). Tale richiesta viene intercettata da I che invia a B il messaggio: $$I\to B\colon \{\n{b}\}_\ki{b}$$chiudendo così il protocollo.
