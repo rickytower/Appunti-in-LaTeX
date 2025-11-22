@@ -1,0 +1,159 @@
+\graphicspath{{lec05-kerberos}}
+\section{Kerberos e autenticazione}
+\paragraph{Autenticazione dell'utente}È il processo di determinare se un utente, un'applicazione o un processo che agisce per conto di un utente è in effetti chi o cosa dichiara di essere. La \textbf{tecnologia di autenticazione} fornisce controllo degli accessi per i sistemi verificando se le credenziali di un utente corrispondono alle credenziali in un database di utenti autorizzati o in un server di autenticazione dei dati. L'autenticazione consente alle organizzazioni di mantenere sicure le proprie reti, permettendo solo agli utenti (o processi) autenticati di accedere alle risorse protette.
+\paragraph{Autenticazione del messaggio}È una procedura che consente alle parti comunicanti di verificare che il contenuto di un messaggio ricevuto non sia stato alterato e che la fonte sia autentica.
+
+\subsection{Principi di autenticazione}
+\paragraph{Identità digitale}È la rappresentazione unica di un soggetto impegnato in una transazione online. La rappresentazione consiste in un attributo o un insieme di attributi che descrivono un soggetto in modo unico all'interno di un dato contesto di un servizio digitale, ma non identifica necessariamente in modo unico il soggetto in tutti i contesti.
+\paragraph{Verifica dell'identità} Stabilisce che un soggetto è chi afferma di essere a un determinato livello di certezza. Questo processo implica la raccolta, la validazione e la verifica delle informazioni su una persona.
+\paragraph{Autenticazione digitale}È il processo di determinare la validità di uno o più elementi di autenticazione utilizzati per rivendicare un'identità digitale. L'autenticazione stabilisce che un soggetto che tenta di accedere a un servizio digitale controlla le tecnologie utilizzate per autenticarsi. Un'autenticazione riuscita fornisce garanzie ragionevoli basate sul rischio che il soggetto che accede al servizio oggi sia lo stesso soggetto che ha precedentemente accesso al servizio. 
+
+\subsubsection{NIST SP 800-63 (linee guida per l'identità digitale)} NIST SP 800-63  definisce un modello generale per l'autenticazione degli utenti che coinvolge un numero di entità e procedure, basata su SP 700-63. Tre concetti sono importanti per comprendere questo modello:
+\begin{itemize}
+	\item identità digitale;
+	\item verifica dell'identità;
+	\item autenticazione digitale.
+\end{itemize}
+
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{-000}
+	\caption{entità di NIST SP 800-63.}
+	\label{fig:nist-sp-800-63}
+\end{figure}
+
+\paragraph{Entità NIST SP  800-63}Sei entità sono definite nella \cref{fig:nist-sp-800-63}.
+\begin{enumerate}
+	\bitem{Fornitore di servizi di credenziali (CSP)}un'entità fidata che emette o registra gli elementi di autenticazione degli abbonati (\textit{subscribers}). A questo scopo, il CSP stabilisce una credenziale digitale per ogni abbonato e emette credenziali elettroniche agli abbonati. Un CSP può essere una terza parte indipendente o può emettere credenziali per il proprio uso.
+	\bitem{Verificatore}un'entità che verifica l'identità del richiedente verificando il possesso e il controllo di uno o due elementi di autenticazione utilizzando un protocollo di autenticazione. Per fare ciò, il verificatore potrebbe anche dover convalidare le credenziali che collegano l'autenticatore/gli autenticatori all'identificatore dell'abbonato e controllare il loro stato.
+	\bitem{Parte affidabile (RP)}un'entità che si basa sugli elementi di autenticazione e sulle credenziali dell'abbonato o sull'affermazione di un verificatore riguardo all'identità di un richiedente, tipicamente per elaborare una transazione o concedere accesso a informazioni o a un sistema.
+	\bitem{Richiedente (applicant)}un soggetto che sta seguendo i processi di registrazione e verifica dell'identità.
+	\bitem{Richiedente (claimant)}un soggetto la cui identità deve essere verificata utilizzando uno o più protocolli di autenticazione.
+	\bitem{Abbonato}una parte che ha ricevuto una credenziale o un elemento di autenticazione da un CSP.
+\end{enumerate}
+\paragraph{Parte sinistra}La parte sinistra della \cref{fig:nist-sp-800-63} illustra il processo mediante il quale un richiedente viene registrato nel sistema per accedere a determinati servizi e risorse.
+\begin{itemize}
+	\bitem{Presentazione delle prove}il richiedente presenta al CSP prove di possesso degli attributi da associare a questa identità digitale. 
+	\bitem{Verifica da parte del CSP}dopo una verifica riuscita da parte del CSP, il richiedente diventa un abbonato.
+	\bitem{Emissione di credenziali}a seconda dei dettagli del sistema di autenticazione complessivo, il CSP emette una sorta di credenziale elettronica all'abbonato.
+	\item La credenziale è una struttura dati che lega in modo autorevole un'identità e attributo aggiuntivi a uno o più elementi di autenticazione posseduti da un abbonato e più essere verificata quando presentata al verificatore in una transizione di autenticazione. 
+	\item L'autenticatore potrebbe essere una chiave di crittografia o una password crittografata che identifica l'abbonato e può essere emesso dal CSP, generato direttamente dall'abbonato o fornito da una terza parte.
+	\item L'autenticatore  e la credenziale possono essere utilizzati in eventi di autenticazione successivi.
+\end{itemize}
+\paragraph{Parte destra}
+\begin{itemize}
+	\item Una volta che un utente è registrato come abbonato, il processo di autenticazione effettivo può avvenire tra l'abbonato e uno o più sistemi che eseguono l'autenticazione.
+	\bitem{Richiedente}la parte da autenticare.
+	\bitem{Verificatore}la parte che verifica quell'identità.
+	\item Quando un richiedente dimostra con successo il possesso e il controllo di un elemento di autenticazione a un verificatore attraverso un protocollo di autenticazione, il verificatore può verificare che il richiedente sia l'abbonato nominato nella corrispondente credenziale. 
+	\item Il verificatore trasmette un'affermazione sull'identità dell'abbonato alla parte affidabile (RP) e può includere informazioni sull'identità di un abbonato, come il nonce dell'abbonato, un identificatore assegnato al momento della registrazione o altri attributi dell'abbonato che sono stati verificati nel processo di registrazione.
+	\item La RP può utilizzare le informazioni autenticate fornite dal verificatore per prendere decisioni di controllo degli accessi o autorizzazione.
+\end{itemize}
+\paragraph{Interazione tra verificatore e CSP}In alcuni casi, il verificatore interagisce con il CSP per accedere alla credenziale che lega l'identità dell'abbonato al suo elemento di autenticazione e per ottenere eventualmente attributi del richiedente. In altri casi, il verificatore non ha bisogno di comunicare in tempo reale con il CSP per completare l'attività di autenticazione (ad esempio, alcuni usi di certificati digitali). Pertanto, la linea tratteggiata tra il verificatore e il CSP rappresenta un collegamento logico tra le due entità.
+\paragraph{Considerazioni finali}Un sistema implementato per l'autenticazione differirà da questo modello semplificato o sarà più complesso, ma il modello illustra i ruoli e le funzione chiave necessarie per un sistema di autenticazione sicuro.
+
+\subsubsection{Mezzi di autenticazione dell'utente}Ci sono tre mezzi generali, o fattori di autenticazione, per autenticare l'identità di un utente, che possono essere utilizzati da soli o in combinazione:
+\begin{enumerate}
+	\bitem{Fattore di conoscenza (qualcosa che l'individuo sa)}richiede all'utente di dimostrare la conoscenza di informazioni segrete. Utilizzati di routine nei processi di autenticazione a strato singolo, i fattori di conoscenza possono assumere la forma di password, frasi segrete, numeri di identificazione personale (PIN) o risposte a domande segrete.
+	\bitem{Fattore di possesso (qualcosa che l'individuo possiede)}entità fisica posseduta dall'utente autorizzato per connettersi al computer client o al portale. Questo tipo di elemento di autenticazione era precedentemente chiamato token, ma quel termine è ora deprecato. Il termine ``token hardware'' è ora un'alternativa preferibile. I fattori di possesso rientrano in due categorie.
+	\begin{itemize}
+		\bitem{Token hardware connessi}sono oggetti che si connettono logicamente (ad esempio, tramite wireless) o fisicamente a un computer per autenticare l'identità. Oggetti come smart card, tag wireless e token USB sono comuni token connessi utilizzati come fattore di possesso.
+		\bitem{Token hardware disconnessi}sono oggetti che non si connettono direttamente al computer client, richiedendo invece un input dall'individuo che tenta di accedere. Tipicamente, un dispositivo token hardware disconnesso utilizzerà uno schermo integrato per visualizzare i dati di autenticazione che vengono poi utilizzati dall'utente per accedere quando richiesto.
+		\bitem{Fattore di inerenza (qualcosa che l'individuo è o fa)}si riferisce a caratteristiche, chiamate biometrie, che sono uniche o quasi uniche per l'individuo. Queste includono biometrie statiche, come impronte digitali, retina e volto; biometriche dinamiche come la voce, la scrittura a mano e il ritmo di digitazione.
+	\end{itemize}
+\end{enumerate}
+\begin{table}[thbp]
+	\centering
+	\begin{tabular}{|y{.2\linewidth}|y{.2\linewidth}|y{.4\linewidth}|}
+		\hline
+		\textbf{Fattore} & \textbf{Esempi} & \textbf{Proprietà} \\ \hline
+		
+		\multirow{3}{*}{Conoscenza}
+		& ID utente & - Può essere condiviso \\ \cline{2-3}
+		& Password & - Molte password facili da indovinare \\ \cline{2-3}
+		& PIN & - Può essere dimenticato \\ \hline
+		
+		\multirow{3}{*}{Possesso}
+		& Smart Card & - Può essere condiviso \\ \cline{2-3}
+		& Badge elettronico & - Può essere duplicato (clonato) \\ \cline{2-3}
+		& Chiave elettronica & - Può essere persa o rubata \\ \hline
+		
+		\multirow{4}{*}{Inerenza}
+		& Impronta digitale & - Non è possibile condividere \\ \cline{2-3}
+		& Volto & - Possono verificarsi falsi positivi e falsi negativi \\ \cline{2-3}
+		& Iride & - Difficile da falsificare \\ \cline{2-3}
+		& Voce & \\ \hline
+		
+	\end{tabular}
+\end{table}
+\begin{figure}[thbp]
+	\centering
+	\includegraphics[width=.7\linewidth]{-001}
+\end{figure}
+\paragraph{Autenticazione multifattore}L'autenticazione multifattore si riferisce all'uso di più di uno dei mezzi di autenticazione nella lista precedente. Tipicamente, questa strategia coinvolge l'uso di tecnologie di autenticazione provenienti da due delle classi di fattori descritte sopra, come ad esempio:
+\begin{itemize}
+	\item un pin più un token hardware (fattore di conoscenza + fattore di possesso);
+	\item un pin e una biometria (fattore di conoscenza + fattore di inerenza).
+\end{itemize}
+L'autenticazione multifattore sarà generalmente più sicura rispetto all'uso di un singolo fattore, poiché i modi di fallimento per i diversi fattori sono in gran parte indipendenti. Ad esempio, un token harware potrebbe essere perso o rubato, ma il PIN richiesto per l'uso con il token non verrebbe perso o rubato nello stesso momento. Tuttavia, questa assunzione non è sempre vera. Ad esempio, un PIN associato a un token hardware può essere compromesso nello stesso momento in cui il token viene perso o rubato. Nonostante ciò, l'autenticazione multifattore è un mezzo importante per ridurre la vulnerabilità.
+\paragraph{Autenticazione reciproca}Un'area di applicazione importante è quella dei protocolli di autenticazione reciproca. Tali protolli consentono alle parti comunicanti di soddisfare reciprocamente le proprie identità e di scambiare chiavi di sessione. 
+\paragraph{Problemi centrali dell'autenticazione della chiave scambiata}
+\begin{itemize}
+	\bitem{Riservatezza}per prevenire la masquerade e la compromissione delle chiavi di sessione, le informazioni essenziali di identificazione e chiave di sessione devono essere comunicate in forma crittografata. Ciò richiede l'esistenza preventiva di chiavi segrete o pubbliche che possono essere utilizzate a tale scopo.
+	\bitem{Tempestività}è importante a causa della minaccia dei replay dei messaggi. Tali replay, nel peggiore dei casi, potrebbero consentire a un avversario di compromettere una chiave di sessione o di impersonare con successo un'altra parte. Al minimo, un replay riuscito può interrompere le operazioni presentando alle parti messaggi che sembrano genuini ma non lo sono.
+\end{itemize}
+\paragraph{Esempi di attacchi di replay}\begin{enumerate}
+	\item L'attacco di replay più semplice è quello in cui l'avversario copia semplicemente un messaggio e lo riproduce in un secondo momento.
+	\item Un avversario può riprodurre un messaggio con timestamp all'interno della  finestra temporale valida. Se sia l'originale che il replay arrivano all'interno della finestra temporale, questo incidente può essere registrato.
+	\item Come nel punto 2, un avversario può riprodurre un messaggio con il timestamp all'interno della finestra temporale valida, ma in aggiunta, l'avversario sopprime il messaggio originale. Così, la ripetizione non può essere rilevata.
+	\item Un altro attacco coinvolge un replay all'indietro senza modifica. Questo è un replay verso il mittente del messaggio. Questo attacco è possibile se viene utilizzata la crittografia simmetrica e il mittente non può facilmente riconoscere la differenza tra i messaggi inviati e quelli ricevuti sulla base del contenuto.
+\end{enumerate}
+\paragraph{Approcci per affrontare gli attacchi di replay}Un approccio per affrontare gli attacchi di replay è quello di allegare un numero di sequenza a ciascun messaggio utilizzato in uno scambio di autenticazione. 
+\begin{itemize}
+	\item Un nuovo messaggio è accettato solo se il suo numero di sequenza è nell'ordine corretto.
+	\item La difficoltà con questo approccio è che richiede a ciascuna parte di tenere traccia dell'ultimo numero di sequenza per ciascun richiedente con cui ha interagito. 
+	\item A causa di questo sovraccarico, i numeri di sequenza non sono generalmente utilizzati per l'autenticazione e lo scambio di chiavi.
+\end{itemize}
+\paragraph{Approcci alternativi}
+\begin{itemize}
+	\bitem{Timestamp}la parte A accetta un messaggio come fresco solo se il messaggio contiene un timestamp che, a giudizio di A, è sufficientemente vicino alla conoscenza attuale del tempo di A. Questo approccio richiede che gli orologi tra i vari partecipanti siano sincronizzati.
+	\bitem{Sfida/Risposta}la parte A, aspettandosi un messaggio fresco da B, invia prima a B un nonce (sfida) e richiede che il messaggio successivo (risposta) ricevuto da B contenga il valore corretto del nonce.
+\end{itemize}
+\paragraph{Considerazioni sull'approccio del timestamp} Si può sostenere che l'approccio del timestamp non dovrebbe essere utilizzato per applicazioni orientate alla connessione a causa delle difficoltà intrinseche con questa tecnica.
+\begin{itemize}
+	\bitem{Sincronizzazione degli orologi}è necessario un tipo di protocollo per mantenere la sincronizzazione tra gli orologi dei vari processori. Questo protocollo deve essere sia tollerante ai guasti, per far fronte agli errori di rete, sai sicuro per far fronte agli attacchi ostili.
+	\bitem{Opportunità di attacco}l'opportunità per un attacco riuscito si presenterà se c'è una perdita temporanea di sincronizzazione a causa di un guasto nel meccanismo dell'orologio di una delle parti.
+	\bitem{Ritardi di rete}a causa della natura variabile e imprevedibile dei ritardi di rete, non ci si può aspettare che gli orologi distribuiti mantengano una sincronizzazione precisa. Pertanto, qualsiasi procedura basata su timestamp deve consentire una finestra di tempo sufficientemente ampia per accogliere i ritardi di rete, ma sufficientemente piccola per minimizzare l'opportunità di attacco.
+\end{itemize}
+\paragraph{Considerazioni sull'approccio sfida/risposta}D'altra parte, l'approccio sfida/risposta è inadeguato per un'applicazione di tipo connectionless (senza connessione), perché richiede il sovraccarico di un handshake prima di qualsiasi trasmissione senza connessione, negando effettivamente la principale caratteristica di una transazione senza connessione. 
+
+Per tali applicazioni, fare affidamento su un certo tipo di server di tempo sicuro e un tentativo coerente da parte di ciascuna parte di mantenere i propri orologi in sincronizzazione potrebbe essere il miglior approccio.
+\paragraph{Attacchi di replay}
+\begin{itemize}
+	\item L'attacco di replay più semplice è quello in cui l'avversario copia semplicemente un messaggio e lo riproduce in un secondo momento. 
+	\item Un avversario può riprodurre un messaggio con timestap all'interno della finestra temporale valida. 
+	\item Un avversario può riprodurre un messaggio con timestamp all'interno della finestra temporale valida, ma in aggiunta, l'avversario sopprime il messaggio originale; così la ripetizione non può essere rilevata.
+	\item Un altro attacco coinvolge un replay all'indietro senza modifica ed è possibile se viene utilizzata la crittografia simmetrica e il mittente non può facilmente riconoscere la differenza tra i messaggi inviati e quelli ricevuti sulla base del contenuto (attacchi di riflessione).
+\end{itemize}
+\paragraph{Approcci per affrontare gli attacchi di replay}
+\begin{enumerate}
+	\item \textbf{Allegare un numero di sequenza a ciascun messaggio utilizzato in uno scambio di autenticazione. }
+	\begin{itemize}
+		\item Un nuovo messaggio è accettato solo se il suo numero di sequenza è nell'ordine corretto. 
+		\item La difficoltà con questo approccio è che richiede a ciascuna parte di tenere traccia dell'ultimo numero di sequenza per ciascun richiedente con cui ha interagito.
+		\item Generalmente non utilizzato per l'autenticazione e lo scambio di chiavi a causa del sovraccarico. 
+	\end{itemize}
+	\bitem{Timestamp}richiede  che gli orologi tra i vari partecipanti siano sincronizzati. La parte A accetta un messaggio come fresco solo se il messaggio contiene un timestamp che, a giudizio di A, è abbastanza vicino alla conoscenza attuale del tempo di A.
+	\bitem{Sfida/risposta (challenge/response)}la parte A, aspettandosi un messaggio fresco da B, invia prima a B un nonce (sfida) e richiede che il messaggio successivo (risposta) ricevuto da B contenga il valore corretto del nonce.
+\end{enumerate}
+\paragraph{Attacchi di suppress-replay}Il protocollo di Denning richiede di fare affidamento su orologi che siano sincronizzati in tutta la rete. Un rischio coinvolto si basa sul fatto che gli orologi distribuiti possono diventare non sincronizzati a causa di sabotaggi o guasti negli orologi o nel meccanismo di sincronizzazione. Il problema si verifica quando l'orologio di un mittente è avanti rispetto all'orologio destinatario previsto. 
+\begin{itemize}
+	\item Un avversario può intercettare un messaggio dal mittente e riprodurlo in un secondo momento quando il timestamp nel messaggio diventa attuale nel sito del destinatario. Tali attacchi sono definiti di suppress-replay.
+\end{itemize}
+\paragraph{Autenticazione remota degli utenti utilizzando la chiave simmetrica}
+Una gerarchia a due livelli di chiavi immetriche può essere utilizzata per fornire riservatezza nella comunicazione in un ambiente distribuito.
+\begin{itemize}
+	\item La strategia prevede l'uso di un centro di distribuzione di chiavi fidato (KDC).
+	\item Ogni parte condivide una chiave segreta, nota come chiave master con il KDC.
+	\item Il KDC è responsabile della generazione di chiavi da utilizzare per un breve periodo su una connessione tra due parti e della distribuzione di tali chiavi utilizzando le chiavi master per proteggere la distribuzione.
+\end{itemize}
